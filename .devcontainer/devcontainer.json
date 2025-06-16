@@ -1,0 +1,23 @@
+{
+  "name": "Advanced Operations of Kubernetes with KubeOne Training Labs",
+  "image": "quay.io/kubermatic-labs/training-ghcs-advanced-operations-of-kubernetes-with-kubeone-trainee-environment:1.0.0",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "workbench.editorAssociations": {
+          "*.md": "vscode.markdown.preview.editor"
+        },
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "files.exclude": {
+          ".git/": true,
+          ".gititnore": true,
+          ".devcontainer/": true,
+          // ".99_todos/": true,
+          // "teardown.sh": true,
+          // "makefile": true
+        }
+      }
+    }
+  },
+  "remoteUser": "root"
+}
