@@ -4,10 +4,8 @@ verify:
 	grep "source /root/.trainingrc" /root/.bashrc
 	kubectl version --client
 	terraform version
-	kubeone version
 	test -n "$(K8S_VERSION)"
 	test -n "$(TF_VERSION)"
-	test -n "$(K1_VERSION)"
-	ssh-add -l
+	ssh-add -l # TODO ensure that is the right ssh key
 	echo "Training Environment successfully verified"
 
