@@ -12,9 +12,9 @@
           ".git/": true,
           ".gititnore": true,
           ".devcontainer/": true,
-          // ".99_todos/": true,
-          // "teardown.sh": true,
-          // "makefile": true
+          ".99_todos/": true,
+          "teardown.sh": true,
+          "makefile": true
         }
       }
     }
