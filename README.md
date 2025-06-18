@@ -23,7 +23,7 @@ ssh-keygen -q -N "" -t rsa -f ~/.ssh/google_compute_engine -C root
 
 # ensure .ssh key is known on environment restarts
 echo 'eval `ssh-agent`' >> /root/.trainingrc
-echo "ssh-add /root/.ssh/google_compute_engine" >> /root/.trainingrc
+echo 'ssh-add /root/.ssh/google_compute_engine' >> /root/.trainingrc
 source /root/.trainingrc
 ```
 

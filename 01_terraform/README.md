@@ -8,20 +8,21 @@ In this lab you will learn how to make use of terraform for providing the needed
 cp ./kubeone_${K1_VERSION}_linux_amd64/examples/terraform/gce/*.tf .
 ```
 
-<!-- # terraform.tfvars
-# TODO clustername
-# TODO project id -->
-
 ## Init the terraform environment
 
 For being able to run terrafrom you have to init the environment. For example the needed provider plugins have to be downloaded.
 
-You can find the provider configuration in the file 'main.tf'
+You can find the provider configuration in the file 'versions.tf'
 
-```tf
-provider "google" {
-  region  = var.region
-  project = var.project
+```terraform
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 4.27.0"
+    }
+  }
 }
 ```
 
@@ -40,32 +41,61 @@ terraform init
 terraform plan -var=control_plane_target_pool_members_count=1
 ```
 
-You will get the following error message.
+You will get the following error message concerning gcloud credentials.
 
-```log
-Planning failed. Terraform encountered an error while generating this plan.
-
-╷
-│ Error: Attempted to load application default credentials since neither `credentials` nor `access_token` was set in the provider block.  No credentials loaded. To use your gcloud credentials, run 'gcloud auth application-default login'.  Original error: google: could not find default credentials. See https://developers.google.com/accounts/docs/application-default-credentials for more information.
-│ 
-│   with provider["registry.terraform.io/hashicorp/google"],
-│   on main.tf line 17, in provider "google":
-│   17: provider "google" {
-```
-
-### Configure your gcloud service account
+### Configure gcloud
 
 Copy your file `gcloud-service-account.json` into your github codespaces workspace.
 
-<!-- TODO install gcloud!!! -->
-<!-- # TODO PROJECT-ID -->
-<!-- TODO move ssh towards the error message -->
-
 ```bash
+# activate gcloud account
 gcloud auth activate-service-account --key-file=./gcloud-service-account.json
+
+# set the gcloud project
 gcloud config set project k1-codespaces
+
+# set the compute region and zone
 gcloud config set compute/region europe-west3
 gcloud config set compute/zone europe-west3-a
+
+# verify your settings
+gcloud config list
+```
+
+### Set environment variables
+
+> Note you persist those environment variables in your `.trainingrc` file, for keeping values on reconnects.
+
+```bash
+# terraform expects this file holding sensitive information for connecting to gcloud
+echo "export GOOGLE_APPLICATION_CREDENTIALS=$CODESPACE_VSCODE_FOLDER/gcloud-service-account.json" | tee -a /root/.trainingrc
+
+# having this information set will come in handy later
+echo "export GOOGLE_PROJECT=$(gcloud config get project)" | tee -a /root/.trainingrc
+
+# finally set the environment variables in your running bash
+source /root/.trainingrc
+```
+
+### Set the terraform variables
+
+Configure terraform via the file `terraform.tfvars`
+
+```tfvars
+project             = "<FILL-IN-YOUR-GOOGLE-PROJECT-ID>" # you can get the info via `echo $GOOGLE_PROJECT`
+cluster_name        = "<FILL-IN-CLUSTER-NAME>"           # eg "k1-training"
+region              = "europe-west3"
+ssh_public_key_file = "/root/.ssh/google_compute_engine.pub"
+
+```
+
+> Note, if you prefer setting those via environment variables instead of a file, you can do so by
+
+```bash
+echo "export TF_VAR_project=${gcloud config get project}" | tee -a /root/.trainingrc
+echo "export TF_VAR_cluster_name=k1-training" | tee -a /root/.trainingrc
+echo "export TF_VAR_region=europe-west3" | tee -a /root/.trainingrc
+echo "export TF_VAR_ssh_public_key_file="/root/.ssh/google_compute_engine.pub"| tee -a /root/.trainingrc
 ```
 
 ### Re-run `terraform plan`
@@ -74,13 +104,11 @@ gcloud config set compute/zone europe-west3-a
 terraform plan -var=control_plane_target_pool_members_count=1
 ```
 
+You get a list of all resources which terraform intends to create.
 
-
-
-<!-- #------------------------------------------------TODO
+## Create resources
 
 ```bash
-
 terraform apply -var=control_plane_target_pool_members_count=1 -auto-approve
 
 terraform output -json > tf.json

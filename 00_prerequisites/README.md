@@ -4,6 +4,8 @@ In this lab youe will learn how to to install KubeOne on your jump host.
 
 ## Install KubeOne
 
+<!-- TODO hint to official way of downloading k1 -->
+
 ```bash
 # set the k1 version
 K1_VERSION=1.10.0
@@ -15,7 +17,7 @@ curl -LO https://github.com/kubermatic/kubeone/releases/download/v${K1_VERSION}/
 unzip kubeone_${K1_VERSION}_linux_amd64.zip -d ./kubeone_${K1_VERSION}_linux_amd64
 
 # copy k1 into directory within `$PATH`
-cp /root/kubeone_${K1_VERSION}_linux_amd64/kubeone /usr/local/bin
+cp ./kubeone_${K1_VERSION}_linux_amd64/kubeone /usr/local/bin
 
 # verify k1 installation
 kubeone version
@@ -26,3 +28,5 @@ echo 'source <(kubeone completion bash)' | tee -a /root/.trainingrc
 # persist the k1 version into an environment variable
 echo "export K1_VERSION=${K1_VERSION}" | tee -a /root/.trainingrc
 ```
+
+<!-- TODO add gcloud permission stuff, so this repo can be also used without us providing the gcloud json -->
