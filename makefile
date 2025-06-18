@@ -12,4 +12,5 @@ verify:
 
 .PHONY teardown:
 teardown:
-	terraform destroy
+	terraform destroy -auto-approve
+	

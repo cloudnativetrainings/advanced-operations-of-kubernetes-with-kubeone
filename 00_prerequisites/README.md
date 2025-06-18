@@ -29,4 +29,30 @@ echo 'source <(kubeone completion bash)' | tee -a /root/.trainingrc
 echo "export K1_VERSION=${K1_VERSION}" | tee -a /root/.trainingrc
 ```
 
-<!-- TODO add gcloud permission stuff, so this repo can be also used without us providing the gcloud json -->
+## GCloud Auth
+
+ <!-- TODO -->
+### Authorization
+
+* roles/compute.admin
+* roles/iam.serviceAccountUser
+
+### Authentication
+
+File `gcloud-service-account.json`
+
+```json
+{
+  "type": "service_account",
+  "project_id": "<PROJECT-ID>",
+  "private_key_id": "<PRIVATE-KEY-ID>",
+  "private_key": "<PRIVATE-KEY>",
+  "client_email": "<NAME>@<PROJECT-ID>.iam.gserviceaccount.com",
+  "client_id": "<CLIENT-ID>",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "<CLIENT-X509-CERT-URL>",
+  "universe_domain": "googleapis.com"
+}
+```

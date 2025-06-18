@@ -109,13 +109,9 @@ You get a list of all resources which terraform intends to create.
 ## Create resources
 
 ```bash
+# provision the needed resources via terraform
 terraform apply -var=control_plane_target_pool_members_count=1 -auto-approve
 
+# persist the information about the created resources into the file `tf.json`
 terraform output -json > tf.json
-
-kubeone apply -m /workspaces/kubermatic-kubernetes-platform-administration/kubeone.yaml -t tf.json
-terraform apply
-
-export KUBECONFIG=/workspaces/kubermatic-kubernetes-platform-administration/kubeone_1.9.1_linux_amd64/examples/terraform/gce/hubert-test-kubeconfig
-
-``` -->
+```
