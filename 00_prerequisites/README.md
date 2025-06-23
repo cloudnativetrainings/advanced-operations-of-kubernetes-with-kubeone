@@ -27,9 +27,28 @@ echo 'source <(kubeone completion bash)' | tee -a /root/.trainingrc
 
 # persist the k1 version into an environment variable
 echo "export K1_VERSION=${K1_VERSION}" | tee -a /root/.trainingrc
+
+# ensure k1 version is set in your current shell
+source ~/.trainingrc
 ```
 
 ## GCloud Auth
+
+```bash
+# persist the google credentials into an environment variable (needed by terraform and k1)
+echo "export GOOGLE_CREDENTIALS='$(cat ./gcloud-service-account.json)'" >> /root/.trainingrc
+
+# ensure google credentials are set in your current shell
+source ~/.trainingrc
+
+# TODO verify the right permissions
+```
+
+## Verify
+
+```bash
+make verify-preps
+```
 
  <!-- TODO -->
 ### Authorization
@@ -55,4 +74,31 @@ File `gcloud-service-account.json`
   "client_x509_cert_url": "<CLIENT-X509-CERT-URL>",
   "universe_domain": "googleapis.com"
 }
+```
+
+<!-- TODO move sa.json and ssh key into secrets folder? -->
+
+<!-- TODO make it doable also via self service sa.json  - makefile??? -->
+
+```bash
+gcloud iam service-accounts create k1-service-account
+gcloud iam service-accounts list
+
+export GCP_SERVICE_ACCOUNT_ID=$(gcloud iam service-accounts list --format='value(email)' --filter='email~k1-service-account.*')
+# e.g.: k1-service-account@student-XX-project.iam.gserviceaccount.com
+
+# for avoiding problem with Google Cloud Shell on reconnects we persist this value also into our .trainingrc file
+echo "export GCP_SERVICE_ACCOUNT_ID=$GCP_SERVICE_ACCOUNT_ID" >> $TRAINING_DIR/.trainingrc
+
+gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member serviceAccount:$GCP_SERVICE_ACCOUNT_ID --role='roles/compute.admin'
+gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member serviceAccount:$GCP_SERVICE_ACCOUNT_ID --role='roles/iam.serviceAccountUser'
+
+# TODO make consistent with training-infra
+gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member serviceAccount:$GCP_SERVICE_ACCOUNT_ID --role='roles/viewer'
+gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member serviceAccount:$GCP_SERVICE_ACCOUNT_ID --role='roles/storage.admin'
+
+mkdir -p ./.secrets && cd ./.secrets
+gcloud iam service-accounts keys create --iam-account $GCP_SERVICE_ACCOUNT_ID k8c-cluster-provisioner-sa-key.json
+
+echo "export GOOGLE_CREDENTIALS='$(cat ./k8c-cluster-provisioner-sa-key.json)'" >> $TRAINING_DIR/.trainingrc
 ```

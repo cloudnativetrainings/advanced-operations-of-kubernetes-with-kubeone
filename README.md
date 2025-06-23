@@ -10,9 +10,6 @@ kubectl version --client
 
 # verify terraform is installed
 terraform version
-
-# verify kubeone is installed
-kubeone version
 ```
 
 ## Ensure SSH requirements
@@ -32,3 +29,5 @@ source /root/.trainingrc
 ```bash
 make verify
 ```
+
+<!-- TODO consolidate with 00 lab? make consistent with other training READMEs -->

@@ -48,6 +48,8 @@ You will get the following error message concerning gcloud credentials.
 Copy your file `gcloud-service-account.json` into your github codespaces workspace.
 
 ```bash
+# TODO auto approve
+
 # activate gcloud account
 gcloud auth activate-service-account --key-file=./gcloud-service-account.json
 
@@ -62,27 +64,12 @@ gcloud config set compute/zone europe-west3-a
 gcloud config list
 ```
 
-### Set environment variables
-
-> Note you persist those environment variables in your `.trainingrc` file, for keeping values on reconnects.
-
-```bash
-# terraform expects this file holding sensitive information for connecting to gcloud
-echo "export GOOGLE_APPLICATION_CREDENTIALS=$CODESPACE_VSCODE_FOLDER/gcloud-service-account.json" | tee -a /root/.trainingrc
-
-# having this information set will come in handy later
-echo "export GOOGLE_PROJECT=$(gcloud config get project)" | tee -a /root/.trainingrc
-
-# finally set the environment variables in your running bash
-source /root/.trainingrc
-```
-
 ### Set the terraform variables
 
 Configure terraform via the file `terraform.tfvars`
 
 ```tfvars
-project             = "<FILL-IN-YOUR-GOOGLE-PROJECT-ID>" # you can get the info via `echo $GOOGLE_PROJECT`
+project             = "<FILL-IN-YOUR-GOOGLE-PROJECT-ID>" # you can get the info via `gcloud config get project`
 cluster_name        = "<FILL-IN-CLUSTER-NAME>"           # eg "k1-training"
 region              = "europe-west3"
 ssh_public_key_file = "/root/.ssh/google_compute_engine.pub"
@@ -96,6 +83,9 @@ echo "export TF_VAR_project=${gcloud config get project}" | tee -a /root/.traini
 echo "export TF_VAR_cluster_name=k1-training" | tee -a /root/.trainingrc
 echo "export TF_VAR_region=europe-west3" | tee -a /root/.trainingrc
 echo "export TF_VAR_ssh_public_key_file="/root/.ssh/google_compute_engine.pub"| tee -a /root/.trainingrc
+
+# ensure google credentials are set in your current shell
+source ~/.trainingrc
 ```
 
 ### Re-run `terraform plan`
@@ -110,7 +100,7 @@ You get a list of all resources which terraform intends to create.
 
 ```bash
 # provision the needed resources via terraform
-terraform apply -var=control_plane_target_pool_members_count=1 -auto-approve
+terraform apply -var=control_plane_target_pool_members_count=1
 
 # persist the information about the created resources into the file `tf.json`
 terraform output -json > tf.json
