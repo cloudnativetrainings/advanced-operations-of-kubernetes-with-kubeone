@@ -4,14 +4,14 @@ In this lab you will setup the control plane of the kubernetes cluster.
 
 ```bash
 # install control plane components on the control plane nodes
-kubeone apply -m kubeone.yaml -t tf.json --verbose
+kubeone apply -m ./kubeone.yaml -t ./tf_infra/tf.json --verbose
 ```
 
 ## Verify Kubernetes cluster
 
 <!-- # TODO cluster name -->
 ```bash
-mkdir -p /root/.kube && cp -p ./k1-kubeconfig /root/.kube/config
+mkdir -p /root/.kube && cp ./k1-training-kubeconfig /root/.kube/config
 
 kubectl get nodes
 ```

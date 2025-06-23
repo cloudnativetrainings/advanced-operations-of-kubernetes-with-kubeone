@@ -5,34 +5,29 @@ verify:
 	kubectl version --client
 	gcloud version
 	terraform version
-	test -n "$(K8S_VERSION)"
-	test -n "$(TF_VERSION)"
-	ssh-add -l # TODO ensure that is the right ssh key
+	test -n "$(K8S_VERSION)" 
+	test -n "$(TF_VERSION)" 
+	test -e /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/google_compute_engine 
+# TODO ensure that is the right ssh key - ssh-add -l | grep "$(ssh-keygen -lf .secrets/google_compute_engine)"
+	test -e /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/gcloud-service-account.json 
+# TODO test -v $(GOOGLE_CREDENTIALS)
 	echo "Training Environment successfully verified"
 
-.PHONY verify-preps:
-verify-preps: verify
-	kubeone version
-	test -n "$(K1_VERSION)"
-	test -e ./gcloud-service-account.json || echo "file not found"
-	echo "Training Preps successfully verified"
-
-# TODO test -v $(GOOGLE_CREDENTIALS)
 
 .PHONY scale-down:
 scale-down: 
-	kubectl scale md --replicas=1 --all --all-namespaces
+	kubectl -n kube-system scale md --replicas=1 --all
 # TODO scale masters
 
 .PHONY scale-up:
 scale-up: 
-	kubectl scale md --replicas=3 --all --all-namespaces
+	kubectl -n kube-system scale md --replicas=3 --all
 # TODO scale masters
 
 .PHONY teardown:
 teardown:
-	kubectl scale md --replicas=0 --all --all-namespaces
+	kubectl -n kube-system scale md --replicas=0 --all
 # TODO wait until mds are scaled down => or do I need it at all???
-	kubeone reset --manifest kubeone.yaml -t tf.json -y
-	terraform destroy -auto-approve
+	kubeone reset --manifest kubeone.yaml -t tf_infra/tf.json -y
+	terraform -chdir=./tf_infra destroy -auto-approve
 	gcloud compute instances list --format json | jq length

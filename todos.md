@@ -1,0 +1,11 @@
+get rid of the long path to workspace /workspaces/advanced-operations-of-kubernetes-with-kubeone/
+
+gce vs google_cloud_platform vs gcloud => gce it is in the k1 examples
+
+<!-- -var=control_plane_target_pool_members_count=1
+ -->
+
+k1 zip folder into tmp dir
+
+"workspaceFolder": "/workspaces/my-custom-path",
+"workspaceFolder": "/workspaces/k1", => in all trainings

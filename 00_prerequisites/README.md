@@ -1,56 +1,83 @@
-# Prerequisites
+# Advanced Operations of Kubernetes with KubeOne
 
-In this lab youe will learn how to to install KubeOne on your jump host.
+In this training you will learn how to bootstrap Kubernetes Clusters via KubeOne from within a Github Codespaces (AKA jump host).
 
-## Install KubeOne
-
-<!-- TODO hint to official way of downloading k1 -->
+## Verify installed software
 
 ```bash
-# set the k1 version
-K1_VERSION=1.10.0
+# verify kubectl is installed
+kubectl version --client
 
-# download the k1 release
-curl -LO https://github.com/kubermatic/kubeone/releases/download/v${K1_VERSION}/kubeone_${K1_VERSION}_linux_amd64.zip 
-
-# unzip k1 release
-unzip kubeone_${K1_VERSION}_linux_amd64.zip -d ./kubeone_${K1_VERSION}_linux_amd64
-
-# copy k1 into directory within `$PATH`
-cp ./kubeone_${K1_VERSION}_linux_amd64/kubeone /usr/local/bin
-
-# verify k1 installation
-kubeone version
-
-# add k1 completion to your environment
-echo 'source <(kubeone completion bash)' | tee -a /root/.trainingrc 
-
-# persist the k1 version into an environment variable
-echo "export K1_VERSION=${K1_VERSION}" | tee -a /root/.trainingrc
-
-# ensure k1 version is set in your current shell
-source ~/.trainingrc
+# verify terraform is installed
+terraform version
 ```
 
-## GCloud Auth
+## Ensure SSH requirements
 
 ```bash
-# persist the google credentials into an environment variable (needed by terraform and k1)
-echo "export GOOGLE_CREDENTIALS='$(cat ./gcloud-service-account.json)'" >> /root/.trainingrc
+# create a directory for holding sensitive information
+mkdir /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets
 
-# ensure google credentials are set in your current shell
-source ~/.trainingrc
+# create a ssh-key-pair for gcloud
+ssh-keygen -q -N "" -t rsa -f /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/google_compute_engine -C root
+
+# ensure proper private key file permissions
+chmod 400 /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/google_compute_engine
+
+# ensure .ssh key is known on environment restarts
+echo 'eval `ssh-agent`' >> /root/.trainingrc
+echo "ssh-add /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/google_compute_engine" >> /root/.trainingrc
+
+# ensure changes are applied in your current bash
+source /root/.trainingrc
+
+# verify agent is running and holds proper key
+ssh-add -l | grep "$(ssh-keygen -lf /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/google_compute_engine)"
+```
+
+## Configure gcloud
+
+> **IMORTANT**
+> Copy your file `gcloud-service-account.json` into your github codespaces workspace.
+> You can drag and drop the file in the codespaces file explorer into the directory `.secrets`.
+
+```bash
+# persist the project id into an environment variable
+echo "export GOOGLE_PROJECT=$(cat /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/gcloud-service-account.json | jq .project_id)" >> /root/.trainingrc
+
+# ensure changes are applied in your current bash
+source /root/.trainingrc
+
+# activate gcloud account
+gcloud auth activate-service-account --key-file=/workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/gcloud-service-account.json
+
+# set the gcloud project
+gcloud config set project $GOOGLE_PROJECT --quiet
+
+# set the compute region and zone
+gcloud config set compute/region europe-west3
+gcloud config set compute/zone europe-west3-a
+
+# verify your settings
+gcloud config list
+
+# persist the google credentials into an environment variable (needed by terraform and k1)
+echo "export GOOGLE_CREDENTIALS='$(cat /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/gcloud-service-account.json)'" >> /root/.trainingrc
 
 # TODO verify the right permissions
 ```
 
-## Verify
+## Verify your environment
 
 ```bash
-make verify-preps
+# ensure all environment variables get set in your current bash
+source /root/.trainingrc
+
+make verify
 ```
 
- <!-- TODO -->
+<!-- TODO -->
+<!-- 
 ### Authorization
 
 * roles/compute.admin
@@ -76,10 +103,6 @@ File `gcloud-service-account.json`
 }
 ```
 
-<!-- TODO move sa.json and ssh key into secrets folder? -->
-
-<!-- TODO make it doable also via self service sa.json  - makefile??? -->
-
 ```bash
 gcloud iam service-accounts create k1-service-account
 gcloud iam service-accounts list
@@ -101,4 +124,5 @@ mkdir -p ./.secrets && cd ./.secrets
 gcloud iam service-accounts keys create --iam-account $GCP_SERVICE_ACCOUNT_ID k8c-cluster-provisioner-sa-key.json
 
 echo "export GOOGLE_CREDENTIALS='$(cat ./k8c-cluster-provisioner-sa-key.json)'" >> $TRAINING_DIR/.trainingrc
-```
+``` 
+-->
