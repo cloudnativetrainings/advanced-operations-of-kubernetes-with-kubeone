@@ -1,7 +1,7 @@
 {
   "name": "Advanced Operations of Kubernetes with KubeOne Training Labs",
   "image": "quay.io/kubermatic-labs/training-ghcs-advanced-operations-of-kubernetes-with-kubeone-trainee-environment:1.0.0",
-  "workspaceFolder": "/workspaces/k1",
+  "workspaceFolder": "/training/",
   "customizations": {
     "vscode": {
       "settings": {
