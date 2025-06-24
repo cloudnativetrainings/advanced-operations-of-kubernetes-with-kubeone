@@ -5,7 +5,7 @@ In this lab you will learn how to make use of terraform for providing the needed
 ## Copy terraform scripts from the k1 directory
 
 ```bash
-cp /workspaces/advanced-operations-of-kubernetes-with-kubeone/kubeone_${K1_VERSION}_linux_amd64/examples/terraform/gce/*.tf /workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra
+cp /training/kubeone_${K1_VERSION}_linux_amd64/examples/terraform/gce/*.tf /training/tf_infra
 ```
 
 ## Init the terraform environment
@@ -28,7 +28,7 @@ terraform {
 
 ```bash
 # init the terraform environment inside the tf_infra directory
-terraform -chdir=/workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra init
+terraform -chdir=/training/tf_infra init
 ```
 
 ## Get a plan of the resources to be created
@@ -38,12 +38,12 @@ terraform -chdir=/workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_i
 
 ```bash
 # get the plan of resources to be created
-terraform -chdir=/workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra plan
+terraform -chdir=/training/tf_infra plan
 ```
 
 ### Set the terraform variables
 
-Configure terraform via the file `/workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra/terraform.tfvars`
+Configure terraform via the file `/training/tf_infra/terraform.tfvars`
 
 > Note, if you prefer setting those via environment variables instead of a file, you can do so by
 
@@ -62,7 +62,7 @@ source /root/.trainingrc
 
 ```bash
 # get the plan of resources to be created
-terraform -chdir=/workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra plan
+terraform -chdir=/training/tf_infra plan
 ```
 
 You get a list of all resources which terraform intends to create.
@@ -75,11 +75,11 @@ You get a list of all resources which terraform intends to create.
 
 ```bash
 # provision the needed resources via terraform
-terraform -chdir=/workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra apply
+terraform -chdir=/training/tf_infra apply
 
 # show all created vms
 gcloud compute instances list
 
 # persist the information about the created resources into the file `tf.json`
-terraform -chdir=/workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra output -json > /workspaces/advanced-operations-of-kubernetes-with-kubeone/tf_infra/tf.json
+terraform -chdir=/training/tf_infra output -json > /training/tf_infra/tf.json
 ```

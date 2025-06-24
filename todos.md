@@ -1,4 +1,4 @@
-get rid of the long path to workspace /workspaces/advanced-operations-of-kubernetes-with-kubeone/
+get rid of the long path to workspace /training/
 
 gce vs google_cloud_platform vs gcloud => gce it is in the k1 examples
 

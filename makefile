@@ -7,9 +7,9 @@ verify:
 	terraform version
 	test -n "$(K8S_VERSION)" 
 	test -n "$(TF_VERSION)" 
-	test -e /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/google_compute_engine 
+	test -e /training/.secrets/google_compute_engine 
 # TODO ensure that is the right ssh key - ssh-add -l | grep "$(ssh-keygen -lf .secrets/google_compute_engine)"
-	test -e /workspaces/advanced-operations-of-kubernetes-with-kubeone/.secrets/gcloud-service-account.json 
+	test -e /training/.secrets/gcloud-service-account.json 
 # TODO test -v $(GOOGLE_CREDENTIALS)
 	echo "Training Environment successfully verified"
 
