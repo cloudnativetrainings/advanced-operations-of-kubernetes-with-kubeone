@@ -29,5 +29,5 @@ teardown:
 	kubectl -n kube-system scale md --replicas=0 --all
 # TODO wait until mds are scaled down => or do I need it at all???
 	kubeone reset --manifest kubeone.yaml -t tf_infra/tf.json -y
-	terraform -chdir=./tf_infra destroy -auto-approve
+	terraform -chdir=/training/tf_infra destroy -auto-approve
 	gcloud compute instances list --format json | jq length

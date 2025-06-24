@@ -1,6 +1,6 @@
 # Prerequisites
 
-In this training you will learn how to bootstrap Kubernetes Clusters via KubeOne from within a Github Codespaces (AKA jump host).
+In this lab you will ensure everything is in place to create a kubernetes cluster via kubeone.
 
 ## Verify installed software
 
@@ -39,7 +39,7 @@ ssh-add -l | grep "$(ssh-keygen -lf /training/.secrets/google_compute_engine)"
 
 > **IMORTANT**
 > Copy your file `gcloud-service-account.json` into your github codespaces workspace.
-> You can drag and drop the file in the codespaces file explorer into the directory `.secrets`.
+> You can drag and drop the file in the codespaces file explorer into the directory `/training/.secrets`.
 
 ```bash
 # persist the project id into an environment variable
@@ -120,9 +120,9 @@ gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member serviceAccount:$
 gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member serviceAccount:$GCP_SERVICE_ACCOUNT_ID --role='roles/viewer'
 gcloud projects add-iam-policy-binding $GCP_PROJECT_ID --member serviceAccount:$GCP_SERVICE_ACCOUNT_ID --role='roles/storage.admin'
 
-mkdir -p ./.secrets && cd ./.secrets
+mkdir -p /training/.secrets && cd /training/.secrets
 gcloud iam service-accounts keys create --iam-account $GCP_SERVICE_ACCOUNT_ID k8c-cluster-provisioner-sa-key.json
 
-echo "export GOOGLE_CREDENTIALS='$(cat ./k8c-cluster-provisioner-sa-key.json)'" >> $TRAINING_DIR/.trainingrc
+echo "export GOOGLE_CREDENTIALS='$(cat /training/k8c-cluster-provisioner-sa-key.json)'" >> $TRAINING_DIR/.trainingrc
 ``` 
 -->

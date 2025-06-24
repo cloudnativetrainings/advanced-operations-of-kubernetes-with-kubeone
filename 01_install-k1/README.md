@@ -1,5 +1,7 @@
 # Install KubeOne
 
+In this lab you will install kubeone.
+
 <!-- TODO hint to official way of downloading k1 -->
 
 ```bash

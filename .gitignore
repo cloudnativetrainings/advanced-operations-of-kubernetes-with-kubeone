@@ -1,4 +1,7 @@
 ZZZ_DEL_ME/
 .DS_Store
 .secrets/
-tf/
+tf_infra/*.tf
+tf_infra/.terraform/
+tf_infra/.terraform/**
+tf_infra/*.hcl

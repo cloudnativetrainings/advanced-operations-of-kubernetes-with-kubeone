@@ -1,6 +1,6 @@
 # Terraform
 
-In this lab you will learn how to make use of terraform for providing the needed infrastructure.
+In this lab you will learn how to make use of terraform for providing the needed resources.
 
 ## Copy terraform scripts from the k1 directory
 
@@ -83,3 +83,5 @@ gcloud compute instances list
 # persist the information about the created resources into the file `tf.json`
 terraform -chdir=/training/tf_infra output -json > /training/tf_infra/tf.json
 ```
+
+<!-- TODO verify terraform output -->
