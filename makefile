@@ -5,6 +5,8 @@ verify:
 	kubectl version --client
 	gcloud version
 	terraform version
+	kubectx
+# TODO	kubens => failing due no cluster yet
 	test -n "$(K8S_VERSION)" 
 	test -n "$(TF_VERSION)" 
 	test -e /training/.secrets/google_compute_engine 

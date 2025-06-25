@@ -45,6 +45,14 @@ terraform -chdir=/training/tf_infra plan
 
 Configure terraform via the file `/training/tf_infra/terraform.tfvars`
 
+```bash
+# get the value for the field `project`
+echo $GOOGLE_PROJECT
+
+# get the value for the field `cluster_name`
+echo $TRAINEE_NAME-cluster
+```
+
 > Note, if you prefer setting those via environment variables instead of a file, you can do so by
 
 <!-- TODO -->

@@ -12,6 +12,22 @@ kubectl version --client
 terraform version
 ```
 
+## Set important environment variables
+
+> **IMORTANT:**
+> Those variables will get referenced during the following steps. Make sure to set them before continuing.
+
+```bash
+# persist the project id into an environment variable
+echo "export GOOGLE_PROJECT=<GOOGLE-PROJECT-ID-FROM-README-FILE>" >> /root/.trainingrc
+
+# persist your trainee name into an environment variable
+echo "export TRAINEE_NAME=<TRAINEE-NAME-FROM-README-FILE>" >> /root/.trainingrc
+
+# ensure changes are applied in your current bash
+source /root/.trainingrc
+```
+
 ## Ensure SSH requirements
 
 ```bash
@@ -42,12 +58,6 @@ ssh-add -l | grep "$(ssh-keygen -lf /training/.secrets/google_compute_engine)"
 > You can drag and drop the file in the codespaces file explorer into the directory `/training/.secrets`.
 
 ```bash
-# persist the project id into an environment variable
-echo "export GOOGLE_PROJECT=$(cat /training/.secrets/gcloud-service-account.json | jq .project_id)" >> /root/.trainingrc
-
-# ensure changes are applied in your current bash
-source /root/.trainingrc
-
 # activate gcloud account
 gcloud auth activate-service-account --key-file=/training/.secrets/gcloud-service-account.json
 

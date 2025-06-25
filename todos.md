@@ -9,3 +9,7 @@ k1 zip folder into tmp dir
 
 "workspaceFolder": "/workspaces/my-custom-path",
 "workspaceFolder": "/workspaces/k1", => in all trainings
+
+# del worker node via gcloud compute => to show md ha
+
+# check multi trainee scenario => does it work?
