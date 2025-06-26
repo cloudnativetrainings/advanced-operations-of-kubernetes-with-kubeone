@@ -46,25 +46,32 @@ terraform -chdir=/training/tf_infra plan
 Configure terraform via the file `/training/tf_infra/terraform.tfvars`
 
 ```bash
-# get the value for the field `project`
-echo $GOOGLE_PROJECT
+# get the value for the terraform input variable `project`
+echo $GCE_PROJECT
 
-# get the value for the field `cluster_name`
+# get the value for the terraform input variable `cluster_name`
 echo $TRAINEE_NAME-cluster
 ```
 
-> Note, if you prefer setting those via environment variables instead of a file, you can do so by
+Here is an example for the file `/training/tf_infra/terraform.tfvars`:
 
-<!-- TODO -->
-<!-- ```bash
-echo "export TF_VAR_project=${gcloud config get project}" | tee -a /root/.trainingrc
-echo "export TF_VAR_cluster_name=k1-training" | tee -a /root/.trainingrc
-echo "export TF_VAR_region=europe-west3" | tee -a /root/.trainingrc
-echo "export TF_VAR_ssh_public_key_file="/root/.ssh/google_compute_engine.pub"| tee -a /root/.trainingrc
+```hcl
+# file /training/tf_infra/terraform.tfvars
+project                                 = "my-gce-project"
+cluster_name                            = "my-cluster"
+region                                  = "europe-west3"
+ssh_public_key_file                     = "/training/.secrets/gce.pub"
+ssh_private_key_file                    = "/training/.secrets/gce"
+control_plane_vm_count                  = 1
+control_plane_target_pool_members_count = 1
+initial_machinedeployment_replicas      = 1
+```
 
-# ensure google credentials are set in your current shell
-source /root/.trainingrc
-``` -->
+>**HINT:**
+>Terraform also allows to set this variables via environment variables. Eg you can set the value of the terraform input variable named `cluster_name` via `export TF_VAR_cluster_name=my-cluster`.
+>You can find more details about this terraform feature in the the [terraform documentation](https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_var_name).
+
+You can find more details about terraform configuration possibilities in the file [/training/kubeone_1.10.0_linux_amd64/examples/terraform/gce/](../kubeone_1.10.0_linux_amd64/examples/terraform/gce/README.md) in the section `Inputs`.
 
 ### Re-run `terraform plan`
 
@@ -75,21 +82,15 @@ terraform -chdir=/training/tf_infra plan
 
 You get a list of all resources which terraform intends to create.
 
-<!-- TODO hint to machine type and os type -->
-
-<!-- TODO name clash => all resources have to be prefixed!!! flag cluster name -->
-
 ## Create resources
 
 ```bash
 # provision the needed resources via terraform
 terraform -chdir=/training/tf_infra apply
 
-# show all created vms
+# verify the vm via gcloud
 gcloud compute instances list
 
-# persist the information about the created resources into the file `tf.json`
-terraform -chdir=/training/tf_infra output -json > /training/tf_infra/tf.json
+# verify the created resources via terraform
+terraform -chdir=/training/tf_infra output
 ```
-
-<!-- TODO verify terraform output -->

@@ -2,7 +2,9 @@
 
 In this lab you will install kubeone.
 
-<!-- TODO hint to official way of downloading k1 -->
+> **NOTE:**
+> To get the latest release of kubeone you can simply do `curl -sfL https://get.kubeone.io | sh`. For the training we will not use the latest relase for being able to do a kubeone update.
+> You can find more details about installing kubeone in the [kubeone docu](<https://docs.kubermatic.com/kubeone/main/getting-kubeone/>).
 
 ```bash
 # set the k1 version
@@ -26,6 +28,6 @@ echo 'source <(kubeone completion bash)' | tee -a /root/.trainingrc
 # persist the k1 version into an environment variable
 echo "export K1_VERSION=${K1_VERSION}" | tee -a /root/.trainingrc
 
-# ensure k1 version is set in your current shell
+# ensure k1 version is set in your current bash
 source /root/.trainingrc
 ```

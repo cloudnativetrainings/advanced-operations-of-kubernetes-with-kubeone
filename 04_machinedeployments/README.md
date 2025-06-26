@@ -15,7 +15,7 @@ kubectl -n kube-system get machinedeployment,machineset,machine
 kubectl -n kube-system describe machine
 
 # get all machinedeployments in the cluster
-kubeone config machinedeployments -m /training/kubeone.yaml -t /training/tf_infra/tf.json > my-md.yaml
+kubeone config machinedeployments -t /training/tf_infra > my-md.yaml
 ```
 
 ## The missing link from machinecontroller to a hyperscaler
