@@ -27,18 +27,22 @@ Drag and Drop the files (provided by the trainer) into the directory `/training/
 ## Set important environment variables
 
 > **IMORTANT:**
-> Those variables will get referenced during the following steps. Make sure to set them before continuing.
-> You can find the information in the file `/training/.secrets/README.md`
+> Those variables will get referenced during the following labs. Make sure to set them before continuing.
+> You can find the needed information in the file `/training/.secrets/README.md`
 
 ```bash
 # persist the project id into an environment variable
-echo "export GCE_PROJECT=k1-codespaces-migration" >> /root/.trainingrc
+echo "export GCE_PROJECT=<FILL-IN-GOOGLE-PROJECT-ID>" >> /root/.trainingrc
 
 # persist your trainee name into an environment variable
-echo "export TRAINEE_NAME=hubert" >> /root/.trainingrc
+echo "export TRAINEE_NAME=<FILL-IN-TRAINEE-NAME>" >> /root/.trainingrc
 
 # ensure changes are applied in your current bash
 source /root/.trainingrc
+
+# verify
+echo $GCE_PROJECT
+echo $TRAINEE_NAME
 ```
 
 ## Ensure SSH requirements
@@ -65,10 +69,6 @@ ssh-add -l | grep "$(ssh-keygen -lf /training/.secrets/gce)"
 
 ## Configure gce
 
-> **IMORTANT**
-> Copy your file `gcloud-service-account.json` into your github codespaces workspace.
-> You can drag and drop the file in the codespaces file explorer into the directory `/training/.secrets`.
-
 ```bash
 # activate gce account
 gcloud auth activate-service-account --key-file=/training/.secrets/gcloud-service-account.json
@@ -93,5 +93,6 @@ echo "export GOOGLE_CREDENTIALS='$(cat /training/.secrets/gcloud-service-account
 # ensure all environment variables get set in your current bash
 source /root/.trainingrc
 
+# verify
 make verify
 ```

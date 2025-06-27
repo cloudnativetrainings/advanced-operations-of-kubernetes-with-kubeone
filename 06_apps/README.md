@@ -6,7 +6,7 @@ In this lab you will test if the cluster works as expected.
 
 ```bash
 # deploy the application
-kubectl apply -f /training/05_apps/
+kubectl apply -f /training/06_apps/
 
 # verify everything is running
 kubectl get service,endpoints,deployment,pods,configmap
