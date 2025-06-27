@@ -19,5 +19,5 @@ kubectl port-forward service/my-service 80:8080
 
 ```bash
 # delete the application
-kubectl delete -f /training/05_apps/
+kubectl delete -f /training/06_apps/
 ```
