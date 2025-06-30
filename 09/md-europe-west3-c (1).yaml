@@ -1,0 +1,64 @@
+apiVersion: cluster.k8s.io/v1alpha1
+kind: MachineDeployment
+metadata:
+  annotations:
+    cluster.k8s.io/cluster-api-autoscaler-node-group-max-size: "1"
+    cluster.k8s.io/cluster-api-autoscaler-node-group-min-size: "1"
+    k8c.io/operating-system-profile: ""
+  creationTimestamp: null
+  name: hubert-europe-west3-c
+  namespace: kube-system
+spec:
+  minReadySeconds: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      workerset: hubert-europe-west3-c
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        workerset: hubert-europe-west3-c
+      namespace: kube-system
+    spec:
+      metadata:
+        creationTimestamp: null
+        labels:
+          workerset: hubert-europe-west3-c
+      providerSpec:
+        value:
+          cloudProvider: gce
+          cloudProviderSpec:
+            assignPublicIPAddress: true
+            diskSize: 50
+            diskType: pd-ssd
+            labels:
+              hubert-workers: europe-west3-c
+            machineType: n1-standard-2
+            multizone: true
+            network: https://www.googleapis.com/compute/v1/projects/k1-codespaces-migration-2/global/networks/default
+            preemptible: false
+            regional: false
+            subnetwork: https://www.googleapis.com/compute/v1/projects/k1-codespaces-migration-2/regions/europe-west3/subnetworks/default
+            tags:
+              - firewall
+              - targets
+              - hubert-europe-west3-c
+            zone: europe-west3-c
+          operatingSystem: ubuntu
+          operatingSystemSpec:
+            distUpgradeOnBoot: false
+          sshPublicKeys:
+            - |
+              ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDeWVY86gquz+aqE6laDzsNDppmwaWiryRpspVTDAENDVx7vd4yfhrr/AqsNXhugscOGFDO+Cl+JBdB05mBglvB+FBtC0jAzjbp4XcqISw4ru6hJeaGsEX1LYelKRRSIkyi/kB9z7HUEj10anLFa+BMkEL9HTRgdZBW/Tqcy6jLVfgVZf93caOM0CjSrDiiBzAbUA3ATO6eXWiD4xnYHE1sgWpYLAOoK/eQl34maA3eBCyodXxst8nzxjTEptLyUQnZS8y9Mr4ziyVA77KdLDCRZgRnWVS7ORRkibuRQ1DsyVhnYEIaxepBjIvJfDL8Xu5oXj5MhRrNkc15/ulGfMy4bb36+hdqap6xsfMtBTUWF6nYjATL7pRhpMv+cuSlm2SYJVXlYwNTlohPYNsAhdVQPgp9TSRhXO8tnR/1UFaznn5o7/4xGTcueZWOcHW9G6+k2z8VJvI8PTY7hEVEzGsRcR5ldUWyBBS8qNJUuerhYlmY6RU5Oxqm2jefGrfKKzM= root
+      versions:
+        kubelet: 1.32.4
+status: {}
+
+---
+

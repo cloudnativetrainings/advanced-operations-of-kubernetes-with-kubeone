@@ -7,7 +7,7 @@ In this lab you will scale the controlplane nodes and you will ensure these node
 Increae the number of vms in the terraform configuration file `/training/tf_infra/terraform.tfvars`.
 
 ```hcl
-control_plane_vm_count                  = 1      # <= change this value to 3
+control_plane_vm_count                  = 3      # <= change this value from 1 to 3
 control_plane_target_pool_members_count = 1      # <= do not change this value
 ```
 
@@ -25,7 +25,8 @@ gcloud compute instances list
 ## Add the additional vms to the Kubernetes cluster via kubeone
 
 ```bash
-# show the current state of the resources => this is how kubeone knows about the vms
+# show the current state of the resources 
+# => this is the way how kubeone knows about the new vms
 terraform -chdir=/training/tf_infra output
 
 # add the additional vms to the kubernetes cluster
@@ -33,6 +34,9 @@ kubeone apply -t /training/tf_infra --verbose
 
 # verify via kubectl
 kubectl get nodes
+
+# verify via ui
+kubeone ui -t /training/tf_infra
 ```
 
 ### Fixing the LoadBalancer Issue on GCE
@@ -61,7 +65,7 @@ Increae the number of pool members in the terraform configuration file `/trainin
 
 ```hcl
 control_plane_vm_count                  = 3      
-control_plane_target_pool_members_count = 3      # <= change this value to 3
+control_plane_target_pool_members_count = 3      # <= change this value from 1 to 3
 ```
 
 ```bash

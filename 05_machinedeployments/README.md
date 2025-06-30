@@ -43,6 +43,9 @@ Watch the machinecontroller creating a new worker node and deleting the old one.
 # watch the resources getting changed by machinecontroller
 watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,node
 
+# alternatively you can also watch the logs of machinecontroller
+kubectl -n kube-system logs -f deployments/machine-controller
+
 # verify
 gcloud compute instances list
 ```

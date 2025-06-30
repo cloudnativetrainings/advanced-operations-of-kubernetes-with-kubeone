@@ -8,6 +8,7 @@ verify:
 	kubectx
 	test -n "$(GCE_PROJECT)" 
 	test -n "$(TRAINEE_NAME)" 
+	test -n "$(DOMAIN)" 
 # TODO	kubens => failing due no cluster yet
 	test -n "$(K8S_VERSION)" 
 	test -n "$(TF_VERSION)" 

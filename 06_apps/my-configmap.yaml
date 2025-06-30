@@ -5,7 +5,7 @@ metadata:
   name: my-configmap
 data:
   training-application.conf: |
-    name: my-app
+    name: my-app-running-on-k1-k8s-cluster
     version: v1
     message: "Hello from the app inside the k1 k8s cluster"
     color: #89e2e8

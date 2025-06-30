@@ -37,12 +37,17 @@ echo "export GCE_PROJECT=<FILL-IN-GOOGLE-PROJECT-ID>" >> /root/.trainingrc
 # persist your trainee name into an environment variable
 echo "export TRAINEE_NAME=<FILL-IN-TRAINEE-NAME>" >> /root/.trainingrc
 
+# persist your domain into an environment variable
+echo "export DOMAIN=<FILL-IN-DOMAIN>" >> /root/.trainingrc
+echo "export DOMAIN=hubert.codespaces-migration-2.cloud-native.training" >> /root/.trainingrc
+
 # ensure changes are applied in your current bash
 source /root/.trainingrc
 
 # verify
 echo $GCE_PROJECT
 echo $TRAINEE_NAME
+echo $DOMAIN
 ```
 
 ## Ensure SSH requirements
