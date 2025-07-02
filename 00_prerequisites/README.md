@@ -39,7 +39,9 @@ echo "export TRAINEE_NAME=<FILL-IN-TRAINEE-NAME>" >> /root/.trainingrc
 
 # persist your domain into an environment variable
 echo "export DOMAIN=<FILL-IN-DOMAIN>" >> /root/.trainingrc
-echo "export DOMAIN=hubert.codespaces-migration-2.cloud-native.training" >> /root/.trainingrc
+
+# persist your domain into an environment variable
+echo "export DNS_ZONE_NAME=<FILL-IN-DNS-ZONE-NAME>" >> /root/.trainingrc
 
 # ensure changes are applied in your current bash
 source /root/.trainingrc
@@ -48,6 +50,7 @@ source /root/.trainingrc
 echo $GCE_PROJECT
 echo $TRAINEE_NAME
 echo $DOMAIN
+echo $DNS_ZONE_NAME
 ```
 
 ## Ensure SSH requirements

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-app
+data:
+  training-application.conf: |
+    name: {{ .Values.name }}
+    version: {{ .Values.version }}
+    message: {{ .Values.message }}
+    color: {{ .Values.color }}
+    catMode: {{ .Values.catMode }}

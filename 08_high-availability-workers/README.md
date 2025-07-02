@@ -10,9 +10,6 @@ kubens kub-system
 
 # store the existing md into the file `md-europe-west3-a.yaml`
 kubeone config machinedeployments -t tf_infra/ > /training/old-md.yaml
-
-# delete the existing md 
-kubectl delete md --all
 ```
 
 ## Create the new MachineDeployment Manifests
@@ -35,9 +32,6 @@ sed -i 's/europe-west3-a$/europe-west3-c/g' /training/md-europe-west3-c.yaml
 # verify
 diff /training/md-europe-west3-a.yaml /training/md-europe-west3-b.yaml
 diff /training/md-europe-west3-a.yaml /training/md-europe-west3-c.yaml
-
-# delete the old md
-kubectl delete -f /training/old-md.yaml
 ```
 
 ## Apply the new MachineDeployment Manifests to your Cluster
@@ -47,6 +41,9 @@ kubectl delete -f /training/old-md.yaml
 kubectl apply -f /training/md-europe-west3-a.yaml
 kubectl apply -f /training/md-europe-west3-b.yaml
 kubectl apply -f /training/md-europe-west3-c.yaml
+
+# delete the old md
+kubectl delete -f /training/old-md.yaml
 
 # watch the resources getting changed by machinecontroller
 watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,node
@@ -72,6 +69,7 @@ kubens default
 kubectl apply -f /training/06_apps/
 
 # verify pods running in different zones
+# => kubernetes tries, by default, to schedule pods of a deployment across the available worker nodes
 kubectl get pods -o wide
 
 # access the app via browser

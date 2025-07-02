@@ -9,6 +9,7 @@ verify:
 	test -n "$(GCE_PROJECT)" 
 	test -n "$(TRAINEE_NAME)" 
 	test -n "$(DOMAIN)" 
+	test -n "$(DNS_ZONE_NAME)" 
 # TODO	kubens => failing due no cluster yet
 	test -n "$(K8S_VERSION)" 
 	test -n "$(TF_VERSION)" 
@@ -21,7 +22,7 @@ verify:
 	
 .PHONY scale-down:
 scale-down: 
-	kubectl -n kube-system scale md --replicas=1 --all
+	kubectl -n kube-system scale md --replicas=0 --all
 # TODO scale masters
 
 .PHONY scale-up:
