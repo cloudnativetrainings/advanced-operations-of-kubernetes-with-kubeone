@@ -32,6 +32,7 @@ scale-up:
 
 .PHONY teardown:
 teardown:
+# TODO del DNS entries
 	kubectl -n kube-system scale md --replicas=0 --all
 # TODO wait until mds are scaled down => or do I need it at all???
 	kubeone reset kubeone.yaml -t /training/tf_infra -y
