@@ -16,3 +16,5 @@ gce vs google_cloud_platform vs gcloud => gce it is in the k1 examples
 # lab static workers
 
 # lab osm
+
+# install helm for verification in lab 09 via helm

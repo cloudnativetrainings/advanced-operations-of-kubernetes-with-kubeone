@@ -140,3 +140,6 @@ echo https://$DOMAIN
 # verify via curl
 curl -vvi https://$DOMAIN
 ```
+
+> **NOTE:**
+> Please keep this stack running, we will verify zero downtime of it on doing worker node and kubeone upgrades.
