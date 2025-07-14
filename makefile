@@ -6,6 +6,7 @@ verify:
 	gcloud version
 	terraform version
 	kubectx
+	helm version
 	test -n "$(GCE_PROJECT)" 
 	test -n "$(TRAINEE_NAME)" 
 	test -n "$(DOMAIN)" 
@@ -32,7 +33,11 @@ scale-up:
 
 .PHONY teardown:
 teardown:
+# TODO del lb service from nginx => helm delete $(helm ls --short)
 # TODO del DNS entries
+# gcloud dns record-sets transaction start --zone=ZONE_NAME
+# gcloud dns record-sets transaction remove --name=RECORD_NAME --type=RECORD_TYPE --ttl=TTL --zone=ZONE_NAME
+# gcloud dns record-sets transaction execute --zone=ZONE_NAME
 	kubectl -n kube-system scale md --replicas=0 --all
 # TODO wait until mds are scaled down => or do I need it at all???
 	kubeone reset kubeone.yaml -t /training/tf_infra -y

@@ -38,8 +38,6 @@ For being able to monitor zero downtime upgrade we put a proper monitoring in pl
 [BASH-3] while true; do curl -I https://$DOMAIN; sleep 10s; done;
 ```
 
-<!-- TODO fail due to LB issues -->
-
 ## Trigger the rolling update
 
 ```bash
@@ -47,4 +45,8 @@ For being able to monitor zero downtime upgrade we put a proper monitoring in pl
 kubectl apply -f /training/md-europe-west3-a.yaml
 kubectl apply -f /training/md-europe-west3-b.yaml
 kubectl apply -f /training/md-europe-west3-c.yaml
+
+# verify via gcloud
+gcloud compute instances list
+gcloud compute disks list
 ```

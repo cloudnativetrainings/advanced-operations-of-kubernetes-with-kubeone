@@ -78,3 +78,7 @@ kubectl port-forward service/my-service 80:8080
 # clean up your application
 kubectl delete -f /training/06_apps/
 ```
+
+>**NOTE:**
+> Due to a bug in the GCE-CCM the newly created worker nodes will not get any ingress traffic. This is fixed the training environment, but not if you try it on your own.
+> Take a look via `gcloud compute firewall-rules describe allow-ingress-gce-ccm-bug-md` for details.

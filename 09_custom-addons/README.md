@@ -45,6 +45,9 @@ Apply the changes into your cluster:
 # add the releases to the kubernetes cluster
 kubeone apply -t /training/tf_infra --verbose
 
+# verify via helm
+helm ls --all-namespaces
+
 # verify all pods in the namespace `ingress-nginx` are running
 kubectl -n ingress-nginx get pods
 
@@ -86,7 +89,7 @@ nslookup $DOMAIN
 ```bash
 # change the email address in the manifest `cluster-issuer.yaml` to your email address
 sed -i "s/your-email@example.com/<FILL-IN-YOUR-EMAIL-ADRRESS>/g" /training/09_custom-addons/cluster-issuer.yaml
-
+ 
 # verify
 cat /training/09_custom-addons/cluster-issuer.yaml
 
@@ -121,11 +124,14 @@ kubeone apply -t /training/tf_infra --verbose
 # switch to namespace `my-app`
 kubens my-app
 
+# verify via helm
+helm ls
+
 # verify your app got deployed properly
 kubectl get service,endpoints,deployment,replicaset,pod
 
 # verify your app via port-forwarding
-kubectl port-forward service/my-app 80:80
+kubectl port-forward service/my-app 8080:8080
 
 # verify the ingress rule
 kubectl describe ingress my-app
