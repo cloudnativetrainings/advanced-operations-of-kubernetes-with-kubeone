@@ -11,5 +11,4 @@ Please start with
 
 ## Teardown the training environment
 
-1. Run `make teardown`
 1. Delete your `cloudnativetrainings/advanced-operations-of-kubernetes-with-kubeone` codespace via [Github Codespaces](https://github.com/codespaces).

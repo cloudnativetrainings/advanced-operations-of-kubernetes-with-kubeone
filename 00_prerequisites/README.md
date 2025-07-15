@@ -31,9 +31,6 @@ Drag and Drop the files (provided by the trainer) into the directory `/training/
 > You can find the needed information in the file `/training/.secrets/README.md`
 
 ```bash
-# ensure you are in the proper directory on starting a new bash
-echo "cd /training/" >> /root/.trainingrc
-
 # persist the project id into an environment variable
 echo "export GCE_PROJECT=<FILL-IN-GOOGLE-PROJECT-ID>" >> /root/.trainingrc
 
