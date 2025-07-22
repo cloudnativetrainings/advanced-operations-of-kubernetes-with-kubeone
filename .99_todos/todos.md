@@ -20,3 +20,5 @@ gce vs google_cloud_platform vs gcloud => gce it is in the k1 examples
 # install helm for verification in lab 09 via helm
 
 # OS upgrades of control plane and worker nodes
+
+# make use of training-application/helm-chart helm chart instead of in repo
