@@ -53,7 +53,7 @@ The LoadBalancer in front of the api-server only considers the first created con
 gcloud compute forwarding-rules list
 
 # show the instances in the pool linked in the forwarding-rule
-gcloud compute target-pools describe hubert-control-plane
+gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
 ```
 
 > **NOTE:**
@@ -73,7 +73,7 @@ control_plane_target_pool_members_count = 3      # <= change this value from 1 t
 terraform -chdir=/training/tf_infra apply
 
 # verify the instances of the pool
-gcloud compute target-pools describe hubert-control-plane
+gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
 
 # verify via kubeone
 kubeone status -t /training/tf_infra

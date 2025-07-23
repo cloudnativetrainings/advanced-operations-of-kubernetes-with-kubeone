@@ -1,4 +1,4 @@
-# Custom Addons
+# Adding Helm Releases
 
 In this lab you will deploy additional functionalities (eg the ingress stack) into your kubernetes cluster via kubeone. Besides Helm charts provided via chart repositories you can define and add your own local helm charts to your cluster.
 
@@ -88,7 +88,7 @@ nslookup $DOMAIN
 
 ```bash
 # change the email address in the manifest `cluster-issuer.yaml` to your email address
-sed -i "s/your-email@example.com/<FILL-IN-YOUR-EMAIL-ADRRESS>/g" /training/09_custom-addons/cluster-issuer.yaml
+sed -i "s/your-email@example.com/hubert@kubermatic.com/g" /training/09_custom-addons/cluster-issuer.yaml
  
 # verify
 cat /training/09_custom-addons/cluster-issuer.yaml

@@ -16,11 +16,10 @@ terraform -chdir=/training/tf_infra destroy
 gcloud compute instances list
 
 # delete the gce DNS entry
-gcloud dns record-sets transaction start --zone $DNS_ZONE_NAME
-gcloud dns record-sets transaction remove --zone $DNS_ZONE_NAME --ttl 60 --name="$DOMAIN." --type A $INGRESS_IP
-gcloud dns record-sets transaction execute --zone $DNS_ZONE_NAME
+gcloud dns record-sets delete $DOMAIN. --type=A --zone $DNS_ZONE_NAME
 gcloud dns record-sets list --zone $DNS_ZONE_NAME
 
 # delete the gce storage bucket
 gcloud storage rm --recursive gs://k1-backup-bucket-$TRAINEE_NAME
+gcloud storage buckets list
 ```

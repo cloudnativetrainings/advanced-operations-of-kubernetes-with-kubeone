@@ -6,3 +6,5 @@ image:
 color: white
 message: "Hello from the app installed via helm"
 catMode: true
+
+domain: example.com

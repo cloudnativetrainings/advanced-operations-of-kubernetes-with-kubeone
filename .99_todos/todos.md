@@ -21,4 +21,4 @@ gce vs google_cloud_platform vs gcloud => gce it is in the k1 examples
 
 # OS upgrades of control plane and worker nodes
 
-# make use of training-application/helm-chart helm chart instead of in repo
+# del dns entries like in kkp training => without transaction and ips

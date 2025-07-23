@@ -8,7 +8,7 @@ In this lab you will provision two additional nodes and ensure that they are run
 # switch to the namespace `kube-system`
 kubens kube-system
 
-# store the existing md into the file `md-europe-west3-a.yaml`
+# store the existing md into the file `old-md.yaml`
 kubeone config machinedeployments -t tf_infra/ > /training/old-md.yaml
 ```
 
