@@ -2,26 +2,38 @@
 
 In this lab you will make changes to the worker nodes to keep cloud costs, in our case GCE, low.
 
-## Preparations
+## Prepare the manifests
+
+You will do the following in the next steps:
+
+- change the worker nodes to a smaller machine type
+- shrink the size of the disks
+- change the type of disks
+- ensure os update on boot
 
 ```bash
 # inspect the resource usage of the nodes
 kubectl top nodes
 
-# change the diskType from `n1-standard-2` to `n1-standard-1` in the machinedeployments manifests
+# change the machine type from `n1-standard-2` to `n1-standard-1` in the machinedeployments manifests
 sed -i "s/machineType: n1-standard-2$/machineType: n1-standard-1/g" /training/md-europe-west3-a.yaml
 sed -i "s/machineType: n1-standard-2$/machineType: n1-standard-1/g" /training/md-europe-west3-b.yaml
 sed -i "s/machineType: n1-standard-2$/machineType: n1-standard-1/g" /training/md-europe-west3-c.yaml
 
-# change the diskSize from 50 GB to 20 GB in the machinedeployments manifests
+# change the disk size from 50 GB to 20 GB in the machinedeployments manifests
 sed -i "s/diskSize: 50$/diskSize: 20/g" /training/md-europe-west3-a.yaml
 sed -i "s/diskSize: 50$/diskSize: 20/g" /training/md-europe-west3-b.yaml
 sed -i "s/diskSize: 50$/diskSize: 20/g" /training/md-europe-west3-c.yaml
 
-# change the machineType in the machinedeployments manifests
+# change the disk type in the machinedeployments manifests
 sed -i "s/diskType: pd-ssd$/diskType: pd-standard/g" /training/md-europe-west3-a.yaml
 sed -i "s/diskType: pd-ssd$/diskType: pd-standard/g" /training/md-europe-west3-b.yaml
 sed -i "s/diskType: pd-ssd$/diskType: pd-standard/g" /training/md-europe-west3-c.yaml
+
+# ensure os update on boot
+sed -i "s/distUpgradeOnBoot: false$/distUpgradeOnBoot: true/g" /training/md-europe-west3-a.yaml
+sed -i "s/distUpgradeOnBoot: false$/distUpgradeOnBoot: true/g" /training/md-europe-west3-b.yaml
+sed -i "s/distUpgradeOnBoot: false$/distUpgradeOnBoot: true/g" /training/md-europe-west3-c.yaml
 ```
 
 ## Put monitoring in place

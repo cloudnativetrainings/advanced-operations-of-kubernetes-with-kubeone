@@ -3,12 +3,12 @@
 In this lab you will learn how to backup etcd via [restic](https://restic.net/).
 
 ```bash
-velero install \
-  --provider gcp \
-  --plugins velero/velero-plugin-for-gcp:v1.12.1 \
-  --bucket k1-backup-bucket-$TRAINEE_NAME \
-  --velero-pod-cpu-request 250m \
-  --secret-file /training/.secrets/gcloud-service-account.json
+# create addons directory
+mkdir /training/addons/
+
+# copy the restic addon
+cp -r /training/kubeone_${K1_VERSION}_linux_amd64/addons/backups-restic/ /training/addons/
+
 ```
 
 # 2. Restic Backup for etcd Snapshots
@@ -97,7 +97,3 @@ See, if the bucket contains restic data
 ```
 gsutil ls -r gs://k1-backup-bucket-${GCP_PROJECT_ID}/etcd-snapshot-backup
 ```
-
-Alright, seems everything looks fine, and our cluster has automatic backup configured.
-
-Jump > [**Home**](../README.md) | Previous > [**Velero Backup Process**](../09_backup_velero/README.md) | Next > [**KubeOne and Kubernetes Upgrade**](../11_kubeone_upgrade/README.md)

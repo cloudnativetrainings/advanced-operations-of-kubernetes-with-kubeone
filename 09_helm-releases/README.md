@@ -94,7 +94,7 @@ sed -i "s/your-email@example.com/hubert@kubermatic.com/g" /training/09_custom-ad
 cat /training/09_custom-addons/cluster-issuer.yaml
 
 # apply the cluster-issuer to your cluster
-kubectl apply -f /training/09_custom-addons/cluster-issuer.yaml
+kubectl apply -f /training/09_helm-releases/cluster-issuer.yaml
 
 # verify cluster issuer
 kubectl describe clusterissuer letsencrypt-issuer
@@ -114,7 +114,7 @@ Add the helm release to the kubone manifest file `/training/kubeone.yaml`.
       - inline:
           color: lightblue
           message: "Hello from the app inside the k1 k8s cluster via custom addon"
-          domain: "<FILL-IN-YOUR-DOMAIN>"     # <= you can get this value via `echo $DOMAIN`
+          domain: "hubert.k1.cs-mig-5.cloud-native.training"     # <= you can get this value via `echo $DOMAIN`
 ```
 
 ```bash

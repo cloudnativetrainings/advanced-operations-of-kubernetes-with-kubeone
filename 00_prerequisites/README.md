@@ -48,7 +48,6 @@ source /root/.trainingrc
 
 # verify
 echo $GCE_PROJECT
-# TODO GCE_ZONE for gcloud dns stuff (teardown eg)
 echo $TRAINEE_NAME
 echo $DOMAIN
 echo $DNS_ZONE_NAME
