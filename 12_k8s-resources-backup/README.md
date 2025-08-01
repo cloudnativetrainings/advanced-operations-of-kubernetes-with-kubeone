@@ -80,6 +80,7 @@ echo https://$DOMAIN
 ## Restore your backup
 
 ```bash
+# restore from previously created backup
 velero restore create --from-backup k1-backup
 
 # verify namespace `my-app` exists again
