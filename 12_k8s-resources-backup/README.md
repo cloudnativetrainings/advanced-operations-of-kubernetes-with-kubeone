@@ -2,6 +2,31 @@
 
 In this lab you will learn how to backup Kubernetes resources via [velero](https://github.com/heptio/velero).
 
+```bash
+kubectl apply -f /training/12_k8s-resources-backup/storageclass.yaml 
+```
+
+```yaml
+  - releaseName: my-app
+    chart: my-app
+    chartURL: my-app/
+    namespace: my-app
+    version: 1.0.0
+    values:
+      - inline:
+          color: lightblue
+          message: "Hello from the app inside the k1 k8s cluster via custom addon"
+          domain: "hubert-test.k1.fourdata.cloud-native.training"
+          persistMetaInfo: true     # <= add this line
+          replicas: 1 # <= add this line
+```
+
+```bash
+kubeone apply -t /training/tf_infra --verbose
+
+kubectl get pods -o wide => all on one node
+```
+
 ## Prerequisites
 
 In order to create a backup you have to create a storage bucket in GCE.

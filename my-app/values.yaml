@@ -4,7 +4,9 @@ image:
   name: quay.io/kubermatic-labs/training-application
   tag: 4.0.0
 color: white
+replicas: 3
 message: "Hello from the app installed via helm"
 catMode: true
+persistMetaInfo: true
 
 domain: example.com

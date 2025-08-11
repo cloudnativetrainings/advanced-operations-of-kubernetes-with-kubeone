@@ -9,3 +9,4 @@ data:
     message: {{ .Values.message }}
     color: {{ .Values.color }}
     catMode: {{ .Values.catMode }}
+    persistMetaInfo: {{ .Values.persistMetaInfo }}
