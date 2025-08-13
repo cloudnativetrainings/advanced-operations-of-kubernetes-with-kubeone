@@ -2,9 +2,16 @@
 
 In this lab you will learn how to backup Kubernetes resources via [velero](https://github.com/heptio/velero).
 
+You will restore Kubernetes Objects and also a PersitentVolume.
+
+## Prerequisites
+
 ```bash
-kubectl apply -f /training/12_k8s-resources-backup/storageclass.yaml 
+# deploy a storageclass
+kubectl apply -f /training/12_backup-user-data/storageclass.yaml 
 ```
+
+Adapt the application so it is persisting metainfo into a disk provided by GCE.
 
 ```yaml
   - releaseName: my-app
@@ -18,16 +25,16 @@ kubectl apply -f /training/12_k8s-resources-backup/storageclass.yaml
           message: "Hello from the app inside the k1 k8s cluster via custom addon"
           domain: "hubert-test.k1.fourdata.cloud-native.training"
           persistMetaInfo: true     # <= add this line
-          replicas: 1 # <= add this line
+          replicas: 1               # <= add this line
 ```
 
 ```bash
+# apply your changes
 kubeone apply -t /training/tf_infra --verbose
 
-kubectl get pods -o wide => all on one node
+# view the metainfo the application is persisting
+kubectl exec -it deploy/my-app -- cat /app/data/metainfo.txt
 ```
-
-## Prerequisites
 
 In order to create a backup you have to create a storage bucket in GCE.
 
@@ -69,10 +76,13 @@ kubectl get backupstoragelocations.velero.io default
 
 ```bash
 # create the backup
-velero backup create k1-backup
+velero backup create k1-backup-user-data --include-namespaces=my-app
+
+# get the logs of the backup creation
+velero backup logs k1-backup-user-data
 
 # get infos about the backup
-velero backup describe k1-backup
+velero backup describe k1-backup-user-data
 
 # verify backup via kubectl
 kubectl get backups
@@ -95,8 +105,14 @@ echo https://$DOMAIN
 # delete the namespace `my-app`
 kubectl delete namespace my-app
 
+# delete data
+kubectl delete pv <NAME-OF-PV>
+
 # verify namespace `my-app` has been deleted
 kubens
+
+# verify pv has been deleted
+kubectl get pv
 
 # verify the app is not working anymore
 echo https://$DOMAIN
@@ -106,11 +122,25 @@ echo https://$DOMAIN
 
 ```bash
 # restore from previously created backup
-velero restore create --from-backup k1-backup
+velero restore create --from-backup k1-backup-user-data
 
-# verify namespace `my-app` exists again
-kubens
+# wait until restore of resources has finished
+velero restore describe k1-backup-user-data-XXXXX | grep -A3 Phase
+
+# verify pod is in running state again, which may take some time due to restored PV has to be bound to worker node which is running the new pod
+kubectl describe pod -l app=my-app
 
 # verify the app is running again, visit it in your browser
 echo https://$DOMAIN
+
+# get the first line of the file metainfo.txt
+kubectl exec -it deploy/my-app -- head -1 /app/data/metainfo.txt
+
+# get the last line of the file metainfo.txt
+kubectl exec -it deploy/my-app -- tail -1 /app/data/metainfo.txt
+
+# => note that the metainfo of the deleted pod is still available in the file metatinfo.txt
 ```
+
+>**NOTE:**
+>If you get into the situation that a PV is in state `RELEASED` you have to bring it into the state `AVAILABLE` before it can be bound to a worker node again. See the [Kubernetes Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recovering-from-failure-when-expanding-volumes) for details.
