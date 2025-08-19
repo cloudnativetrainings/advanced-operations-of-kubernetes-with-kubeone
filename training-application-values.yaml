@@ -1,0 +1,16 @@
+name: my-app
+version: v1
+color: lightgrey
+message: "Hello from the app installed via helm into k8s cluster created via k1"
+catMode: true
+persistMetaInfo: false
+
+deployment:
+  replicas: 1
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+  domain: example.com

@@ -2,23 +2,13 @@
 
 In this lab you will provision two additional nodes and ensure that they are running in different zones within the GCE region.
 
-## Preperations
-
-```bash
-# switch to the namespace `kube-system`
-kubens kube-system
-
-# store the existing md into the file `old-md.yaml`
-kubeone config machinedeployments -t tf_infra/ > /training/old-md.yaml
-```
-
 ## Create the new MachineDeployment Manifests
 
 ```bash
-# make copies of the old machinedeployment manifest `old-md.yaml`
-cp /training/old-md.yaml /training/md-europe-west3-a.yaml
-cp /training/old-md.yaml /training/md-europe-west3-b.yaml
-cp /training/old-md.yaml /training/md-europe-west3-c.yaml
+# make copies of the old machinedeployment manifest `md-initial.yaml`
+cp /training/md-initial.yaml /training/md-europe-west3-a.yaml
+cp /training/md-initial.yaml /training/md-europe-west3-b.yaml
+cp /training/md-initial.yaml /training/md-europe-west3-c.yaml
 
 # change the names of the mds, assuming the name of the pool ends with `pool1`
 sed -i "s/pool1$/europe-west3-a/g" /training/md-europe-west3-a.yaml
@@ -34,6 +24,30 @@ diff /training/md-europe-west3-a.yaml /training/md-europe-west3-b.yaml
 diff /training/md-europe-west3-a.yaml /training/md-europe-west3-c.yaml
 ```
 
+## Optimize Worker Nodes
+
+```bash
+# change the machine type from `n1-standard-2` to `n1-standard-1` in the machinedeployments manifests
+sed -i "s/machineType: n1-standard-4$/machineType: n1-standard-1/g" /training/md-europe-west3-a.yaml
+sed -i "s/machineType: n1-standard-4$/machineType: n1-standard-1/g" /training/md-europe-west3-b.yaml
+sed -i "s/machineType: n1-standard-4$/machineType: n1-standard-1/g" /training/md-europe-west3-c.yaml
+
+# change the disk size from 50 GB to 20 GB in the machinedeployments manifests
+sed -i "s/diskSize: 50$/diskSize: 20/g" /training/md-europe-west3-a.yaml
+sed -i "s/diskSize: 50$/diskSize: 20/g" /training/md-europe-west3-b.yaml
+sed -i "s/diskSize: 50$/diskSize: 20/g" /training/md-europe-west3-c.yaml
+
+# change the disk type in the machinedeployments manifests
+sed -i "s/diskType: pd-ssd$/diskType: pd-standard/g" /training/md-europe-west3-a.yaml
+sed -i "s/diskType: pd-ssd$/diskType: pd-standard/g" /training/md-europe-west3-b.yaml
+sed -i "s/diskType: pd-ssd$/diskType: pd-standard/g" /training/md-europe-west3-c.yaml
+
+# ensure os update on boot
+sed -i "s/distUpgradeOnBoot: false$/distUpgradeOnBoot: true/g" /training/md-europe-west3-a.yaml
+sed -i "s/distUpgradeOnBoot: false$/distUpgradeOnBoot: true/g" /training/md-europe-west3-b.yaml
+sed -i "s/distUpgradeOnBoot: false$/distUpgradeOnBoot: true/g" /training/md-europe-west3-c.yaml
+```
+
 ## Apply the new MachineDeployment Manifests to your Cluster
 
 ```bash
@@ -43,7 +57,7 @@ kubectl apply -f /training/md-europe-west3-b.yaml
 kubectl apply -f /training/md-europe-west3-c.yaml
 
 # delete the old md
-kubectl delete -f /training/old-md.yaml
+kubectl delete -f /training/md-initial.yaml
 
 # watch the resources getting changed by machinecontroller
 watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,node
@@ -53,10 +67,6 @@ gcloud compute instances list
 
 # verify via kubectl
 kubectl get nodes --label-columns failure-domain.beta.kubernetes.io/zone
-
-# get a minimalistic visual representation of your cluster
-# note the ui is currently only in beta state
-kubeone ui -t /training/tf_infra
 ```
 
 ## Verify via your application

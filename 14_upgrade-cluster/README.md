@@ -87,8 +87,6 @@ spec:
 ```bash
 # change the kubelet version in the machinedeployment manifests
 sed -i "s/kubelet: 1.32.4$/kubelet: 1.32.5/g" /training/md-europe-west3-a.yaml
-sed -i "s/kubelet: 1.32.4$/kubelet: 1.32.5/g" /training/md-europe-west3-b.yaml
-sed -i "s/kubelet: 1.32.4$/kubelet: 1.32.5/g" /training/md-europe-west3-c.yaml
 
 # watch the machinecontroller upgrading the worker nodes
 [BASH-2] watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,nodes
@@ -96,12 +94,13 @@ sed -i "s/kubelet: 1.32.4$/kubelet: 1.32.5/g" /training/md-europe-west3-c.yaml
 # verify your applications are up and running during the upgrade process in a different bash
 [BASH-3] while true; do curl -I https://$DOMAIN; sleep 10s; done;
 
-# apply your changes
+# apply your change
 kubectl apply -f /training/md-europe-west3-a.yaml
-kubectl apply -f /training/md-europe-west3-b.yaml
-kubectl apply -f /training/md-europe-west3-c.yaml
 
 # get a minimalistic visual representation of your cluster
 # note the ui is currently only in beta state
 kubeone ui -t /training/tf_infra
 ```
+
+>**NOTE:**
+>As long your applications running on the worker nodes are `cloud-native` you should not experience any downtime of them.

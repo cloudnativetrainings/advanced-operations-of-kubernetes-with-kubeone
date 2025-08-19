@@ -25,10 +25,6 @@ gcloud compute instances list
 ## Add the additional vms to the Kubernetes cluster via kubeone
 
 ```bash
-# show the current state of the resources 
-# => this is the way how kubeone knows about the new vms
-terraform -chdir=/training/tf_infra output
-
 # add the additional vms to the kubernetes cluster
 kubeone apply -t /training/tf_infra --verbose
 

@@ -43,7 +43,7 @@ Apply the changes into your cluster:
 
 ```bash
 # add the releases to the kubernetes cluster
-kubeone apply -t /training/tf_infra --verbose
+kubeone apply -t /training/tf_infra --verbose -y
 
 # verify via helm
 helm ls --all-namespaces
@@ -100,29 +100,28 @@ kubectl apply -f /training/09_helm-releases/cluster-issuer.yaml
 kubectl describe clusterissuer letsencrypt-issuer
 ```
 
-## Add your own charts
+## Make use of added functionalities in your application
 
-Add the helm release to the kubone manifest file `/training/kubeone.yaml`.
+First you have to adapt your application to make use of ingress-nginx and certmanager. Adapt the file `/training/training-application-values.yaml`.
 
 ```yaml
-  - releaseName: my-app
-    chart: my-app
-    chartURL: my-app/
-    namespace: my-app
-    version: 1.0.0
-    values:
-      - inline:
-          color: lightblue
-          message: "Hello from the app inside the k1 k8s cluster via custom addon"
-          domain: "<FILL-IN-DOMAIN>"     # <= you can get this value via `echo $DOMAIN`
+deployment:
+  replicas: 1              # <= set this value to 3
+
+ingress:
+  enabled: false           # <= set this value to true
+  domain: example.com      # <= fill in your domain, you can get yours via `echo $DOMAIN`
 ```
 
 ```bash
-# add the releases to the kubernetes cluster
-kubeone apply -t /training/tf_infra --verbose
+# re-release your application
+helm upgrade --install --atomic --debug \
+  --namespace training-application --create-namespace training-application \
+  oci://quay.io/kubermatic-labs/helm-charts/training-application:1.0.1 \
+  -f /training/training-application-values.yaml
 
-# switch to namespace `my-app`
-kubens my-app
+# switch to namespace `training-application`
+kubens training-application
 
 # verify via helm
 helm ls
@@ -130,16 +129,13 @@ helm ls
 # verify your app got deployed properly
 kubectl get service,endpoints,deployment,replicaset,pod
 
-# verify your app via port-forwarding
-kubectl port-forward service/my-app 8080:8080
-
 # verify the ingress rule
 kubectl describe ingress my-app
 
 # verify certmanager finished the cert tango
 kubectl get certs
 
-# visit your app in your prefered browser
+# verify your app in your prefered browser
 # => note that the traffic is encrypted
 echo https://$DOMAIN
 
@@ -147,5 +143,10 @@ echo https://$DOMAIN
 curl -vvi https://$DOMAIN
 ```
 
-> **NOTE:**
-> Please keep this stack running, we will verify zero downtime of it on doing worker node and kubeone upgrades.
+## Engage "poor-mans-application-monitoring""
+
+```bash
+# Open a new bash in Google Cloud Shell
+# => with this we monitor the pods getting into running state
+while true; do curl -I https://$DOMAIN; sleep 10s; done;
+```

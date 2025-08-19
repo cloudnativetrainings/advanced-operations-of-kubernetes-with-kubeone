@@ -14,27 +14,23 @@ kubectl -n kube-system get machinedeployment,machineset,machine
 # get the tech details about the worker node
 kubectl -n kube-system describe machine
 
-# get all machinedeployments in the cluster
-kubeone config machinedeployments -t /training/tf_infra > my-mds.yaml
-
-# get a minimalistic visual representation of your cluster
-# note the ui is currently only in beta state
-kubeone ui -t /training/tf_infra
+# get the initial machineDeployment via kubeone
+kubeone config machinedeployments -t /training/tf_infra > /training/md-initial.yaml
 ```
 
 ## Change the default MachineDeployment
 
-The MachineDeployment allows you to manage worker nodes. Let's try this.
-
-```bash
-# edit the default machine deployment
-kubectl -n kube-system edit md <MACHINE-DEPLOYMENT>
-```
+The MachineDeployment allows you to manage worker nodes. Change the machineType of the machineDeployment in the file `/training/md-initial.yaml`
 
 Change the machine type of the worker node
 
 ```yaml
 machineType: n1-standard-2 # <= change the value to n1-standard-4
+```
+
+```bash
+# apply your change
+kubectl apply -f /training/md-initial.yaml
 ```
 
 Watch the machinecontroller creating a new worker node and deleting the old one.

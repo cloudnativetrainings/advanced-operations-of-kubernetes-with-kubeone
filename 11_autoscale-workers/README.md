@@ -21,7 +21,7 @@ addons:
 
 ```bash
 # add the releases to the kubernetes cluster
-kubeone apply -t /training/tf_infra --verbose
+kubeone apply -t /training/tf_infra --verbose -y
 
 # verify cluster-autoscaler is running
 kubectl -n kube-system get deployments.apps cluster-autoscaler 
@@ -30,8 +30,8 @@ kubectl -n kube-system get deployments.apps cluster-autoscaler
 ## Increase the resource needs for you application
 
 ```bash
-# switch to the namespace `my-app`
-kubens my-app
+# switch to the namespace `training-application`
+kubens training-application
 
 # scale up your application to 10 replicas
 kubectl scale deployment my-app --replicas 10

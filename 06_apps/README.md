@@ -6,18 +6,18 @@ In this lab you will test if the cluster works as expected.
 
 ```bash
 # deploy the application
-kubectl apply -f /training/06_apps/
+# TODO use helm chart from repo
+helm upgrade --install --atomic --debug \
+  --namespace training-application --create-namespace training-application \
+  oci://quay.io/kubermatic-labs/helm-charts/training-application:1.0.1 \
+  -f /training/training-application-values.yaml
 
 # verify everything is running
-kubectl get service,endpoints,deployment,pods,configmap
+kubectl -n training-application get service,endpoints,deployment,pods,configmap
 
 # access the app via browser
-kubectl port-forward service/my-service 80:8080
+kubectl -n training-application port-forward service/my-app 80:80
 ```
 
-## Clean-up
-
-```bash
-# delete the application
-kubectl delete -f /training/06_apps/
-```
+>**NOTE:**
+>Keep the application running, we will use it later on.
