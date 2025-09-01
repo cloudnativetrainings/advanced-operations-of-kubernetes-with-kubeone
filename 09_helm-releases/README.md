@@ -88,7 +88,8 @@ nslookup $DOMAIN
 
 ```bash
 # change the email address in the manifest `cluster-issuer.yaml` to your email address
-sed -i "s/your-email@example.com/hubert@kubermatic.com/g" /training/09_helm-releases/cluster-issuer.yaml
+EMAIL=<FILL-IN-YOUR-MAIL-ADDRESS>
+sed -i "s/your-email@example.com/$EMAIL/g" /training/09_helm-releases/cluster-issuer.yaml
  
 # verify
 cat /training/09_helm-releases/cluster-issuer.yaml
