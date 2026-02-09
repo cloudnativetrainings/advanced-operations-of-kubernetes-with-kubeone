@@ -150,6 +150,9 @@ velero restore create --from-backup k1-backup-user-data
 # wait until restore of resources has finished
 velero restore describe k1-backup-user-data-XXXXX | grep -A3 Phase
 
+# switch back to the training-application namespace
+kubens training-namespace
+
 # verify pod is in running state again, which may take some time due to restored PV has to be bound to worker node which is running the new pod
 kubectl describe pod -l app=my-app
 
