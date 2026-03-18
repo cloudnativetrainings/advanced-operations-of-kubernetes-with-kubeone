@@ -1,6 +1,6 @@
 # Upgrading your Kubernetes Cluster
 
-In this lab you will learn to upgrade your Kubernetes Cluster from version 1.32.4 to 1.32.5.
+In this lab you will learn to upgrade your Kubernetes Cluster from version `1.34.4` to `1.34.5`.
 
 ## Prerequisites
 
@@ -15,20 +15,20 @@ In this lab you will learn to upgrade your Kubernetes Cluster from version 1.32.
 ## Upgrade kubectl
 
 ```bash
-# verify your current version 1.32.4
+# verify your current version 1.34.4
 kubectl version
 
 # upgrade kubectl 
-NEW_K8S_VERSION=1.32.5
+NEW_K8S_VERSION=1.34.5
 curl -LO https://dl.k8s.io/release/v${NEW_K8S_VERSION}/bin/linux/amd64/kubectl
 install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl
 
-# verify your new version 1.32.5 got installed
+# verify your new version 1.34.5 got installed
 kubectl version
 
 # ensure environment variable also gets an update
-sed -i "s/K8S_VERSION=1.32.4$/K8S_VERSION=${NEW_K8S_VERSION}/g" /root/.trainingrc
+sed -i "s/K8S_VERSION=1.34.4$/K8S_VERSION=${NEW_K8S_VERSION}/g" /root/.trainingrc
 source /root/.trainingrc
 echo $K8S_VERSION
 ```
@@ -36,7 +36,7 @@ echo $K8S_VERSION
 ## Upgrade the control plane nodes
 
 >**NOTE:**
->Although kubeone supports also upgrading the worker nodes via the flag `--upgrade-machine-deployments` we will do this in a later step.
+>Although kubeone supports also upgrading the worker nodes via the flag `--upgrade-machine-deployments` we will do this in a seperate step later.
 
 The control plane nodes will get the components updated to the new version. The control plane nodes will **NOT** get replaced by new VMs.
 
@@ -46,7 +46,7 @@ Change the Kubernetes Version in the kubeone manifest `/training/kubeone.yaml`
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: "1.32.5" # <= change from 1.32.4 to 1.32.5
+  kubernetes: "1.34.5" # <= change from 1.34.4 to 1.34.5
 ```
 
 Trigger the upgrade
@@ -86,7 +86,7 @@ spec:
 
 ```bash
 # change the kubelet version in the machinedeployment manifests
-sed -i "s/kubelet: 1.32.4$/kubelet: 1.32.5/g" /training/md-europe-west3-a.yaml
+sed -i "s/kubelet: 1.34.4$/kubelet: 1.34.5/g" /training/md-europe-west3-a.yaml
 
 # watch the machinecontroller upgrading the worker nodes
 [BASH-2] watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,nodes

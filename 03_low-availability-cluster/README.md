@@ -21,7 +21,7 @@ cat /training/kubeone.yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: "1.32.4"  # <= the kubernetes version we will install
+  kubernetes: "1.34.4"  # <= the kubernetes version we will install
 cloudProvider:
   gce: {}               # <= we will make use of gce resources
   external: true        # <= deploy the external CCM

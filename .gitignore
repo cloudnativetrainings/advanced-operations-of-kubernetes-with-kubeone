@@ -5,4 +5,7 @@ tf_infra/.terraform/
 tf_infra/.terraform/**
 tf_infra/*.hcl
 tf_infra/tf.json
-tf_infra/*.tfstate
+tf_infra/*.tfstate*
+kubeone_*_linux*/
+*-kubeconfig
+*.tar.gz

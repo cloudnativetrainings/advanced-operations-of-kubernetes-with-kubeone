@@ -6,7 +6,6 @@ In this lab you will test if the cluster works as expected.
 
 ```bash
 # deploy the application
-# TODO use helm chart from repo
 helm upgrade --install --atomic --debug \
   --namespace training-application --create-namespace training-application \
   oci://quay.io/kubermatic-labs/helm-charts/training-application:1.0.1 \

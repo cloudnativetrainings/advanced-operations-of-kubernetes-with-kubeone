@@ -85,8 +85,8 @@ kubectl get pods -o wide
 # access the app via browser
 kubectl port-forward service/my-service 80:8080
 
-# clean up your application
-kubectl delete -f /training/06_apps/
+# uninstall the application
+helm -n training-application uninstall training-application
 ```
 
 >**NOTE:**
