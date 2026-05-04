@@ -72,21 +72,15 @@ kubectl get nodes --label-columns failure-domain.beta.kubernetes.io/zone
 ## Verify via your application
 
 ```bash
-# switch back to the namespace `default`
-kubens default
-
-# apply the manifests for the application
-kubectl apply -f /training/06_apps/
+# scale the training application
+kubectl -n training-application scale deployment my-app --replicas 3
 
 # verify pods running in different zones
 # => kubernetes tries, by default, to schedule pods of a deployment across the available worker nodes
-kubectl get pods -o wide
+kubectl -n training-application get pods -o wide
 
 # access the app via browser
-kubectl port-forward service/my-service 80:8080
-
-# uninstall the application
-helm -n training-application uninstall training-application
+kubectl -n training-application port-forward service/my-app 8080:80
 ```
 
 >**NOTE:**

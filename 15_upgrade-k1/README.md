@@ -1,6 +1,6 @@
 # Upgrade KubeOne
 
-In this lab you will learn how to upgrade kubeone. We will upgrade kubeone from version `1.12.2` to version `1.12.3`.
+In this lab you will learn how to upgrade kubeone. We will upgrade kubeone from version `1.13.3` to version `1.13.4`.
 
 - You can find information about the available versions of kubeone on the [releases page](https://github.com/kubermatic/kubeone/releases).
 - Ensure the new version still supports the running kubernetes version. You can find the supported versions in the [kubeone documentation](https://docs.kubermatic.com/kubeone/v1.10/architecture/compatibility/supported-versions/).
@@ -10,7 +10,7 @@ In this lab you will learn how to upgrade kubeone. We will upgrade kubeone from 
 kubeone version
 
 # set the new k1 version
-NEW_K1_VERSION=1.12.3
+NEW_K1_VERSION=1.13.4
 
 # download the k1 release
 wget -P /tmp/ https://github.com/kubermatic/kubeone/releases/download/v${NEW_K1_VERSION}/kubeone_${NEW_K1_VERSION}_linux_amd64.zip
@@ -25,7 +25,7 @@ cp /training/kubeone_${NEW_K1_VERSION}_linux_amd64/kubeone /usr/local/bin
 kubeone version
 
 # ensure environment variable also gets an update
-sed -i "s/K1_VERSION=1.12.2$/K1_VERSION=${NEW_K1_VERSION}/g" /root/.trainingrc
+sed -i "s/K1_VERSION=1.13.3$/K1_VERSION=${NEW_K1_VERSION}/g" /root/.trainingrc
 source /root/.trainingrc
 echo $K1_VERSION
 

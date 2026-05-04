@@ -5,7 +5,8 @@ In this lab you will learn how to make use of terraform for providing the needed
 ## Copy terraform scripts from the k1 directory
 
 ```bash
-cp /training/kubeone_${K1_VERSION}_linux_amd64/examples/terraform/gce/*.tf /training/tf_infra
+# create the tf files
+kubeone init --provider gce --cluster-name $TRAINEE_NAME-cluster --path /training/tf_infra
 ```
 
 ## Init the terraform environment

@@ -1,4 +1,4 @@
-# Bonus Topics
+# Teardown
 
 In this lab you will learn how to destroy the cluster and release the provisioned infrastructure.
 

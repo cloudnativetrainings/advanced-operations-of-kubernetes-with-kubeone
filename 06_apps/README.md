@@ -15,7 +15,7 @@ helm upgrade --install --atomic --debug \
 kubectl -n training-application get service,endpoints,deployment,pods,configmap
 
 # access the app via browser
-kubectl -n training-application port-forward service/my-app 80:80
+kubectl -n training-application port-forward service/my-app 8080:80
 ```
 
 >**NOTE:**

@@ -21,15 +21,20 @@ cat /training/kubeone.yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: "1.34.4"  # <= the kubernetes version we will install
+  kubernetes: "1.35.3" # <= the kubernetes version we will install
 cloudProvider:
-  gce: {}               # <= we will make use of gce resources
-  external: true        # <= deploy the external CCM
-  cloudConfig: |        # <= cloud provider specific configuration
+  gce: {} # <= we will make use of gce resources
+  external: true # <= deploy the external CCM
+  cloudConfig: | # <= cloud provider specific configuration, will be in `/etc/kubernetes/cloud-config` on each node
     [global]
     regional = true
     multi-zone = true
     token-url = "nil"
+
+# cloud config for GCE
+# regional = true <= resources will be spread across zones of region
+# multi-zone = true <= CCM is allowed to manage resources across zones
+# token-url = "nil" <= workaround for GCE to make use of the secret `kubeone-ccm-credentials` instead of asking metadata-server
 ```
 
 ### Kubernetes Version

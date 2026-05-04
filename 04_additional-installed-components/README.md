@@ -76,6 +76,4 @@ Kubeone has a built in addons mechanism. Some of the addons are installed by def
 kubeone addons list -t /training/tf_infra
 ```
 
-Those addons are embedded, so they are part of the kubeone binary. You can find the manifests of those embedded addons in [/training/kubeone_1.10.0_linux_amd64/addons/](../kubeone_1.10.0_linux_amd64/addons/).
-
 Further information about addons you can find in the [kubeone docu](https://docs.kubermatic.com/kubeone/main/guides/addons/).

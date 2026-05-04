@@ -8,7 +8,7 @@ In this lab you will install kubeone.
 
 ```bash
 # set the k1 version
-K1_VERSION=1.12.2
+K1_VERSION=1.13.3
 
 # download the k1 release
 wget -P /tmp/ https://github.com/kubermatic/kubeone/releases/download/v${K1_VERSION}/kubeone_${K1_VERSION}_linux_amd64.zip

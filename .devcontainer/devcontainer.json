@@ -27,6 +27,8 @@
           ".gititnore": true,
           ".devcontainer/": true,
           ".99_todos/": true,
+          ".claude/": true,
+          "CLAUDE.md": true,
           "teardown.sh": true,
           "makefile": true
         }
