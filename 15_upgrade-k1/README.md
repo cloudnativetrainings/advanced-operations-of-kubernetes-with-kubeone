@@ -32,6 +32,15 @@ echo $K1_VERSION
 # verify via status of kubeone
 kubeone status -t /training/tf_infra
 
+# mv the file `/training/tf_infra/terraform.tfvars to somewhere else
+mv /training/tf_infra/terraform.tfvars /training
+
+# re-create the tf files
+kubeone init --provider gce --cluster-name $TRAINEE_NAME-cluster --path /training/tf_infra
+
+# mv the file `/training/tf_infra/terraform.tfvars to the directory `/training/tf_infra/` again
+mv /training/terraform.tfvars /training/tf_infra/
+
 # re-run kubeone apply with the new kubeone version, no changes to be expected
 kubeone apply -t /training/tf_infra -y
 ```
