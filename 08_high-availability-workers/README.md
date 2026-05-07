@@ -84,5 +84,5 @@ kubectl -n training-application port-forward service/my-app 8080:80
 ```
 
 >**NOTE:**
-> Due to a bug in the GCE-CCM the newly created worker nodes will not get any ingress traffic. This is fixed the training environment, but not if you try it on your own.
+> Due to a bug in the GCE-CCM the newly created worker nodes will not get any ingress traffic. This is fixed in the training environment, but not if you try it on your own.
 > Take a look via `gcloud compute firewall-rules describe allow-ingress-gce-ccm-bug-md` for details.

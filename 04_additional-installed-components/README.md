@@ -6,7 +6,7 @@ Besides providing a vanilla Kubernetes cluster KubeOne takes care about some oth
 
 Kubeone installs, besides the core Kubernetes components, some additional components by default.
 
-Via adapting the kubeone manifest file `kubeone.yaml` you can change the installed components to your needs. Via `kubeone config print --full` you can see more informations about overriding the defaults.
+Via adapting the kubeone manifest file `kubeone.yaml` you can change the installed components to your needs. Via `kubeone config print --full` you can see more information about overriding the defaults.
 
 ### Container Runtime
 

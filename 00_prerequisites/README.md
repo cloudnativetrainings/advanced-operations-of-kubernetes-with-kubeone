@@ -26,7 +26,7 @@ Drag and Drop the files (provided by the trainer) into the directory `/training/
 
 ## Set important environment variables
 
-> **IMORTANT:**
+> **IMPORTANT:**
 > Those variables will get referenced during the following labs. Make sure to set them before continuing.
 > You can find the needed information in the file `/training/.secrets/README.md`
 

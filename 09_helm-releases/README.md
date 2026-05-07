@@ -9,7 +9,7 @@ In this lab you will deploy additional functionalities (eg the ingress stack) in
 
 Let's add the ingress-nginx and cert-manager stack to your cluster. This will allow us to expose our application via a public URL with proper TLS certificates in place.
 
-Add the following to your kubone manifest file `/training/kubeone.yaml`:
+Add the following to your kubeone manifest file `/training/kubeone.yaml`:
 
 ```yaml
 helmReleases:
@@ -63,7 +63,7 @@ kubectl -n cert-manager get pods
 For the certmanager DNS challenge we have to set up proper DNS entries.
 
 ```bash
-# persist the IP address of the nginx inress controller loadbalancer
+# persist the IP address of the nginx ingress controller loadbalancer
 echo "export INGRESS_IP=$(kubectl -n ingress-nginx get svc ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}')" >> /root/.trainingrc
 
 # ensure changes are applied in your current bash
@@ -136,7 +136,7 @@ kubectl describe ingress my-app
 # verify certmanager finished the cert tango
 kubectl get certs
 
-# verify your app in your prefered browser
+# verify your app in your preferred browser
 # => note that the traffic is encrypted
 echo https://$DOMAIN
 

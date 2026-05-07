@@ -3,7 +3,7 @@
 In this lab you will install kubeone.
 
 > **NOTE:**
-> To get the latest release of kubeone you can simply do `curl -sfL https://get.kubeone.io | sh`. For the training we will not use the latest relase for being able to do a kubeone update.
+> To get the latest release of kubeone you can simply do `curl -sfL https://get.kubeone.io | sh`. For the training we will not use the latest release for being able to do a kubeone update.
 > You can find more details about installing kubeone in the [kubeone docu](<https://docs.kubermatic.com/kubeone/main/getting-kubeone/>).
 
 ```bash

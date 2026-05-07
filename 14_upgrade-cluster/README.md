@@ -36,7 +36,7 @@ echo $K8S_VERSION
 ## Upgrade the control plane nodes
 
 >**NOTE:**
->Although kubeone supports also upgrading the worker nodes via the flag `--upgrade-machine-deployments` we will do this in a seperate step later.
+>Although kubeone supports also upgrading the worker nodes via the flag `--upgrade-machine-deployments` we will do this in a separate step later.
 
 The control plane nodes will get the components updated to the new version. The control plane nodes will **NOT** get replaced by new VMs.
 

@@ -4,7 +4,7 @@ In this lab you will scale the controlplane nodes and you will ensure these node
 
 ## Provision additional vms via terraform
 
-Increae the number of vms in the terraform configuration file `/training/tf_infra/terraform.tfvars`.
+Increase the number of vms in the terraform configuration file `/training/tf_infra/terraform.tfvars`.
 
 ```hcl
 control_plane_vm_count                  = 3      # <= change this value from 1 to 3
@@ -12,7 +12,7 @@ control_plane_target_pool_members_count = 1      # <= do not change this value
 ```
 
 > **NOTE:**
-> Due to GCE internas we cannot change the value of `control_plane_target_pool_members_count` yet. This will be done in a later step.
+> Due to GCE internals we cannot change the value of `control_plane_target_pool_members_count` yet. This will be done in a later step.
 
 ```bash
 # provision the additional vms via terraform
@@ -57,7 +57,7 @@ gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
 
 #### The Solution
 
-Increae the number of pool members in the terraform configuration file `/training/tf_infra/terraform.tfvars`.
+Increase the number of pool members in the terraform configuration file `/training/tf_infra/terraform.tfvars`.
 
 ```hcl
 control_plane_vm_count                  = 3      

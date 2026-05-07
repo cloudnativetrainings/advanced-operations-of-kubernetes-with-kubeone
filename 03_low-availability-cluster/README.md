@@ -43,7 +43,7 @@ Each kubeone version supports specific kubernetes versions. You can find all sup
 
 ### Cloud Provider
 
-You can find all suppored providers in the [kubeone docu](https://docs.kubermatic.com/kubeone/main/architecture/supported-providers/).
+You can find all supported providers in the [kubeone docu](https://docs.kubermatic.com/kubeone/main/architecture/supported-providers/).
 
 > **cloudConfig**:
 > The cloud provider specific configuration. You can find details in the [kubeone source code](https://github.com/kubermatic/kubeone/blob/main/pkg/templates/machinecontroller/cloudprovider_specs.go#L73)
@@ -120,7 +120,7 @@ kubeone apply -t /training/tf_infra --verbose
 kubeone status -t /training/tf_infra
 
 # download the kubeconfig and make it your default kubeconfig
-# note kubeone also downloaded the kubeconfig automaticaly (`/training/k1-training-kubeconfig`)
+# note kubeone also downloaded the kubeconfig automatically (`/training/k1-training-kubeconfig`)
 mkdir /root/.kube/
 kubeone kubeconfig -t /training/tf_infra > /root/.kube/config
 

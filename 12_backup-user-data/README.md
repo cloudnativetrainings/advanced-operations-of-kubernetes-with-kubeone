@@ -2,7 +2,7 @@
 
 In this lab you will learn how to backup Kubernetes resources via [velero](https://github.com/heptio/velero).
 
-You will restore Kubernetes Objects and also a PersitentVolume.
+You will restore Kubernetes Objects and also a PersistentVolume.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ You will restore Kubernetes Objects and also a PersitentVolume.
 For having enough resources for the following steps we have to adapt the MachineDeployments again.
 
 ```bash
-# change the machine type from `n1-standard-2` to `n1-standard-1` in the machinedeployments manifests
+# change the machine type from `n1-standard-1` to `n1-standard-4` in the machinedeployments manifests
 sed -i "s/machineType: n1-standard-1$/machineType: n1-standard-4/g" /training/md-europe-west3-a.yaml
 
 # apply the changed machinedeployment manifest
@@ -55,7 +55,7 @@ kubectl get pvc,pv
 ```
 
 >**NOTE:**
->You will now experience downtimes of the application due to it snot `cloud-native` anymore.
+>You will now experience downtimes of the application due to it not being `cloud-native` anymore.
 
 ### Setup velero
 
@@ -151,7 +151,7 @@ velero restore create --from-backup k1-backup-user-data
 velero restore describe k1-backup-user-data-XXXXX | grep -A3 Phase
 
 # switch back to the training-application namespace
-kubens training-namespace
+kubens training-application
 
 # verify pod is in running state again, which may take some time due to restored PV has to be bound to worker node which is running the new pod
 kubectl describe pod -l app=my-app
@@ -165,7 +165,7 @@ kubectl exec -it deploy/my-app -- head -1 /app/data/metainfo.txt
 # get the last line of the file metainfo.txt
 kubectl exec -it deploy/my-app -- tail -1 /app/data/metainfo.txt
 
-# => note that the metainfo of the deleted pod is still available in the file metatinfo.txt
+# => note that the metainfo of the deleted pod is still available in the file metainfo.txt
 ```
 
 >**NOTE:**

@@ -10,7 +10,7 @@ In this lab you will learn how to autoscale your worker nodes.
 >**NOTE:**
 >You can find the list of all available embedded addons in the [directory addons](../kubeone_1.10.0_linux_amd64/addons/)
 
-Add the following to your kubone manifest file `/training/kubeone.yaml`:
+Add the following to your kubeone manifest file `/training/kubeone.yaml`:
 
 ```yaml
 addons:
@@ -69,7 +69,7 @@ kubectl apply -f /training/md-europe-west3-c.yaml
 ## Watch the cluster-autoscaler in action
 
 >**NOTE:**
->The cluster-autscaler takes some time to trigger changes.
+>The cluster-autoscaler takes some time to trigger changes.
 
 ```bash
 # Open a new bash in Google Cloud Shell

@@ -10,3 +10,7 @@
 # k8s cert update via k1
 
 # training application helm chart via k1 helmrelease after repo auth is supported in the next release
+
+# gce firewall issue
+
+there is some typo in here gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
