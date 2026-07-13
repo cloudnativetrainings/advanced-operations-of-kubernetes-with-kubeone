@@ -4,7 +4,7 @@ In this lab you will learn how to destroy the cluster and release the provisione
 
 ```bash
 # reset the cluster
-kubeone reset -t /training/tf_infra
+kubeone reset -t /training/tf_infra --remove-lb-services --remove-volumes --remove-binaries
 
 # verify all worker nodes have been deleted
 gcloud compute instances list
