@@ -39,11 +39,11 @@ cloudProvider:
 
 ### Kubernetes Version
 
-Each kubeone version supports specific kubernetes versions. You can find all supported kubernetes versions in the [kubeone docu](https://docs.kubermatic.com/kubeone/main/architecture/compatibility/supported-versions/).
+Each kubeone version supports specific kubernetes versions. You can find all supported kubernetes versions in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/architecture/compatibility/supported-versions/).
 
 ### Cloud Provider
 
-You can find all supported providers in the [kubeone docu](https://docs.kubermatic.com/kubeone/main/architecture/supported-providers/).
+You can find all supported providers in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/architecture/supported-providers/).
 
 > **cloudConfig**:
 > The cloud provider specific configuration. You can find details in the [kubeone source code](https://github.com/kubermatic/kubeone/blob/main/pkg/templates/machinecontroller/cloudprovider_specs.go#L73)
@@ -83,7 +83,7 @@ terraform -chdir=/training/tf_infra output -json > /training/tf_infra/tf.json
 kubeone <COMMAND> -t /training/tf_infra/tf.json ...
 ```
 
-### Implicit, via the terraform directory
+### Implicitly, via the terraform directory
 
 You can also pass in the terraform directory. Kubeone will then automatically call `terraform output -json` in this directory to get the needed information.
 

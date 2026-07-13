@@ -1,6 +1,6 @@
 # Additional installed Components
 
-Besides providing a vanilla Kubernetes cluster KubeOne takes care about some other things. This is done via the Addon mechanism. In this lab you will learn about embedded Addons. Creating custom Addons will be covered in a later lab.
+Besides providing a vanilla Kubernetes cluster KubeOne takes care of some other things. This is done via the Addon mechanism. In this lab you will learn about embedded Addons. Creating custom Addons will be covered in a later lab.
 
 ## What got installed additionally?
 
@@ -76,4 +76,4 @@ Kubeone has a built in addons mechanism. Some of the addons are installed by def
 kubeone addons list -t /training/tf_infra
 ```
 
-Further information about addons you can find in the [kubeone docu](https://docs.kubermatic.com/kubeone/main/guides/addons/).
+You can find further information about addons in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/guides/addons/).

@@ -27,7 +27,7 @@ diff /training/md-europe-west3-a.yaml /training/md-europe-west3-c.yaml
 ## Optimize Worker Nodes
 
 ```bash
-# change the machine type from `n1-standard-2` to `n1-standard-1` in the machinedeployments manifests
+# change the machine type from `n1-standard-4` to `n1-standard-1` in the machinedeployments manifests
 sed -i "s/machineType: n1-standard-4$/machineType: n1-standard-1/g" /training/md-europe-west3-a.yaml
 sed -i "s/machineType: n1-standard-4$/machineType: n1-standard-1/g" /training/md-europe-west3-b.yaml
 sed -i "s/machineType: n1-standard-4$/machineType: n1-standard-1/g" /training/md-europe-west3-c.yaml

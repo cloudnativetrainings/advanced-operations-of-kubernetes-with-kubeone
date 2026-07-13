@@ -1,6 +1,6 @@
 # Backup Kubernetes Resources
 
-In this lab you will learn how to backup Kubernetes resources via [velero](https://github.com/heptio/velero).
+In this lab you will learn how to backup Kubernetes resources via [velero](https://github.com/vmware-tanzu/velero).
 
 You will restore Kubernetes Objects and also a PersistentVolume.
 
@@ -37,7 +37,7 @@ Adapt the application via the file `/training/training-application-values.yaml`
 persistMetaInfo: false               # <= set this value to true
 
 deployment:
-  replicas: 1                        # <= set this value to 1 
+  replicas: 3                        # <= set this value to 1
 ```
 
 ```bash
@@ -169,7 +169,7 @@ kubectl exec -it deploy/my-app -- tail -1 /app/data/metainfo.txt
 ```
 
 >**NOTE:**
->If you get into the situation that a PV is in state `RELEASED` you have to bring it into the state `AVAILABLE` before it can be bound to a worker node again. See the [Kubernetes Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recovering-from-failure-when-expanding-volumes) for details.
+>If you get into the situation that a PV is in state `RELEASED` you have to bring it into the state `AVAILABLE` before it can be bound to a worker node again. See the [Kubernetes Documentation](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming) for details.
 
 ## Clean-Up
 

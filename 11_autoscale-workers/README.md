@@ -8,7 +8,7 @@ In this lab you will learn how to autoscale your worker nodes.
 >You can find further information about embedded addons in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/guides/addons/#activate-embedded-addons)
 
 >**NOTE:**
->You can find the list of all available embedded addons in the [directory addons](../kubeone_1.10.0_linux_amd64/addons/)
+>You can find the list of all available embedded addons in the [directory addons](../kubeone_1.13.3_linux_amd64/addons/)
 
 Add the following to your kubeone manifest file `/training/kubeone.yaml`:
 
@@ -27,7 +27,7 @@ kubeone apply -t /training/tf_infra --verbose -y
 kubectl -n kube-system get deployments.apps cluster-autoscaler 
 ```
 
-## Increase the resource needs for you application
+## Increase the resource needs for your application
 
 ```bash
 # switch to the namespace `training-application`

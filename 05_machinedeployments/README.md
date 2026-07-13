@@ -55,4 +55,4 @@ The machinecontroller has to be able to scale machines up and down. For this it 
 kubectl get secret -n kube-system kubeone-ccm-credentials -o jsonpath='{.data.GOOGLE_SERVICE_ACCOUNT}' | base64 -d
 ```
 
-You can find further information about machinecontroller in the [kubeone docu](https://docs.kubermatic.com/kubeone/main/guides/machine-controller/)
+You can find further information about machinecontroller in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/guides/machine-controller/)

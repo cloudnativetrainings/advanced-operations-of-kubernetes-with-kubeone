@@ -19,7 +19,7 @@ terraform version
 mkdir /training/.secrets
 ```
 
-Drag and Drop the files (provided by the trainer) into the directory `/training/.secrets/`
+Drag and drop the files (provided by the trainer) into the directory `/training/.secrets/`:
 
 - README.md
 - gcloud-service-account.json
@@ -27,7 +27,7 @@ Drag and Drop the files (provided by the trainer) into the directory `/training/
 ## Set important environment variables
 
 > **IMPORTANT:**
-> Those variables will get referenced during the following labs. Make sure to set them before continuing.
+> These variables will get referenced during the following labs. Make sure to set them before continuing.
 > You can find the needed information in the file `/training/.secrets/README.md`
 
 ```bash
@@ -55,7 +55,7 @@ echo $DNS_ZONE_NAME
 
 ## Ensure SSH requirements
 
-Kubeone needs a ssh key pair for communicating with the controlplane and worker nodes.
+Kubeone needs an SSH key pair for communicating with the controlplane and worker nodes.
 
 ```bash
 # create a ssh-key-pair for gce

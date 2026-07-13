@@ -3,7 +3,7 @@
 In this lab you will deploy additional functionalities (eg the ingress stack) into your kubernetes cluster via kubeone. Besides Helm charts provided via chart repositories you can define and add your own local helm charts to your cluster.
 
 > **NOTE:**
-> The [helm integration](https://docs.kubermatic.com/kubeone/main/guides/helm-integration/) is available in kubeone since version 1.10.0 and this is the recommended way of adding additional functionalities to your kubernetes cluster. In older version this was done via [custom addons](https://docs.kubermatic.com/kubeone/main/guides/addons>)
+> The [helm integration](https://docs.kubermatic.com/kubeone/main/guides/helm-integration/) is available in kubeone since version 1.10.0 and this is the recommended way of adding additional functionalities to your kubernetes cluster. In older versions this was done via [custom addons](https://docs.kubermatic.com/kubeone/main/guides/addons/).
 
 ## Charts from chart repositories
 
@@ -60,7 +60,7 @@ kubectl -n cert-manager get pods
 
 ### Create proper DNS entry for the ingress controller
 
-For the certmanager DNS challenge we have to set up proper DNS entries.
+So that cert-manager's HTTP challenge (and your users) can reach the domain, we have to set up proper DNS entries.
 
 ```bash
 # persist the IP address of the nginx ingress controller loadbalancer
@@ -144,7 +144,7 @@ echo https://$DOMAIN
 curl -vvi https://$DOMAIN
 ```
 
-## Engage "poor-mans-application-monitoring""
+## Engage "poor-man's-application-monitoring"
 
 ```bash
 # Open a new bash in Google Cloud Shell

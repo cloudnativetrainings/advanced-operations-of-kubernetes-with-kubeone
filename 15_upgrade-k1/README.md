@@ -3,7 +3,7 @@
 In this lab you will learn how to upgrade kubeone. We will upgrade kubeone from version `1.13.3` to version `1.13.4`.
 
 - You can find information about the available versions of kubeone on the [releases page](https://github.com/kubermatic/kubeone/releases).
-- Ensure the new version still supports the running kubernetes version. You can find the supported versions in the [kubeone documentation](https://docs.kubermatic.com/kubeone/v1.10/architecture/compatibility/supported-versions/).
+- Ensure the new version still supports the running kubernetes version. You can find the supported versions in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/architecture/compatibility/supported-versions/).
 
 ```bash
 # verify the current kubeone version
@@ -32,13 +32,13 @@ echo $K1_VERSION
 # verify via status of kubeone
 kubeone status -t /training/tf_infra
 
-# mv the file `/training/tf_infra/terraform.tfvars to somewhere else
+# mv the file `/training/tf_infra/terraform.tfvars` to somewhere else
 mv /training/tf_infra/terraform.tfvars /training
 
 # re-create the tf files
 kubeone init --provider gce --cluster-name $TRAINEE_NAME-cluster --path /training/tf_infra
 
-# mv the file `/training/tf_infra/terraform.tfvars to the directory `/training/tf_infra/` again
+# mv the file `/training/tf_infra/terraform.tfvars` to the directory `/training/tf_infra/` again
 mv /training/terraform.tfvars /training/tf_infra/
 
 # re-run kubeone apply with the new kubeone version, no changes to be expected

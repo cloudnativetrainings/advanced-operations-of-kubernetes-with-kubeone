@@ -8,7 +8,7 @@ In this lab you will learn to upgrade your Kubernetes Cluster from version `1.35
 > For security reasons you have to upgrade your Kubernetes Clusters. As a side effect, also the certificates which enable secure communication between the control plane components will get renewed.
 
 - Check available Kubernetes Releases on the [kubernetes release page](https://kubernetes.io/releases/)
-- **ALWAYS** read the changelogs of the new releases before upgrading your cluster. Ensure your deployed resources will not get into troubles due to breaking changes of the new release.
+- **ALWAYS** read the changelogs of the new releases before upgrading your cluster. Ensure your deployed resources will not get into trouble due to breaking changes of the new release.
 - Please respect the [kubernetes version skew policy](https://kubernetes.io/releases/version-skew-policy/#supported-versions) on doing upgrades.
 - Verify your kubeone version supports the kubernetes version you want to upgrade to in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/architecture/compatibility/supported-versions/).
 
@@ -103,4 +103,4 @@ kubeone ui -t /training/tf_infra
 ```
 
 >**NOTE:**
->As long your applications running on the worker nodes are `cloud-native` you should not experience any downtime of them.
+>As long as your applications running on the worker nodes are `cloud-native` you should not experience any downtime of them.
