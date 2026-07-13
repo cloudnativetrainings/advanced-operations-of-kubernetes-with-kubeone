@@ -120,7 +120,7 @@ kubeone apply -t /training/tf_infra --verbose
 kubeone status -t /training/tf_infra
 
 # download the kubeconfig and make it your default kubeconfig
-# note kubeone also downloaded the kubeconfig automatically (`/training/k1-training-kubeconfig`)
+# note kubeone also downloaded the kubeconfig automatically (`/training/$TRAINEE_NAME-cluster-kubeconfig`)
 mkdir /root/.kube/
 kubeone kubeconfig -t /training/tf_infra > /root/.kube/config
 

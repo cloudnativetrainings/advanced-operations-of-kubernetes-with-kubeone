@@ -2,7 +2,7 @@
 
 In this lab you will learn how to make use of terraform for providing the needed resources.
 
-## Copy terraform scripts from the k1 directory
+## Create the terraform scripts via kubeone
 
 ```bash
 # create the tf files

@@ -72,7 +72,7 @@ source /root/.trainingrc
 # verify
 echo $INGRESS_IP
 
-# create wildcard DNS entry
+# create the DNS entry for your domain
 gcloud dns record-sets transaction start --zone $DNS_ZONE_NAME
 gcloud dns record-sets transaction add --zone $DNS_ZONE_NAME --ttl 60 --name="$DOMAIN." --type A $INGRESS_IP
 gcloud dns record-sets transaction execute --zone $DNS_ZONE_NAME

@@ -1,4 +1,4 @@
-.PHONY verify:
+.PHONY: verify
 verify:
 	test -f /root/.trainingrc
 	grep "source /root/.trainingrc" /root/.bashrc

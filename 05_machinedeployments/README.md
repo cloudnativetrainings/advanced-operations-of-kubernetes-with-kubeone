@@ -8,7 +8,7 @@ In this lab you will learn how to manage worker nodes via MachineDeployments.
 # take a look at the CRDs installed by the machinecontroller
 kubectl api-resources | grep machine
 
-# inspect the installed objects installed by the machinecontroller
+# inspect the objects installed by the machinecontroller
 kubectl -n kube-system get machinedeployment,machineset,machine
 
 # get the tech details about the worker node
