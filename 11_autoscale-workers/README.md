@@ -25,6 +25,9 @@ kubeone apply -t /training/tf_infra --verbose -y
 
 # verify cluster-autoscaler is running
 kubectl -n kube-system get deployments.apps cluster-autoscaler 
+
+# verify via kubeone
+kubeone addons list -t /training/tf_infra | grep cluster-autoscaler
 ```
 
 ## Increase the resource needs for your application
@@ -55,8 +58,8 @@ The min and max number of worker nodes are managed via an annotation in your mac
 kind: MachineDeployment
 metadata:
   annotations:
-    cluster.k8s.io/cluster-api-autoscaler-node-group-min-size: "1"
     cluster.k8s.io/cluster-api-autoscaler-node-group-max-size: "1" # <= change this to 3
+    cluster.k8s.io/cluster-api-autoscaler-node-group-min-size: "1"
 ```
 
 ```bash

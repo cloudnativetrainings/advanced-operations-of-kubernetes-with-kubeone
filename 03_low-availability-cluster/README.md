@@ -15,6 +15,9 @@ You can find our cluster manifest in the file `kubeone.yaml`.
 
 ```bash
 cat /training/kubeone.yaml
+
+# for avoiding changes in the wrong file we delete one of the two kubeone.yaml files
+rm /training/tf_infra/kubeone.yaml
 ```
 
 ```yaml

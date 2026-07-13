@@ -58,8 +58,8 @@ Here is an example for the file `/training/tf_infra/terraform.tfvars`:
 
 ```hcl
 # file /training/tf_infra/terraform.tfvars
-project                                 = "my-gce-project"
-cluster_name                            = "my-cluster"
+project                                 = "<FILL-IN-GCE-PROJECT>"
+cluster_name                            = "<FILL-IN-YOUR-TRAINEE-NAME>-cluster"
 region                                  = "europe-west3"
 ssh_public_key_file                     = "/training/.secrets/gce.pub"
 ssh_private_key_file                    = "/training/.secrets/gce"

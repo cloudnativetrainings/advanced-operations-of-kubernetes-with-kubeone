@@ -38,6 +38,9 @@ mv /training/tf_infra/terraform.tfvars /training
 # re-create the tf files
 kubeone init --provider gce --cluster-name $TRAINEE_NAME-cluster --path /training/tf_infra
 
+# remove the duplicate kubeone.yaml again, for not getting confused
+rm /training/tf_infra/kubeone.yaml
+
 # mv the file `/training/tf_infra/terraform.tfvars` to the directory `/training/tf_infra/` again
 mv /training/terraform.tfvars /training/tf_infra/
 

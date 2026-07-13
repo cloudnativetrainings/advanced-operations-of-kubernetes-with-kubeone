@@ -14,3 +14,5 @@
 # gce firewall issue
 
 there is some typo in here gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
+
+# switch to gateway api
