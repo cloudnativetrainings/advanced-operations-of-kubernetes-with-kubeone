@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: gs-credentials
+  name: kubeone-backups-credentials
   namespace: kube-system
 type: Opaque
 data:
@@ -14,18 +14,18 @@ metadata:
   namespace: kube-system
 type: Opaque
 data:
-  password: {{ "<<TODO_RESTIC_PASSWORD>>" | b64enc }}
+  password: {{ required "Please provide resticPassword" .Params.resticPassword | b64enc }}
 ---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: etcd-gs-backup
+  name: etcd-s3-backup
   namespace: kube-system
 spec:
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
-  schedule: '@every 30m'
-  successfulJobsHistoryLimit: 0
+  schedule: '@every 5m'
+  successfulJobsHistoryLimit: 1
   suspend: false
   jobTemplate:
     spec:
@@ -36,19 +36,12 @@ spec:
           nodeSelector:
             node-role.kubernetes.io/control-plane: ""
           tolerations:
-          - key: node-role.kubernetes.io/master
-            effect: NoSchedule
-            operator: Exists
           - key: node-role.kubernetes.io/control-plane
             effect: NoSchedule
             operator: Exists
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                - matchExpressions:
-                  - key: node-role.kubernetes.io/control-plane
-                    operator: Exists
+          - key: node-role.kubernetes.io/master
+            effect: NoSchedule
+            operator: Exists
           restartPolicy: OnFailure
           volumes:
           - name: etcd-backup
@@ -56,29 +49,19 @@ spec:
           - name: host-pki
             hostPath:
               path: /etc/kubernetes/pki
-          - name: gs-credentials
+          - name: kubeone-backups-credentials
             secret:
-              secretName: gs-credentials
+              secretName: kubeone-backups-credentials
           initContainers:
-          - name: snapshoter
-            image: {{ Registry "gcr.io" }}/etcd-development/etcd:v3.4.3
+          - name: snapshotter
+            image: '{{ .InternalImages.Get "BackupResticSnapshotter" }}'
             imagePullPolicy: IfNotPresent
             command:
-            - /bin/sh
-            - -c
-            - |-
-              set -euf
-              mkdir -p /backup/pki/kubernetes
-              mkdir -p /backup/pki/etcd
-              cp -a /etc/kubernetes/pki/etcd/ca.crt /backup/pki/etcd/
-              cp -a /etc/kubernetes/pki/etcd/ca.key /backup/pki/etcd/
-              cp -a /etc/kubernetes/pki/ca.crt /backup/pki/kubernetes
-              cp -a /etc/kubernetes/pki/ca.key /backup/pki/kubernetes
-              cp -a /etc/kubernetes/pki/front-proxy-ca.crt /backup/pki/kubernetes
-              cp -a /etc/kubernetes/pki/front-proxy-ca.key /backup/pki/kubernetes
-              cp -a /etc/kubernetes/pki/sa.key /backup/pki/kubernetes
-              cp -a /etc/kubernetes/pki/sa.pub /backup/pki/kubernetes
-              etcdctl snapshot save /backup/etcd-snapshot.db
+              - etcdctl
+            args:
+              - snapshot
+              - save
+              - /backup/etcd-snapshot.db
             env:
             - name: ETCDCTL_API
               value: "3"
@@ -102,35 +85,47 @@ spec:
               readOnly: true
           containers:
           - name: uploader
-            image: {{ Registry "docker.io" }}/restic/restic:0.9.6
+            image: '{{ .InternalImages.Get "BackupResticUploader" }}'
             imagePullPolicy: IfNotPresent
             command:
             - /bin/sh
             - -c
             - |-
               set -euf
-              restic snapshots -q || restic init -q
-              restic backup --tag=etcd --host=${ETCD_HOSTNAME} /backup
-              restic forget --prune --keep-last 48
+              mkdir -p /backup/pki/kubernetes
+              mkdir -p /backup/pki/etcd
+              cp -a /etc/kubernetes/pki/etcd/ca.crt /backup/pki/etcd/
+              cp -a /etc/kubernetes/pki/etcd/ca.key /backup/pki/etcd/
+              cp -a /etc/kubernetes/pki/ca.crt /backup/pki/kubernetes
+              cp -a /etc/kubernetes/pki/ca.key /backup/pki/kubernetes
+              cp -a /etc/kubernetes/pki/front-proxy-ca.crt /backup/pki/kubernetes
+              cp -a /etc/kubernetes/pki/front-proxy-ca.key /backup/pki/kubernetes
+              cp -a /etc/kubernetes/pki/sa.key /backup/pki/kubernetes
+              cp -a /etc/kubernetes/pki/sa.pub /backup/pki/kubernetes
+              restic snapshots {{- with .Params.commonFlags }} {{.}}{{ end }} -q || restic init {{- with .Params.commonFlags }} {{.}}{{ end }} -q
+              restic backup {{- with .Params.commonFlags }} {{.}}{{ end }} --tag=etcd --host=${ETCD_HOSTNAME} /backup
+              restic forget {{- with .Params.commonFlags }} {{.}}{{ end }} --prune --keep-last 48
             env:
             - name: ETCD_HOSTNAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
             - name: RESTIC_REPOSITORY
-              value: "gs:<<TODO_GS_BUCKET_NAME>>:/<<TODO_BACKUP_FOLDER_NAME>>"
+              value: "{{ required "Please provide s3Bucket" .Params.s3Bucket }}"
             - name: RESTIC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: restic-config
                   key: password
             - name: GOOGLE_PROJECT_ID
-              value: <<TODO_GOOGLE_PROJECT_ID>>
+              value: "{{ required "Please provide Google Project ID" .Params.googleProjectId }}"
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /gs/key
             volumeMounts:
             - mountPath: /backup
               name: etcd-backup
             - mountPath: /gs
-              name: gs-credentials
-
+              name: kubeone-backups-credentials
+            - mountPath: /etc/kubernetes/pki
+              name: host-pki
+              readOnly: true
