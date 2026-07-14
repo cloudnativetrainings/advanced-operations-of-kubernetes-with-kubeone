@@ -72,7 +72,7 @@ initial_machinedeployment_replicas      = 1
 >Terraform also allows you to set these variables via environment variables. Eg you can set the value of the terraform input variable named `cluster_name` via `export TF_VAR_cluster_name=my-cluster`.
 >You can find more details about this terraform feature in the [terraform documentation](https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_var_name).
 
-You can find more details about terraform configuration possibilities in the file [/training/kubeone_1.13.3_linux_amd64/examples/terraform/gce/](../kubeone_1.13.3_linux_amd64/examples/terraform/gce/README.md) in the section `Inputs`.
+You can find more details about terraform configuration possibilities in the file [/training/kubeone_1.13.3_linux_amd64/examples/terraform/gce/README.md](../kubeone_1.13.3_linux_amd64/examples/terraform/gce/README.md) in the section `Inputs`.
 
 ### Re-run `terraform plan`
 

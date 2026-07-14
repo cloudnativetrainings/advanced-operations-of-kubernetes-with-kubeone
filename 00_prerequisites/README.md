@@ -29,7 +29,7 @@ Drag and drop the files (provided by the trainer) into the directory `/training/
 
 > **IMPORTANT:**
 > These variables will get referenced during the following labs. Make sure to set them before continuing.
-> You can find the needed information in the file `/training/.secrets/README.md`, but, for convenience there is also a shell script which will persist the environment variables in the file `/root/.trainingrc`.
+> You can find the needed information in the file `/training/.secrets/README.md`, but, for convenience, there is also a shell script which will persist the environment variables in the file `/root/.trainingrc`.
 
 ```bash
 # make the shell script executable

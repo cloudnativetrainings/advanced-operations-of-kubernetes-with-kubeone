@@ -45,7 +45,7 @@ code /training/addons/backups-restic/backups-restic.yaml
 
 ## Adapt the restic backup addon
 
-The embedded restic backup addon is built for AWS. For making use of it within Google Cloud we have to make some adaptions.
+The embedded restic backup addon is built for AWS. For making use of it within Google Cloud we have to make some adaptations.
 
 ```bash
 # take a look at the restic backup addon tailored for google cloud
@@ -87,7 +87,7 @@ kubeone apply -t /training/tf_infra --verbose -y
 # verify via kubeone
 kubeone addons list -t /training/tf_infra | grep backups-restic
 
-# verify successfull runs via cronjob
+# verify successful runs via cronjob
 # note a backup will be done each 5 minutes
 kubectl -n kube-system describe cronjob etcd-s3-backup
 
