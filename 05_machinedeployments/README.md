@@ -20,9 +20,7 @@ kubeone config machinedeployments -t /training/tf_infra > /training/md-initial.y
 
 ## Change the default MachineDeployment
 
-The MachineDeployment allows you to manage worker nodes. Change the machineType of the machineDeployment in the file `/training/md-initial.yaml`
-
-Change the machine type of the worker node
+The MachineDeployment allows you to manage worker nodes. Change the machineType of the machineDeployment in the file `/training/md-initial.yaml`.
 
 ```yaml
 machineType: n1-standard-2 # <= change the value to n1-standard-4

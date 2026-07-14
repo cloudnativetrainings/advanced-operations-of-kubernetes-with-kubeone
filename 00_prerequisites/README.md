@@ -22,6 +22,7 @@ mkdir /training/.secrets
 Drag and drop the files (provided by the trainer) into the directory `/training/.secrets/`:
 
 - README.md
+- environment.sh
 - gcloud-service-account.json
 
 ## Set important environment variables

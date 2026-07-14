@@ -103,7 +103,7 @@ kubectl describe clusterissuer letsencrypt-issuer
 
 ## Make use of added functionalities in your application
 
-First you have to adapt your application to make use of ingress-nginx and certmanager. Adapt the file `/training/training-application-values.yaml`.
+First you have to adapt your application to make use of ingress-nginx and cert-manager. Adapt the file `/training/training-application-values.yaml`.
 
 ```yaml
 deployment:

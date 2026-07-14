@@ -66,7 +66,7 @@ echo $S3_BUCKET
 echo $GCE_PROJECT
 ```
 
-Add the backups restic addon to your file `/training/kubeone.yaml/.
+Add the backups restic addon to your file `/training/kubeone.yaml`.
 
 ```yaml
 addons:

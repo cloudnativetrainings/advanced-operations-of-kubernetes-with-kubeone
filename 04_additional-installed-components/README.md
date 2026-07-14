@@ -10,7 +10,7 @@ Via adapting the kubeone manifest file `kubeone.yaml` you can change the install
 
 ### Container Runtime
 
-Containerd gets installed by default
+Containerd gets installed by default.
 
 ```bash
 # verify
@@ -49,7 +49,7 @@ kubectl top nodes
 
 ### NodeLocalDNS
 
-For improving cluster performance on DNS queries NodeLocalDns got installed.
+For improving cluster performance on DNS queries NodeLocalDNS got installed.
 
 ```bash
 # verify
@@ -69,7 +69,7 @@ kubectl -n kube-system get pods | grep machine-controller
 
 Via embedded addons.
 
-Kubeone has a built in addons mechanism. Some of the addons are installed by default, for providing a fully working Kubernetes cluster. You can also make use of this mechanism for providing your own addons, as we will do in a later lab.
+Kubeone has a built-in addons mechanism. Some of the addons are installed by default, for providing a fully working Kubernetes cluster. You can also make use of this mechanism for providing your own addons, as we will do in a later lab.
 
 ```bash
 # list all embedded addons and their status
