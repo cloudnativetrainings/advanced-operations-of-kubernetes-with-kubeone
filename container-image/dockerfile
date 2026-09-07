@@ -1,0 +1,144 @@
+FROM ubuntu:26.04
+
+# TODO do I need this?
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# hadolint ignore=DL3008,DL3009
+RUN apt-get update && apt-get install --no-install-recommends -y \
+  curl \
+  wget \
+  git \
+  sudo \
+  ca-certificates \
+  build-essential \
+  tree \
+  vim \
+  unzip \
+  zsh \
+  arping \
+  net-tools \
+  nmap \
+  traceroute \
+  iputils-ping \
+  apache2-utils \
+  openssh-client \
+  netcat-openbsd \
+  apt-transport-https \
+  gnupg
+
+RUN mkdir /training/
+WORKDIR /training/
+
+ARG CODE_SERVER_VERSION=4.135.0
+RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version=${CODE_SERVER_VERSION} \
+  && echo "export CODE_SERVER_VERSION=${CODE_SERVER_VERSION}" >> /root/.trainingrc
+
+ARG K8S_VERSION=1.36.3
+# the kubectl has to match the k8s version, the k8s version has to be supported by k1
+# for being able to upgrade the k8s cluster via k1 not the latest k8s version has to be used here
+RUN curl -LO https://dl.k8s.io/release/v${K8S_VERSION}/bin/linux/amd64/kubectl \
+  && install -o root -g root -m 0500 kubectl /usr/local/bin/kubectl \
+  && rm kubectl \
+  && echo 'source <(kubectl completion zsh)' >> /root/.trainingrc \
+  && echo "export K8S_VERSION=${K8S_VERSION}" >> /root/.trainingrc
+
+ARG KREW_VERSION=0.5.0
+# hadolint ignore=SC2016
+RUN curl -fsSLO https://github.com/kubernetes-sigs/krew/releases/download/v${KREW_VERSION}/krew-linux_amd64.tar.gz \
+  && mkdir -p /training/krew-linux_amd64 \
+  && tar zxvf /training/krew-linux_amd64.tar.gz -C /training/krew-linux_amd64 \
+  && /training/krew-linux_amd64/krew-linux_amd64 install krew \
+  && rm -rf /training/krew-linux_amd64 \
+  && echo 'export PATH=/root/.krew/bin:$PATH' >> /root/.trainingrc \
+  && echo "export KREW_VERSION=${KREW_VERSION}" >> /root/.trainingrc  
+
+ARG HELM_VERSION=4.2.4
+RUN curl -LO  https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+  && tar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+  && install -o root -g root -m 0500 linux-amd64/helm /usr/local/bin/helm \
+  && rm helm-v${HELM_VERSION}-linux-amd64.tar.gz \
+  && rm -rf linux-amd64/ \
+  && echo 'source <(helm completion zsh)' >> /root/.trainingrc  
+
+ARG HELMFILE_VERSION=1.7.4
+RUN curl -LO  https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz \
+  && mkdir helmfile \
+  && tar -zxvf helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz -C helmfile \
+  && install -o root -g root -m 0500 helmfile/helmfile /usr/local/bin/helmfile \
+  && rm helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz \
+  && rm -rf helmfile/ \
+  && echo 'source <(helmfile completion zsh)' >> /root/.trainingrc
+
+# hadolint ignore=DL3008,DL3009
+RUN apt-get update && apt-get install --no-install-recommends -y \
+  kubectx 
+
+ARG GCLOUD_VERSION=583.0.0-0
+# hadolint ignore=DL3009
+RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
+  && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends google-cloud-cli=${GCLOUD_VERSION} \
+  && echo "export GCLOUD_VERSION=${GCLOUD_VERSION}" >> /root/.trainingrc
+
+ARG TF_VERSION=1.16.1-1
+# hadolint ignore=DL3009
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null \
+  && gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends terraform=${TF_VERSION} \
+  && echo "export TF_VERSION=${TF_VERSION}" | tee -a /root/.trainingrc
+
+ARG VELERO_VERSION=1.18.2
+RUN curl -LO  https://github.com/velero-io/velero/releases/download/v${VELERO_VERSION}/velero-v${VELERO_VERSION}-linux-amd64.tar.gz \
+  && tar -zxvf velero-v${VELERO_VERSION}-linux-amd64.tar.gz \
+  && install -o root -g root -m 0755 velero-v${VELERO_VERSION}-linux-amd64/velero /usr/local/bin/velero \
+  && rm velero-v${VELERO_VERSION}-linux-amd64.tar.gz \
+  && rm -rf velero-v${VELERO_VERSION}-linux-amd64 \
+  && echo "export VELERO_VERSION=${VELERO_VERSION}" >> /root/.trainingrc
+
+# zsh
+COPY ./.p10k.zsh /root/.p10k.zsh
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended \
+  && git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions \
+  && git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting \
+  && sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc \
+  && git clone --depth 1 https://github.com/romkatv/powerlevel10k.git /root/.oh-my-zsh/custom/themes/powerlevel10k \
+  && /root/.oh-my-zsh/custom/themes/powerlevel10k/gitstatus/install \
+  && sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="powerlevel10k\/powerlevel10k"/' /root/.zshrc \
+  && echo 'source ~/.p10k.zsh' >> /root/.zshrc \
+  && chsh -s "$(which zsh)" \
+  && echo 'source /root/.trainingrc' >> /root/.zshrc
+
+# vscode settings
+COPY ./vscode_settings.json /root/.vscode/User/settings.json
+RUN code-server --install-extension esbenp.prettier-vscode --user-data-dir /root/.vscode \
+  && code-server --install-extension redhat.vscode-yaml --user-data-dir /root/.vscode
+
+# welcome message  
+COPY ./welcome.sh /root/welcome.sh
+RUN chmod +x /root/welcome.sh \
+  && echo '/root/welcome.sh' >> /root/.trainingrc
+
+# cleanup
+RUN rm -rf /var/lib/apt/lists/*
+
+EXPOSE 8080
+
+ENTRYPOINT ["code-server"]
+
+CMD ["--bind-addr", "0.0.0.0:8080", "--auth", "none", "--user-data-dir", "/root/.vscode", "."]
+
+
+###########################################
+
+
+# RUN mkdir /training/ \
+#   && echo 'export KUBECONFIG=/training/.secrets/kubev-cluster-kubeconfig' >> /root/.trainingrc \
+#   && echo 'alias code=code-server' >> /root/.trainingrc 
+
+# TODO cross processor build
+

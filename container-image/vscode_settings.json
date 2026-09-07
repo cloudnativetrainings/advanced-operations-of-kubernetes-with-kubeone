@@ -1,0 +1,56 @@
+{
+  // font
+  "editor.fontSize": 14,
+  "terminal.integrated.fontSize": 14,
+  // shell
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  // ui
+  "workbench.startupEditor": "readme",
+  "window.restoreWindows": "none",
+  "workbench.secondarySideBar.visible": false,
+  "editor.formatOnSave": true,
+  // markdown
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  // yaml
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "yaml.completion": true,
+  "yaml.format.enable": false,
+  "yaml.validate": true,
+  // disable features
+  "git.enabled": false,
+  "chat.agent.enabled": false,
+  "chat.commandCenter.enabled": false,
+  "chat.disableAIFeatures": true,
+  "telemetry.feedback.enabled": false,
+  "telemetry.telemetryLevel": "off",
+  "github.copilot.enable": {
+    "*": false
+  },
+  "editor.inlineSuggest.enabled": false,
+  "workbench.settings.applyToAllProfiles": [
+    "chat.agent.enabled",
+    "chat.commandCenter.enabled",
+    "chat.disableAIFeatures",
+    "telemetry.feedback.enabled",
+    "telemetry.telemetryLevel",
+    "github.copilot.enable",
+    "editor.inlineSuggest.enabled"
+  ],
+  // excluded files
+  "files.exclude": {
+    "image/": true,
+    "makefile": true,
+    ".gitignore": true,
+    "CLAUDE.md": true,
+    ".claude/": true,
+    "container-image/": true
+  }
+}
