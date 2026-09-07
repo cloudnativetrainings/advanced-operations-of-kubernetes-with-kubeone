@@ -4,10 +4,13 @@
   "terminal.integrated.fontSize": 14,
   // shell
   "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.hideOnStartup": "never",
+  "task.allowAutomaticTasks": "on",
   // ui
+  "window.autoDetectColorScheme": true,
   "workbench.startupEditor": "readme",
   "window.restoreWindows": "none",
-  "workbench.secondarySideBar.visible": false,
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
   "editor.formatOnSave": true,
   // markdown
   "workbench.editorAssociations": {
@@ -24,6 +27,8 @@
   "yaml.completion": true,
   "yaml.format.enable": false,
   "yaml.validate": true,
+  // workspace trust
+  "security.workspace.trust.enabled": false,
   // disable features
   "git.enabled": false,
   "chat.agent.enabled": false,
@@ -46,6 +51,8 @@
   ],
   // excluded files
   "files.exclude": {
+    ".99_todos/": true,
+    ".devcontainer/": true,
     "image/": true,
     "makefile": true,
     ".gitignore": true,

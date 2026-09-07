@@ -1,7 +1,7 @@
 .PHONY: verify
 verify:
 	test -f /root/.trainingrc
-	grep "source /root/.trainingrc" /root/.bashrc
+	grep "source /root/.trainingrc" /root/.zshrc
 	kubectl version --client
 	gcloud version
 	terraform version
@@ -25,6 +25,7 @@ verify:
 
 IMAGE_NAME=kubeone
 IMAGE_TAG=0.0.0
+CONTAINER_NAME=ide
 
 .PHONY: clear
 clear:
@@ -40,10 +41,14 @@ build: lint
 
 .PHONY: run
 run: build
+	docker rm --force $(CONTAINER_NAME)
 	docker run -it -d \
+		--name $(CONTAINER_NAME) \
 		--restart=always \
+		--cpus=2 \
+		--memory=4g \
 		-p 8080:8080 \
-		--hostname jumphost \
+		--hostname ide \
 		-v $(PWD):/training \
 		$(IMAGE_NAME):$(IMAGE_TAG)
 
