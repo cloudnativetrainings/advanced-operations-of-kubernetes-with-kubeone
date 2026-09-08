@@ -15,7 +15,7 @@ For being able to run terraform you have to init the environment. For example, t
 
 You can find the provider configuration in the file `tf_infra/versions.tf`
 
-```terraform
+```hcl
 terraform {
   required_version = ">= 1.0.0"
   required_providers {
@@ -48,7 +48,7 @@ Configure terraform via the file `/training/tf_infra/terraform.tfvars`
 
 ```bash
 # get the value for the terraform input variable `project`
-echo $GCE_PROJECT
+echo $GCP_PROJECT
 
 # get the value for the terraform input variable `cluster_name`
 echo $TRAINEE_NAME-cluster
@@ -58,11 +58,11 @@ Here is an example for the file `/training/tf_infra/terraform.tfvars`:
 
 ```hcl
 # file /training/tf_infra/terraform.tfvars
-project                                 = "<FILL-IN-GCE-PROJECT>"
+project                                 = "<FILL-IN-GCP-PROJECT>"
 cluster_name                            = "<FILL-IN-YOUR-TRAINEE-NAME>-cluster"
 region                                  = "europe-west3"
-ssh_public_key_file                     = "/training/.secrets/gce.pub"
-ssh_private_key_file                    = "/training/.secrets/gce"
+ssh_public_key_file                     = "/training/.secrets/gcp.pub"
+ssh_private_key_file                    = "/training/.secrets/gcp"
 control_plane_vm_count                  = 1
 control_plane_target_pool_members_count = 1
 initial_machinedeployment_replicas      = 1
@@ -72,7 +72,7 @@ initial_machinedeployment_replicas      = 1
 >Terraform also allows you to set these variables via environment variables. Eg you can set the value of the terraform input variable named `cluster_name` via `export TF_VAR_cluster_name=my-cluster`.
 >You can find more details about this terraform feature in the [terraform documentation](https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_var_name).
 
-You can find more details about terraform configuration possibilities in the file [/training/kubeone_1.13.3_linux_amd64/examples/terraform/gce/README.md](../kubeone_1.13.3_linux_amd64/examples/terraform/gce/README.md) in the section `Inputs`.
+You can find more details about terraform configuration possibilities in the [README](../tf_infra/README.md#inputs).
 
 ### Re-run `terraform plan`
 
@@ -88,10 +88,12 @@ You get a list of all resources which terraform intends to create.
 ```bash
 # provision the needed resources via terraform
 terraform -chdir=/training/tf_infra apply
+```
 
+```bash
 # verify the vm via gcloud
 gcloud compute instances list
 
 # verify the created resources via terraform
-terraform -chdir=/training/tf_infra output
+terraform -chdir=/training/tf_infra output -json > tf.json
 ```

@@ -7,8 +7,9 @@ In this lab you will learn how to autoscale your worker nodes.
 >**NOTE:**
 >You can find further information about embedded addons in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/guides/addons/#activate-embedded-addons)
 
->**NOTE:**
->You can find the list of all available embedded addons in the [directory addons](../kubeone_1.13.3_linux_amd64/addons/)
+<!-- >**NOTE:**
+TODO
+>You can find the list of all available embedded addons in the [directory addons](../kubeone_1.13.3_linux_amd64/addons/) -->
 
 Add the following to your kubeone manifest file `/training/kubeone.yaml`:
 
@@ -22,10 +23,14 @@ addons:
 ```bash
 # add the releases to the kubernetes cluster
 kubeone apply -t /training/tf_infra --verbose -y
+```
 
+```bash
 # verify cluster-autoscaler is running
 kubectl -n kube-system get deployments.apps cluster-autoscaler 
+```
 
+```bash
 # verify via kubeone
 kubeone addons list -t /training/tf_infra | grep cluster-autoscaler
 ```
@@ -35,17 +40,25 @@ kubeone addons list -t /training/tf_infra | grep cluster-autoscaler
 ```bash
 # switch to the namespace `training-application`
 kubens training-application
+```
 
+```bash
 # scale up your application to 10 replicas
 kubectl scale deployment my-app --replicas 10
+```
 
+```bash
 # verify resource pressure
 # note, that some pods are stuck in pending state due to resource pressure
 kubectl get pods
+```
 
+```bash
 # check the events for "Insufficient cpu"
 kubectl get events | grep "Insufficient cpu"
+```
 
+```bash
 # check the logs of the cluster-autoscaler
 kubectl logs -n kube-system deployments/cluster-autoscaler | grep my-app
 ```
@@ -75,14 +88,18 @@ kubectl apply -f /training/md-europe-west3-c.yaml
 >The cluster-autoscaler takes some time to trigger changes.
 
 ```bash
-# Open a new bash in Google Cloud Shell
+# open a new terminal
 # => with this we monitor auto-scale adding worker nodes
-[BASH-2] watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,node
+watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,node
+```
 
-# Open a new bash in Google Cloud Shell
+```bash
+# open a new terminal
 # => with this we monitor the pods getting into running state
-[BASH-3] watch -n 1 kubectl get pods
+watch -n 1 kubectl get pods
+```
 
+```bash
 # verify via cluster-autoscaler logs
 kubectl -n kube-system logs deployments/cluster-autoscaler | grep Scale-up
 ```

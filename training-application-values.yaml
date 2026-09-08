@@ -6,11 +6,11 @@ catMode: true
 persistMetaInfo: false
 
 deployment:
-  replicas: 1
+  replicas: 3
 
 service:
   type: ClusterIP
 
 ingress:
-  enabled: false
-  domain: example.com
+  enabled: true
+  domain: hubert-04.k1.del-codespaces.cloud-native.training

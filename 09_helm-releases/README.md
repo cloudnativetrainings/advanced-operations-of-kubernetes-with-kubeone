@@ -44,16 +44,24 @@ Apply the changes into your cluster:
 ```bash
 # add the releases to the kubernetes cluster
 kubeone apply -t /training/tf_infra --verbose -y
+```
 
+```bash
 # verify via helm
 helm ls --all-namespaces
+```
 
+```bash
 # verify all pods in the namespace `ingress-nginx` are running
 kubectl -n ingress-nginx get pods
+```
 
+```bash
 # get the name of the installed ingress class
 kubectl get ingressclasses
+```
 
+```bash
 # verify all pods in the namespace `cert-manager` are running
 kubectl -n cert-manager get pods
 ```
@@ -71,7 +79,9 @@ source /root/.trainingrc
 
 # verify
 echo $INGRESS_IP
+```
 
+```bash
 # create the DNS entry for your domain
 gcloud dns record-sets transaction start --zone $DNS_ZONE_NAME
 gcloud dns record-sets transaction add --zone $DNS_ZONE_NAME --ttl 60 --name="$DOMAIN." --type A $INGRESS_IP
@@ -80,23 +90,28 @@ gcloud dns record-sets transaction execute --zone $DNS_ZONE_NAME
 # verify via gcloud
 gcloud dns record-sets list --zone $DNS_ZONE_NAME
 
-# verify via nslookup
-nslookup $DOMAIN
+# verify via dig
+dig +short A $DOMAIN
 ```
 
 ### Create a cluster issuer for cert-manager
 
 ```bash
 # change the email address in the manifest `cluster-issuer.yaml` to your email address
-EMAIL=<FILL-IN-YOUR-MAIL-ADDRESS>
-sed -i "s/your-email@example.com/$EMAIL/g" /training/09_helm-releases/cluster-issuer.yaml
- 
-# verify
-cat /training/09_helm-releases/cluster-issuer.yaml
+sed -i "s/your-email@example.com/$TRAINEE_EMAIL/g" /training/09_helm-releases/cluster-issuer.yaml
+```
 
+```bash
+# verify
+code /training/09_helm-releases/cluster-issuer.yaml
+```
+
+```bash
 # apply the cluster-issuer to your cluster
 kubectl apply -f /training/09_helm-releases/cluster-issuer.yaml
+```
 
+```bash
 # verify cluster issuer
 kubectl describe clusterissuer letsencrypt-issuer
 ```
@@ -120,26 +135,40 @@ helm upgrade --install --atomic --debug \
   --namespace training-application --create-namespace training-application \
   oci://quay.io/kubermatic-labs/helm-charts/training-application:1.0.1 \
   -f /training/training-application-values.yaml
+```
 
+```bash
 # switch to namespace `training-application`
 kubens training-application
+```
 
+```bash
 # verify via helm
 helm ls
+```
 
+```bash
 # verify your app got deployed properly
 kubectl get service,endpoints,deployment,replicaset,pod
+```
 
+```bash
 # verify the ingress rule
 kubectl describe ingress my-app
+```
 
+```bash
 # verify certmanager finished the cert tango
 kubectl get certs
+```
 
+```bash
 # verify your app in your preferred browser
 # => note that the traffic is encrypted
 echo https://$DOMAIN
+```
 
+```bash
 # verify via curl
 curl -vvi https://$DOMAIN
 ```
@@ -147,7 +176,7 @@ curl -vvi https://$DOMAIN
 ## Engage "poor-man's-application-monitoring"
 
 ```bash
-# Open a new bash in Google Cloud Shell
+# Open a new terminal
 # => with this we monitor the pods getting into running state
-while true; do curl -I https://$DOMAIN; sleep 10s; done;
+while true; do curl -I https://$DOMAIN ; sleep 10s; done;
 ```

@@ -17,7 +17,7 @@ Check the lab `README.md` files for typos and grammar issues.
 
 ## Must not
 
-- Do not change pinned versions (`K1_VERSION`, `KKP_INSTALLER_VERSION`, Kubernetes versions, image tags).
+- Do not change pinned versions (`KUBEONE_VERSION`, `KKP_INSTALLER_VERSION`, Kubernetes versions, image tags).
 - Do not read, open, or grep files under `.secrets/` — passwords, SSH keys, service-account JSON are off-limits.
 - Do not read, open, or grep files under `.99_todos/` 
 - Do not "fix" placeholders (`TODO`, `XXXXX`, `TODO-STUDENT-EMAIL@...`) — they are intentional.

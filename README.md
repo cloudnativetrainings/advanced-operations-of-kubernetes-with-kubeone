@@ -2,13 +2,30 @@
 
 In this training you will learn how to use KubeOne to provision Kubernetes Clusters.
 
-Please start with
-
 ## Setup the training environment
 
-1. Open [Github Codespaces](https://github.com/codespaces) and create your new `cloudnativetrainings/advanced-operations-of-kubernetes-with-kubeone` codespace.
-1. Start with the [00_prerequisites](./00_prerequisites/README.md) lab.
+### Clone the Git Repo
 
-## Teardown the training environment
+```bash
+git clone https://github.com/cloudnativetrainings/advanced-operations-of-kubernetes-with-kubeone.git
+```
 
-1. Delete your `cloudnativetrainings/advanced-operations-of-kubernetes-with-kubeone` codespace via [Github Codespaces](https://github.com/codespaces).
+### Run the k1-workshop Container
+
+```bash
+docker run -it -d \
+  --name k1-workshop \
+  --restart=always \
+  --cpus=2 \
+  --memory=4g \
+  -p 8080:8080 \
+  -p 8081:8081 \
+  -p 8082:8082 \
+  --hostname k1-workshop \
+  -v $(PWD)/advanced-operations-of-kubernetes-with-kubeone:/training \
+  TODO public image
+```
+
+### Access your k1-workshop IDE with your browser
+
+The url therefore is http://localhost:8080

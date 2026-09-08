@@ -28,6 +28,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   apt-transport-https \
   gnupg \
   htop \
+  dnsutils\
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /training/
@@ -36,6 +37,14 @@ ARG CODE_SERVER_VERSION=4.135.0
 RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version=${CODE_SERVER_VERSION} \
   && echo "export CODE_SERVER_VERSION=${CODE_SERVER_VERSION}" >> /root/.trainingrc \
   && rm -rf /root/.cache/code-server
+
+ARG GCLOUD_VERSION=583.0.0-0
+RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
+  && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends google-cloud-cli=${GCLOUD_VERSION} \
+  && echo "export GCLOUD_VERSION=${GCLOUD_VERSION}" >> /root/.trainingrc \
+  && rm -rf /var/lib/apt/lists/*
 
 ARG K8S_VERSION=1.36.3
 # the kubectl has to match the k8s version, the k8s version has to be supported by k1
@@ -54,8 +63,8 @@ RUN curl -fsSLO https://github.com/kubernetes-sigs/krew/releases/download/v${KRE
   && ./krew-linux_amd64/krew-linux_amd64 install krew \
   && rm krew-linux_amd64.tar.gz \
   && rm -rf krew-linux_amd64 \
-  && echo 'export PATH=/root/.krew/bin:$PATH' >> /root/.trainingrc \
   && echo "export KREW_VERSION=${KREW_VERSION}" >> /root/.trainingrc  
+ENV PATH="/root/.krew/bin:${PATH}"
 
 ARG HELM_VERSION=4.2.4
 RUN curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
@@ -77,14 +86,6 @@ RUN curl -LO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install --no-install-recommends -y \
   kubectx \
-  && rm -rf /var/lib/apt/lists/*
-
-ARG GCLOUD_VERSION=583.0.0-0
-RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
-  && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends google-cloud-cli=${GCLOUD_VERSION} \
-  && echo "export GCLOUD_VERSION=${GCLOUD_VERSION}" >> /root/.trainingrc \
   && rm -rf /var/lib/apt/lists/*
 
 ARG TF_VERSION=1.16.1-1
@@ -121,8 +122,10 @@ RUN curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/in
 
 # vscode settings
 RUN code-server --install-extension esbenp.prettier-vscode --user-data-dir /root/.vscode \
-  && code-server --install-extension redhat.vscode-yaml --user-data-dir /root/.vscode
+  && code-server --install-extension redhat.vscode-yaml --user-data-dir /root/.vscode \
+  && code-server --install-extension hashicorp.terraform --user-data-dir /root/.vscode
 COPY ./vscode_settings.json /root/.vscode/User/settings.json
+RUN echo 'alias code=code-server' >> /root/.trainingrc 
 
 # welcome message
 COPY ./welcome.sh /root/welcome.sh
@@ -130,18 +133,12 @@ RUN chmod +x /root/welcome.sh \
   && echo '/root/welcome.sh' >> /root/.trainingrc
 
 EXPOSE 8080
+EXPOSE 8081
+EXPOSE 8082
 
 ENTRYPOINT ["code-server"]
 
-CMD ["--bind-addr", "0.0.0.0:8080", "--auth", "none", "--user-data-dir", "/root/.vscode", "."]
-
-
-###########################################
-
-
-# RUN mkdir /training/ \
-#   && echo 'export KUBECONFIG=/training/.secrets/kubev-cluster-kubeconfig' >> /root/.trainingrc \
-#   && echo 'alias code=code-server' >> /root/.trainingrc 
-
-# TODO cross processor build
-
+CMD ["--bind-addr", "0.0.0.0:8080", "--auth", "none", \
+  "--user-data-dir", "/root/.vscode", \
+  "--disable-telemetry", "--disable-update-check", \
+  "--disable-workspace-trust", "--disable-getting-started-override", "."]

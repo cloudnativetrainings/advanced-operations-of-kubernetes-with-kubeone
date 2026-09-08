@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Purpose
 
-Hands-on training labs for **KubeOne** (Kubermatic's Kubernetes lifecycle tool) on **GCE**. Each numbered directory is one lab; trainees run them in order against a real GCE project. There is no application source code here — labs are driven by `README.md` files plus a few YAML/Terraform manifests.
+Hands-on training labs for **KubeOne** (Kubermatic's Kubernetes lifecycle tool) on **GCE**. Each numbered directory is one lab; trainees run them in order against a real gcp project. There is no application source code here — labs are driven by `README.md` files plus a few YAML/Terraform manifests.
 
 ## Training Environment
 
@@ -35,11 +35,11 @@ Container preinstalls: `kubectl`, `kubeone`, `terraform`, `helm`, `velero`, `kub
 ## Key Files
 
 - **`kubeone.yaml`** — root KubeOne manifest (`kubeone.k8c.io/v1beta2`, `KubeOneCluster`). Kubernetes `1.35.3`, `cloudProvider.gce`, `external: true` CCM. Most `kubeone` commands either run from `/training/` (auto-detect) or take `-m /training/kubeone.yaml`.
-- **`tf_infra/`** — Terraform root for GCE infra (control plane VMs, LB, target pool, firewall rules, SSH keys). `terraform.tfvars` is checked in with placeholder `<FILL-IN-...>` values; `*.tf` files are gitignored because they get generated via `kubeone init --provider gce` during lab 02. Pass it to KubeOne as `kubeone <cmd> -t /training/tf_infra` (KubeOne calls `terraform output -json` automatically).
+- **`tf_infra/`** — Terraform root for gcp infra (control plane VMs, LB, target pool, firewall rules, SSH keys). `terraform.tfvars` is checked in with placeholder `<FILL-IN-...>` values; `*.tf` files are gitignored because they get generated via `kubeone init --provider gce` during lab 02. Pass it to KubeOne as `kubeone <cmd> -t /training/tf_infra` (KubeOne calls `terraform output -json` automatically).
 - **`training-application-values.yaml`** — Helm values for the demo app. Several labs mutate `deployment.replicas`, `ingress.enabled`, `ingress.domain`, `persistMetaInfo`.
 - **`09_helm-releases/cluster-issuer.yaml`** — Let's Encrypt ClusterIssuer; trainees `sed` in their email.
 - **`12_backup-user-data/storageclass.yaml`** — StorageClass needed before enabling `persistMetaInfo`.
-- **`.secrets/`** (gitignored) — holds `gce` / `gce.pub` SSH keys and `gcloud-service-account.json`.
+- **`.secrets/`** (gitignored) — holds `gce` / `gce.pub` SSH keys and `gcp-service-account.json`.
 
 ## Common Commands
 
@@ -47,7 +47,7 @@ Container preinstalls: `kubectl`, `kubeone`, `terraform`, `helm`, `velero`, `kub
 # verify trainee env (needs env vars + .secrets in place)
 make verify
 
-# provision/update GCE infra
+# provision/update gcp infra
 terraform -chdir=/training/tf_infra apply
 
 # create or reconcile the cluster
@@ -55,7 +55,7 @@ kubeone apply -t /training/tf_infra --verbose [-y]
 
 # inspect cluster
 kubeone status -t /training/tf_infra
-kubeone ui -t /training/tf_infra
+kubeone ui -t /training/tf_infra --port 8081
 
 # get / set kubeconfig
 kubeone kubeconfig -t /training/tf_infra > /root/.kube/config
@@ -73,9 +73,9 @@ terraform -chdir=/training/tf_infra destroy
 
 ## Conventions / Gotchas
 
-- Every `kubeone` invocation in the labs uses `-t /training/tf_infra` to pull GCE host info from Terraform outputs. There is no separate `output.json` — KubeOne re-runs `terraform output` itself.
-- Trainee state lives in `/root/.trainingrc` (sourced from `/root/.bashrc`). New env vars are appended with `echo ... >> /root/.trainingrc`. Version bumps use `sed -i` against this file (e.g. `K1_VERSION`, `K8S_VERSION`).
+- Every `kubeone` invocation in the labs uses `-t /training/tf_infra` to pull gcp host info from Terraform outputs. There is no separate `output.json` — KubeOne re-runs `terraform output` itself.
+- Trainee state lives in `/root/.trainingrc` (sourced from `/root/.bashrc`). New env vars are appended with `echo ... >> /root/.trainingrc`. Version bumps use `sed -i` against this file (e.g. `KUBEONE_VERSION`, `K8S_VERSION`).
 - The MachineDeployment manifests are generated locally as `/training/md-*.yaml` and edited via `sed` — the labs rely on specific stable strings (e.g. `pool1`, `europe-west3-a`, `machineType: n1-standard-2`, `diskSize: 50`, `kubelet: 1.35.3`). Preserve those exact strings when editing example commands.
-- GCE LB target pool gotcha (lab 07): `control_plane_target_pool_members_count` must initially be `1` and only be raised to `3` *after* the additional control plane nodes exist, otherwise terraform recreates the pool incorrectly.
+- gcp LB target pool gotcha (lab 07): `control_plane_target_pool_members_count` must initially be `1` and only be raised to `3` *after* the additional control plane nodes exist, otherwise terraform recreates the pool incorrectly.
 - GCE-CCM ingress firewall bug (lab 08): new MD worker nodes do not receive ingress traffic by default; the training environment ships an `allow-ingress-gce-ccm-bug-md` firewall rule as a workaround.
 - Numbering skips `10` and `13` intentionally — labs `11_autoscale-workers` and `12_backup-user-data` follow `09_helm-releases` directly. The `.99_todos/13_backup-system-data` directory is internal trainer notes, not a lab.

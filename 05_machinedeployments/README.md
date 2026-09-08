@@ -7,15 +7,26 @@ In this lab you will learn how to manage worker nodes via MachineDeployments.
 ```bash
 # take a look at the CRDs installed by the machinecontroller
 kubectl api-resources | grep machine
+```
 
+```bash
 # inspect the objects installed by the machinecontroller
 kubectl -n kube-system get machinedeployment,machineset,machine
+```
 
+```bash
 # get the tech details about the worker node
 kubectl -n kube-system describe machine
+```
 
+```bash
 # get the initial machineDeployment via kubeone
 kubeone config machinedeployments -t /training/tf_infra > /training/md-initial.yaml
+```
+
+```bash
+# take a look into md yaml file
+code /training/md-initial.yaml
 ```
 
 ## Change the default MachineDeployment
@@ -31,22 +42,24 @@ machineType: n1-standard-2 # <= change the value to n1-standard-4
 kubectl apply -f /training/md-initial.yaml
 ```
 
-Watch the machinecontroller creating a new worker node and deleting the old one.
-
 ```bash
 # watch the resources getting changed by machinecontroller
 watch -n 1 kubectl -n kube-system get machinedeployment,machineset,machine,node
+```
 
+```bash
 # alternatively you can also watch the logs of machinecontroller
 kubectl -n kube-system logs -f deployments/machine-controller
+```
 
+```bash
 # verify
 gcloud compute instances list
 ```
 
 ## The missing link from machinecontroller to a hyperscaler
 
-The machinecontroller has to be able to scale machines up and down. For this it needs a proper GCE ServiceAccount.
+The machinecontroller has to be able to scale machines up and down. For this it needs a proper gcp ServiceAccount.
 
 ```bash
 # machinecontroller is using the credentials you have provided in a previous step

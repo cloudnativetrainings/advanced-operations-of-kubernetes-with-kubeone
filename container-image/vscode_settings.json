@@ -12,34 +12,47 @@
   "window.restoreWindows": "none",
   "workbench.secondarySideBar.defaultVisibility": "hidden",
   "editor.formatOnSave": true,
+  "editor.tabSize": 2,
   // markdown
   "workbench.editorAssociations": {
     "*.md": "vscode.markdown.preview.editor"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.tabSize": 2
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   // yaml
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "yaml.completion": true,
-  "yaml.format.enable": false,
   "yaml.validate": true,
+  // terraform
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[terraform-vars]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
   // workspace trust
   "security.workspace.trust.enabled": false,
   // disable features
   "git.enabled": false,
-  "chat.agent.enabled": false,
-  "chat.commandCenter.enabled": false,
   "chat.disableAIFeatures": true,
   "telemetry.feedback.enabled": false,
   "telemetry.telemetryLevel": "off",
-  "github.copilot.enable": {
-    "*": false
-  },
+  "workbench.enableExperiments": false,
+  "workbench.settings.showAISearchToggle": false,
+  "redhat.telemetry.enabled": false,
+  "update.mode": "none",
+  "update.showReleaseNotes": false,
+  "extensions.autoCheckUpdates": false,
+  "extensions.autoUpdate": false,
+  "extensions.ignoreRecommendations": true,
   "editor.inlineSuggest.enabled": false,
+  // leaner ui
+  "editor.minimap.enabled": false,
+  "workbench.tips.enabled": false,
+  "workbench.layoutControl.enabled": false,
   "workbench.settings.applyToAllProfiles": [
     "chat.agent.enabled",
     "chat.commandCenter.enabled",
@@ -47,13 +60,17 @@
     "telemetry.feedback.enabled",
     "telemetry.telemetryLevel",
     "github.copilot.enable",
-    "editor.inlineSuggest.enabled"
+    "editor.inlineSuggest.enabled",
+    "workbench.enableExperiments",
+    "workbench.settings.showAISearchToggle",
+    "redhat.telemetry.enabled",
+    "extensions.autoUpdate",
+    "extensions.autoCheckUpdates"
   ],
   // excluded files
   "files.exclude": {
     ".99_todos/": true,
     ".devcontainer/": true,
-    "image/": true,
     "makefile": true,
     ".gitignore": true,
     "CLAUDE.md": true,

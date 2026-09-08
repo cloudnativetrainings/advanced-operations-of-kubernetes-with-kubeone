@@ -62,7 +62,7 @@ kubectl get pvc,pv
 In order to create a backup you have to create a storage bucket in GCE.
 
 >**NOTE:**
->For production you should create a velero specific GCE ServiceAccount, for security reasons.
+>For production you should create a velero specific gcp ServiceAccount, for security reasons.
 
 ```bash
 # verify velero is installed
@@ -80,7 +80,7 @@ velero install \
   --plugins velero/velero-plugin-for-gcp:v1.12.1 \
   --bucket k1-backup-bucket-$TRAINEE_NAME \
   --velero-pod-cpu-request 250m \
-  --secret-file /training/.secrets/gcloud-service-account.json
+  --secret-file /training/.secrets/gcp-service-account.json
 
 # switch to the namespace `velero`
 kubens velero
@@ -88,7 +88,7 @@ kubens velero
 # verify velero pods are running
 kubectl get pods
 
-# this is how velero gets its permissions to write to the GCE storage bucket
+# this is how velero gets its permissions to write to the gcp storage bucket
 kubectl get secret -n velero cloud-credentials -o jsonpath='{.data.cloud}' | base64 --decode
 
 # verify the backup storage location, it has to be in phase `Available`

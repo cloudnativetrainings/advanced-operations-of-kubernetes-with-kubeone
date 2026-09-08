@@ -1,6 +1,6 @@
 # High Availability Control Plane
 
-In this lab you will scale the controlplane nodes and you will ensure these nodes are running in different zones within the GCE region.
+In this lab you will scale the controlplane nodes and you will ensure these nodes are running in different zones within the gcp region.
 
 ## Provision additional vms via terraform
 
@@ -12,12 +12,14 @@ control_plane_target_pool_members_count = 1      # <= do not change this value
 ```
 
 > **NOTE:**
-> Due to GCE internals we cannot change the value of `control_plane_target_pool_members_count` yet. This will be done in a later step.
+> Due to gcp internals we cannot change the value of `control_plane_target_pool_members_count` yet. This will be done in a later step.
 
 ```bash
 # provision the additional vms via terraform
 terraform -chdir=/training/tf_infra apply
+```
 
+```bash
 # verify the new vms are in different zones
 gcloud compute instances list
 ```
@@ -27,12 +29,16 @@ gcloud compute instances list
 ```bash
 # add the additional vms to the kubernetes cluster
 kubeone apply -t /training/tf_infra --verbose
+```
 
+```bash
 # verify via kubectl
 kubectl get nodes
+```
 
+```bash
 # verify via ui
-kubeone ui -t /training/tf_infra
+kubeone ui -t /training/tf_infra --port 8081
 ```
 
 ### Fixing the LoadBalancer Issue on GCE
@@ -67,10 +73,19 @@ control_plane_target_pool_members_count = 3      # <= change this value from 1 t
 ```bash
 # provision the additional vms via terraform
 terraform -chdir=/training/tf_infra apply
+```
 
+```bash
 # verify the instances of the pool
 gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
+```
 
+```bash
 # verify via kubeone
 kubeone status -t /training/tf_infra
+```
+
+```bash
+# verify via ui
+kubeone ui -t /training/tf_infra --port 8081
 ```

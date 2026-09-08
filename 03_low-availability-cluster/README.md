@@ -14,8 +14,10 @@ kubeone help
 You can find our cluster manifest in the file `kubeone.yaml`.
 
 ```bash
-cat /training/kubeone.yaml
+code /training/kubeone.yaml
+```
 
+```bash
 # for avoiding changes in the wrong file we delete one of the two kubeone.yaml files
 rm /training/tf_infra/kubeone.yaml
 ```
@@ -24,9 +26,9 @@ rm /training/tf_infra/kubeone.yaml
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: "1.35.3" # <= the kubernetes version we will install
+  kubernetes: "1.36.3" # <= the kubernetes version we will install
 cloudProvider:
-  gce: {} # <= we will make use of gce resources
+  gce: {} # <= we will make use of gcp resources
   external: true # <= deploy the external CCM
   cloudConfig: | # <= cloud provider specific configuration, will be in `/etc/kubernetes/cloud-config` on each node
     [global]
@@ -37,7 +39,7 @@ cloudProvider:
 # cloud config for GCE
 # regional = true <= resources will be spread across zones of region
 # multi-zone = true <= CCM is allowed to manage resources across zones
-# token-url = "nil" <= workaround for GCE to make use of the secret `kubeone-ccm-credentials` instead of asking metadata-server
+# token-url = "nil" <= workaround for gcp to make use of the secret `kubeone-ccm-credentials` instead of asking metadata-server
 ```
 
 ### Kubernetes Version
@@ -116,24 +118,34 @@ Now, let's get real ;)
 kubeone apply -t /training/tf_infra --verbose
 ```
 
-## Verify your Kubernetes Cluster
+## Verify via KubeOne
 
 ```bash
 # verify via kubeone
 kubeone status -t /training/tf_infra
+```
 
+## Verify via kubectl
+
+```bash
 # download the kubeconfig and make it your default kubeconfig
 # note kubeone also downloaded the kubeconfig automatically (`/training/$TRAINEE_NAME-cluster-kubeconfig`)
 mkdir /root/.kube/
 kubeone kubeconfig -t /training/tf_infra > /root/.kube/config
+```
 
+```bash
 # verify the control plane node and the worker nodes are ready
 kubectl get nodes
+```
 
+```bash
 # verify the pods in the namespace `kube-system` are in state `Running`
 kubectl -n kube-system get pod 
+```
 
+```bash
 # get a minimalistic visual representation of your cluster
 # note the ui is currently only in beta state
-kubeone ui -t /training/tf_infra
+kubeone ui -t /training/tf_infra --port 8081
 ```
