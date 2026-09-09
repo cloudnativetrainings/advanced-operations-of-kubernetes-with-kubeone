@@ -22,7 +22,7 @@ docker run -it -d \
   -p 8081:8081 \
   -p 8082:8082 \
   --hostname k1-workshop \
-  -v $(PWD)/..:/training \
+  -v ./advanced-operations-of-kubernetes-with-kubeone:/training \
   quay.io/kubermatic-labs/training-ghcs-advanced-operations-of-kubernetes-with-kubeone-trainee-environment:2.0.1
 ```
 
