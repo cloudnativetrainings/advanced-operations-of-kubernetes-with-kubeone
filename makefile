@@ -37,18 +37,19 @@ lint:
 
 .PHONY: build
 build: lint
-	docker build -t $(IMAGE_NAME):$(IMAGE_TAG) ./container-image/
+	docker build --platform linux/amd64 -t $(IMAGE_NAME):$(IMAGE_TAG) ./container-image/
 
 .PHONY: run
 run: build
 	docker rm --force $(CONTAINER_NAME)
-	docker run -it -d \
+	docker run -it -d --platform linux/amd64 \
 		--name $(CONTAINER_NAME) \
 		--restart=always \
 		--cpus=2 \
 		--memory=4g \
 		-p 8080:8080 \
 		-p 8081:8081 \
+		-p 8082:8082 \
 		--hostname k1-workshop \
 		-v $(PWD):/training \
 		$(IMAGE_NAME):$(IMAGE_TAG)

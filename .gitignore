@@ -4,3 +4,4 @@ tf_infra/
 kubeone_*_linux*/
 *-kubeconfig
 *.tar.gz
+md-*.yaml

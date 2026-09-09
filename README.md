@@ -13,7 +13,7 @@ git clone https://github.com/cloudnativetrainings/advanced-operations-of-kuberne
 ### Run the k1-workshop Container
 
 ```bash
-docker run -it -d \
+docker run -it -d --platform linux/amd64 \
   --name k1-workshop \
   --restart=always \
   --cpus=2 \
