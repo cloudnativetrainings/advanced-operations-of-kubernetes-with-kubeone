@@ -4,6 +4,7 @@ FROM ubuntu:26.04
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG TARGETARCH
 
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -50,7 +51,7 @@ RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dea
 ARG K8S_VERSION=1.36.3
 # the kubectl has to match the k8s version, the k8s version has to be supported by k1
 # for being able to upgrade the k8s cluster via k1 not the latest k8s version has to be used here
-RUN curl -LO https://dl.k8s.io/release/v${K8S_VERSION}/bin/linux/amd64/kubectl \
+RUN curl -LO https://dl.k8s.io/release/v${K8S_VERSION}/bin/linux/${TARGETARCH}/kubectl \
   && install -o root -g root -m 0500 kubectl /usr/local/bin/kubectl \
   && rm kubectl \
   && echo 'source <(kubectl completion zsh)' >> /root/.trainingrc \
@@ -58,29 +59,29 @@ RUN curl -LO https://dl.k8s.io/release/v${K8S_VERSION}/bin/linux/amd64/kubectl \
 
 ARG KREW_VERSION=0.5.0
 # hadolint ignore=SC2016
-RUN curl -fsSLO https://github.com/kubernetes-sigs/krew/releases/download/v${KREW_VERSION}/krew-linux_amd64.tar.gz \
-  && mkdir -p krew-linux_amd64 \
-  && bsdtar -zxvf krew-linux_amd64.tar.gz -C krew-linux_amd64 \
-  && ./krew-linux_amd64/krew-linux_amd64 install krew \
-  && rm krew-linux_amd64.tar.gz \
-  && rm -rf krew-linux_amd64 \
+RUN curl -fsSLO https://github.com/kubernetes-sigs/krew/releases/download/v${KREW_VERSION}/krew-linux_${TARGETARCH}.tar.gz \
+  && mkdir -p krew-linux_${TARGETARCH} \
+  && bsdtar -zxvf krew-linux_${TARGETARCH}.tar.gz -C krew-linux_${TARGETARCH} \
+  && ./krew-linux_${TARGETARCH}/krew-linux_${TARGETARCH} install krew \
+  && rm krew-linux_${TARGETARCH}.tar.gz \
+  && rm -rf krew-linux_${TARGETARCH} \
   && echo "export KREW_VERSION=${KREW_VERSION}" >> /root/.trainingrc
 ENV PATH="/root/.krew/bin:${PATH}"
 
 ARG HELM_VERSION=4.2.4
-RUN curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz \
-  && bsdtar -zxvf helm-v${HELM_VERSION}-linux-amd64.tar.gz \
-  && install -o root -g root -m 0500 linux-amd64/helm /usr/local/bin/helm \
-  && rm helm-v${HELM_VERSION}-linux-amd64.tar.gz \
-  && rm -rf linux-amd64/ \
+RUN curl -LO https://get.helm.sh/helm-v${HELM_VERSION}-linux-${TARGETARCH}.tar.gz \
+  && bsdtar -zxvf helm-v${HELM_VERSION}-linux-${TARGETARCH}.tar.gz \
+  && install -o root -g root -m 0500 linux-${TARGETARCH}/helm /usr/local/bin/helm \
+  && rm helm-v${HELM_VERSION}-linux-${TARGETARCH}.tar.gz \
+  && rm -rf linux-${TARGETARCH}/ \
   && echo 'source <(helm completion zsh)' >> /root/.trainingrc
 
 ARG HELMFILE_VERSION=1.7.4
-RUN curl -LO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz \
+RUN curl -LO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${TARGETARCH}.tar.gz \
   && mkdir helmfile \
-  && bsdtar -zxvf helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz -C helmfile \
+  && bsdtar -zxvf helmfile_${HELMFILE_VERSION}_linux_${TARGETARCH}.tar.gz -C helmfile \
   && install -o root -g root -m 0500 helmfile/helmfile /usr/local/bin/helmfile \
-  && rm helmfile_${HELMFILE_VERSION}_linux_amd64.tar.gz \
+  && rm helmfile_${HELMFILE_VERSION}_linux_${TARGETARCH}.tar.gz \
   && rm -rf helmfile/ \
   && echo 'source <(helmfile completion zsh)' >> /root/.trainingrc
 
@@ -99,11 +100,11 @@ RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr
   && rm -rf /var/lib/apt/lists/*
 
 ARG VELERO_VERSION=1.18.2
-RUN curl -LO https://github.com/velero-io/velero/releases/download/v${VELERO_VERSION}/velero-v${VELERO_VERSION}-linux-amd64.tar.gz \
-  && bsdtar -zxvf velero-v${VELERO_VERSION}-linux-amd64.tar.gz \
-  && install -o root -g root -m 0500 velero-v${VELERO_VERSION}-linux-amd64/velero /usr/local/bin/velero \
-  && rm velero-v${VELERO_VERSION}-linux-amd64.tar.gz \
-  && rm -rf velero-v${VELERO_VERSION}-linux-amd64 \
+RUN curl -LO https://github.com/velero-io/velero/releases/download/v${VELERO_VERSION}/velero-v${VELERO_VERSION}-linux-${TARGETARCH}.tar.gz \
+  && bsdtar -zxvf velero-v${VELERO_VERSION}-linux-${TARGETARCH}.tar.gz \
+  && install -o root -g root -m 0500 velero-v${VELERO_VERSION}-linux-${TARGETARCH}/velero /usr/local/bin/velero \
+  && rm velero-v${VELERO_VERSION}-linux-${TARGETARCH}.tar.gz \
+  && rm -rf velero-v${VELERO_VERSION}-linux-${TARGETARCH} \
   && echo "export VELERO_VERSION=${VELERO_VERSION}" >> /root/.trainingrc
 
 # zsh

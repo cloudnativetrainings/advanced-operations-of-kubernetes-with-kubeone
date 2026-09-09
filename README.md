@@ -13,7 +13,7 @@ git clone https://github.com/cloudnativetrainings/advanced-operations-of-kuberne
 ### Run the k1-workshop Container
 
 ```bash
-docker run -it -d --platform linux/amd64 \
+docker run -it -d \
   --name k1-workshop \
   --restart=always \
   --cpus=2 \
@@ -22,8 +22,8 @@ docker run -it -d --platform linux/amd64 \
   -p 8081:8081 \
   -p 8082:8082 \
   --hostname k1-workshop \
-  -v $(pwd)/advanced-operations-of-kubernetes-with-kubeone:/training \
-  quay.io/kubermatic-labs/training-ghcs-advanced-operations-of-kubernetes-with-kubeone-trainee-environment:2.0.0
+  -v $(PWD)/..:/training \
+  quay.io/kubermatic-labs/training-ghcs-advanced-operations-of-kubernetes-with-kubeone-trainee-environment:2.0.1
 ```
 
 ### Access your k1-workshop IDE with your browser
