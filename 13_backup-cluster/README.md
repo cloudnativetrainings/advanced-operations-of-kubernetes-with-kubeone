@@ -1,6 +1,6 @@
 # Create a cluster backup
 
-In this lab you will learn how to backup your Kubernetes Cluster via [restic](https://restic.net/).
+In this lab you will learn how to back up your Kubernetes Cluster via [restic](https://restic.net/).
 
 The Backup consists of
 
@@ -63,11 +63,9 @@ code /training/13_backup-cluster/backups-restic.yaml
 ```bash
 # overwrite the aws addon with the gcp addon
 cp /training/13_backup-cluster/backups-restic.yaml /training/addons/backups-restic/backups-restic.yaml
- ```
-
-```bash
-# we want to configure the addon via the file `/training/kubeone.yaml` therefore we need some infos
 ```
+
+We want to configure the addon via the file `/training/kubeone.yaml`, therefore we need some infos.
 
 ```bash
 # create a restic password

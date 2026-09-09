@@ -1,6 +1,6 @@
 # Prerequisites
 
-In this lab you will ensure everything is in place to create a kubernetes cluster via kubeone.
+In this lab you will ensure everything is in place to create a Kubernetes cluster via kubeone.
 
 ## Copy your Training Files
 
@@ -40,7 +40,7 @@ echo $DNS_ZONE_NAME
 
 ## Ensure SSH requirements
 
-Kubeone needs an SSH key pair for communicating with the controlplane and worker nodes.
+Kubeone needs an SSH key pair for communicating with the control plane and worker nodes.
 
 ```bash
 # create a ssh-key-pair for gce

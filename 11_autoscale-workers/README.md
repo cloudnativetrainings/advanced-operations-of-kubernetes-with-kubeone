@@ -16,7 +16,7 @@ Add the following to your kubeone manifest file `/training/kubeone.yaml`:
 ```yaml
 addons:
   enable: true
-  addons:    
+  addons:
     - name: cluster-autoscaler
 ```
 
@@ -27,7 +27,7 @@ kubeone apply -t /training/tf_infra --verbose -y
 
 ```bash
 # verify cluster-autoscaler is running
-kubectl -n kube-system get deployments.apps cluster-autoscaler 
+kubectl -n kube-system get deployments.apps cluster-autoscaler
 ```
 
 ```bash

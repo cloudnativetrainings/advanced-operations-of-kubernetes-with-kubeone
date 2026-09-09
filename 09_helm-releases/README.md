@@ -1,9 +1,9 @@
 # Adding Helm Releases
 
-In this lab you will deploy additional functionalities (eg the ingress stack) into your kubernetes cluster via kubeone. Besides Helm charts provided via chart repositories you can define and add your own local helm charts to your cluster.
+In this lab you will deploy additional functionalities (e.g. the ingress stack) into your Kubernetes cluster via kubeone. Besides Helm charts provided via chart repositories you can define and add your own local helm charts to your cluster.
 
 > **NOTE:**
-> The [helm integration](https://docs.kubermatic.com/kubeone/main/guides/helm-integration/) is available in kubeone since version 1.10.0 and this is the recommended way of adding additional functionalities to your kubernetes cluster. In older versions this was done via [custom addons](https://docs.kubermatic.com/kubeone/main/guides/addons/).
+> The [helm integration](https://docs.kubermatic.com/kubeone/main/guides/helm-integration/) is available in kubeone since version 1.10.0 and this is the recommended way of adding additional functionalities to your Kubernetes cluster. In older versions this was done via [custom addons](https://docs.kubermatic.com/kubeone/main/guides/addons/).
 
 ## Charts from chart repositories
 
@@ -97,7 +97,7 @@ dig +short A $DOMAIN
 ### Create a cluster issuer for cert-manager
 
 ```bash
-# change the email address in the manifest `cluster-issuer.yaml` to your email address
+# change the email address in the manifest `/training/09_helm-releases/cluster-issuer.yaml` to your email address
 sed -i "s/your-email@example.com/$TRAINEE_EMAIL/g" /training/09_helm-releases/cluster-issuer.yaml
 ```
 

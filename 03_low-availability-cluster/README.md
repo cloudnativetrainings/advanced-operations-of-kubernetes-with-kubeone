@@ -1,6 +1,6 @@
 # Low-Availability Cluster
 
-In this lab you will create a kubernetes cluster with a single controlplane node and a single worker node.
+In this lab you will create a Kubernetes cluster with a single control plane node and a single worker node.
 
 ## Working with KubeOne
 
@@ -11,7 +11,7 @@ kubeone help
 
 ## KubeOne manifests
 
-You can find our cluster manifest in the file `kubeone.yaml`.
+You can find our cluster manifest in the file `/training/kubeone.yaml`.
 
 ```bash
 code /training/kubeone.yaml
@@ -67,9 +67,9 @@ Most of the kubeone commands depend on the kubeone manifest file. You can teach 
 
 ```bash
 # using the manifest file
-kubeone <COMMAND> -m my-kubeone.yaml ...
+kubeone <COMMAND> -m /training/my-kubeone.yaml ...
 
-# using the `kubeone.yaml` manifest file of the current directory
+# using the `/training/kubeone.yaml` manifest file of the current directory
 # => as long as you are in the directory `/training/` you can make use of this way
 kubeone <COMMAND> ...
 ```
@@ -93,12 +93,12 @@ kubeone <COMMAND> -t /training/tf_infra/tf.json ...
 You can also pass in the terraform directory. Kubeone will then automatically call `terraform output -json` in this directory to get the needed information.
 
 ```bash
-kubeone <COMMAND> -t /training/tf_infra/ ...
+kubeone <COMMAND> -t /training/tf_infra ...
 ```
 
 ### Without terraform
 
-As an alternative, eg if you do not use terraform at all, you can configure the created resources also directly in the manifest file `kubeone.yaml`.
+As an alternative, e.g. if you do not use terraform at all, you can configure the created resources also directly in the manifest file `/training/kubeone.yaml`.
 
 You can find details about this mechanism via `kubeone config print --full` in the section `controlPlane`:
 
@@ -130,7 +130,7 @@ kubeone status -t /training/tf_infra
 ```bash
 # download the kubeconfig and make it your default kubeconfig
 # note kubeone also downloaded the kubeconfig automatically (`/training/$TRAINEE_NAME-cluster-kubeconfig`)
-mkdir /root/.kube/
+mkdir -p /root/.kube/
 kubeone kubeconfig -t /training/tf_infra > /root/.kube/config
 ```
 
@@ -141,7 +141,7 @@ kubectl get nodes
 
 ```bash
 # verify the pods in the namespace `kube-system` are in state `Running`
-kubectl -n kube-system get pod 
+kubectl -n kube-system get pod
 ```
 
 ```bash

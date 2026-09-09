@@ -3,7 +3,7 @@
 In this lab you will learn how to upgrade kubeone. We will upgrade kubeone from version `1.14.2` to version `1.14.3`.
 
 - You can find information about the available versions of kubeone on the [releases page](https://github.com/kubermatic/kubeone/releases).
-- Ensure the new version still supports the running kubernetes version. You can find the supported versions in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/architecture/compatibility/supported-versions/).
+- Ensure the new version still supports the running Kubernetes version. You can find the supported versions in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/architecture/compatibility/supported-versions/).
 
 ```bash
 # verify the current kubeone version
@@ -30,28 +30,8 @@ kubeone version
 ```
 
 ```bash
-# add k1 completion to your environment
-echo 'source <(kubeone completion zsh)' | tee -a /root/.trainingrc 
-```
-
-```bash
-# persist the k1 version into an environment variable
-echo "export KUBEONE_VERSION=${KUBEONE_VERSION}" | tee -a /root/.trainingrc
-```
-
-```bash
-# copy k1 into directory within `$PATH`
-cp /training/kubeone_${NEW_KUBEONE_VERSION}_linux_amd64/kubeone /usr/local/bin
-```
-
-```bash
-# verify the new version of kubeone
-kubeone version
-```
-
-```bash
 # ensure environment variable also gets an update
-sed -i "s/KUBEONE_VERSION=1.14.2$/KUBEONE_VERSION=${NEW_KUBEONE_VERSION}/g" /root/.trainingrc
+sed -i "s/KUBEONE_VERSION=1.14.2$/KUBEONE_VERSION=${KUBEONE_VERSION}/g" /root/.trainingrc
 source /root/.trainingrc
 echo $KUBEONE_VERSION
 ```
@@ -68,7 +48,7 @@ mv /training/tf_infra/terraform.tfvars /training
 
 ```bash
 # re-create the tf files
-kubeone init --provider gcp --cluster-name $TRAINEE_NAME-cluster --path /training/tf_infra
+kubeone init --provider gce --cluster-name $TRAINEE_NAME-cluster --path /training/tf_infra
 ```
 
 ```bash

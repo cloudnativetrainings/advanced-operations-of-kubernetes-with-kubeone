@@ -2,7 +2,7 @@
 
 In this training you will learn how to use KubeOne to provision Kubernetes Clusters.
 
-## Setup the training environment
+## Set up the training environment
 
 ### Clone the Git Repo
 
@@ -22,11 +22,12 @@ docker run -it -d --platform linux/amd64 \
   -p 8081:8081 \
   -p 8082:8082 \
   --hostname k1-workshop \
-  -v $(PWD)/advanced-operations-of-kubernetes-with-kubeone:/training \
+  -v $(pwd)/advanced-operations-of-kubernetes-with-kubeone:/training \
+  kubeone:0.0.0
 ```
 
 <!-- TODO public image -->
 
 ### Access your k1-workshop IDE with your browser
 
-The url therefore is http://localhost:8080
+The URL therefore is <http://localhost:8080>

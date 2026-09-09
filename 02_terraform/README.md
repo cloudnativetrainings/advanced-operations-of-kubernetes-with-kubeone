@@ -13,7 +13,7 @@ kubeone init --provider gce --cluster-name $TRAINEE_NAME-cluster --path /trainin
 
 For being able to run terraform you have to init the environment. For example, the needed provider plugins have to be downloaded.
 
-You can find the provider configuration in the file `tf_infra/versions.tf`
+You can find the provider configuration in the file `/training/tf_infra/versions.tf`
 
 ```hcl
 terraform {
@@ -34,7 +34,7 @@ terraform -chdir=/training/tf_infra init
 
 ## Get a plan of the resources to be created
 
-> **Note**
+> **NOTE:**
 > You will get error messages concerning unset terraform variables.
 
 ```bash
@@ -69,7 +69,7 @@ initial_machinedeployment_replicas      = 1
 ```
 
 >**HINT:**
->Terraform also allows you to set these variables via environment variables. Eg you can set the value of the terraform input variable named `cluster_name` via `export TF_VAR_cluster_name=my-cluster`.
+>Terraform also allows you to set these variables via environment variables. E.g. you can set the value of the terraform input variable named `cluster_name` via `export TF_VAR_cluster_name=my-cluster`.
 >You can find more details about this terraform feature in the [terraform documentation](https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_var_name).
 
 You can find more details about terraform configuration possibilities in the [README](../tf_infra/README.md#inputs).
@@ -95,5 +95,5 @@ terraform -chdir=/training/tf_infra apply
 gcloud compute instances list
 
 # verify the created resources via terraform
-terraform -chdir=/training/tf_infra output -json > tf.json
+terraform -chdir=/training/tf_infra output -json > /training/tf_infra/tf.json
 ```

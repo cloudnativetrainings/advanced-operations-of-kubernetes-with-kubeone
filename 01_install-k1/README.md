@@ -18,7 +18,7 @@ curl -sfL https://get.kubeone.io | sh
 kubeone version
 
 # add k1 completion to your environment
-echo 'source <(kubeone completion zsh)' | tee -a /root/.trainingrc 
+echo 'source <(kubeone completion zsh)' | tee -a /root/.trainingrc
 
 # persist the k1 version into an environment variable
 echo "export KUBEONE_VERSION=${KUBEONE_VERSION}" | tee -a /root/.trainingrc

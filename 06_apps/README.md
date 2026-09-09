@@ -12,7 +12,7 @@ helm upgrade --install --atomic --debug \
   -f /training/training-application-values.yaml
 ```
 
-```bash  
+```bash
 # verify everything is running
 kubectl -n training-application get service,endpoints,deployment,pods,configmap
 ```

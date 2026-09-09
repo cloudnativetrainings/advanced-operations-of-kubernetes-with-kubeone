@@ -1,7 +1,7 @@
 apiVersion: kubeone.k8c.io/v1beta2
 kind: KubeOneCluster
 versions:
-  kubernetes: "1.36.4" # <= the kubernetes version we will install
+  kubernetes: "1.36.3" # <= the kubernetes version we will install
 cloudProvider:
   gce: {} # <= we will make use of gcp resources
   external: true # <= deploy the external CCM

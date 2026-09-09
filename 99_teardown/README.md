@@ -30,6 +30,6 @@ gcloud dns record-sets list --zone $DNS_ZONE_NAME
 
 ```bash
 # delete the gcp storage bucket
-gcloud storage rm --recursive gs://k1-backup-bucket-$TRAINEE_NAME
+gcloud storage rm --recursive gs://$S3_BUCKET
 gcloud storage buckets list
 ```

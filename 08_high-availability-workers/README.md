@@ -5,7 +5,7 @@ In this lab you will provision two additional nodes and ensure that they are run
 ## Create the new MachineDeployment Manifests
 
 ```bash
-# make copies of the old machinedeployment manifest `md-initial.yaml`
+# make copies of the old machinedeployment manifest `/training/md-initial.yaml`
 cp /training/md-initial.yaml /training/md-europe-west3-a.yaml
 cp /training/md-initial.yaml /training/md-europe-west3-b.yaml
 cp /training/md-initial.yaml /training/md-europe-west3-c.yaml
@@ -96,7 +96,7 @@ kubectl -n training-application scale deployment my-app --replicas 3
 
 ```bash
 # verify pods running in different zones
-# => kubernetes tries, by default, to schedule pods of a deployment across the available worker nodes
+# => Kubernetes tries, by default, to schedule pods of a deployment across the available worker nodes
 kubectl -n training-application get pods -o wide
 ```
 

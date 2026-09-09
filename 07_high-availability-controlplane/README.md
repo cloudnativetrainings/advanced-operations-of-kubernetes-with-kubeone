@@ -1,6 +1,6 @@
 # High Availability Control Plane
 
-In this lab you will scale the controlplane nodes and you will ensure these nodes are running in different zones within the gcp region.
+In this lab you will scale the control plane nodes and you will ensure these nodes are running in different zones within the gcp region.
 
 ## Provision additional vms via terraform
 
@@ -27,7 +27,7 @@ gcloud compute instances list
 ## Add the additional vms to the Kubernetes cluster via kubeone
 
 ```bash
-# add the additional vms to the kubernetes cluster
+# add the additional vms to the Kubernetes cluster
 kubeone apply -t /training/tf_infra --verbose
 ```
 
@@ -46,7 +46,7 @@ kubeone ui -t /training/tf_infra --port 8081
 > **NOTE:**
 > This only has to be done in GCE
 
-The LoadBalancer in front of the api-server only considers the first created controlplane node.
+The LoadBalancer in front of the api-server only considers the first created control plane node.
 
 #### The Problem
 
@@ -66,7 +66,7 @@ gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
 Increase the number of pool members in the terraform configuration file `/training/tf_infra/terraform.tfvars`.
 
 ```hcl
-control_plane_vm_count                  = 3      
+control_plane_vm_count                  = 3
 control_plane_target_pool_members_count = 3      # <= change this value from 1 to 3
 ```
 

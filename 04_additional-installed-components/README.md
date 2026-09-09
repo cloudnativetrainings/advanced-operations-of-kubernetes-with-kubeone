@@ -6,7 +6,7 @@ Besides providing a vanilla Kubernetes cluster KubeOne takes care of some other 
 
 Kubeone installs, besides the core Kubernetes components, some additional components by default.
 
-Via adapting the kubeone manifest file `kubeone.yaml` you can change the installed components to your needs. Via `kubeone config print --full` you can see more information about overriding the defaults.
+Via adapting the kubeone manifest file `/training/kubeone.yaml` you can change the installed components to your needs. Via `kubeone config print --full` you can see more information about overriding the defaults.
 
 ### Container Runtime
 
@@ -43,7 +43,7 @@ For collecting and exposing metrics from Kubelets.
 # verify
 kubectl -n kube-system get pods | grep metrics-server
 
-# eg you can do the following with the metrics-server installed into your cluster
+# e.g. you can do the following with the metrics-server installed into your cluster
 kubectl top nodes
 ```
 
