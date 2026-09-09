@@ -64,7 +64,7 @@ ssh-add -l | grep "$(ssh-keygen -lf /training/.secrets/gcp)"
 
 ## Configure gcp
 
-TODO note only needed for gcloud cli, not for terraform, not for k1
+<!-- TODO note only needed for gcloud cli, not for terraform, not for k1 -->
 
 ```bash
 # activate gcp account

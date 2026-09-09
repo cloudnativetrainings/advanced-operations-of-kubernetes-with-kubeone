@@ -23,8 +23,9 @@ docker run -it -d --platform linux/amd64 \
   -p 8082:8082 \
   --hostname k1-workshop \
   -v $(PWD)/advanced-operations-of-kubernetes-with-kubeone:/training \
-  TODO public image
 ```
+
+<!-- TODO public image -->
 
 ### Access your k1-workshop IDE with your browser
 
