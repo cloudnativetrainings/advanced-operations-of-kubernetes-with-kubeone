@@ -23,10 +23,8 @@ docker run -it -d --platform linux/amd64 \
   -p 8082:8082 \
   --hostname k1-workshop \
   -v $(pwd)/advanced-operations-of-kubernetes-with-kubeone:/training \
-  kubeone:0.0.0
+  quay.io/kubermatic-labs/training-ghcs-advanced-operations-of-kubernetes-with-kubeone-trainee-environment:2.0.0
 ```
-
-<!-- TODO public image -->
 
 ### Access your k1-workshop IDE with your browser
 
