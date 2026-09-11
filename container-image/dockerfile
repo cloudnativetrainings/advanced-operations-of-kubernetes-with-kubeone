@@ -31,9 +31,17 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   htop \
   dnsutils \
   libarchive-tools \
+  uuid-runtime \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /training/
+
+ARG YQ_VERSION=4.53.6
+RUN curl -LO https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_${TARGETARCH} \
+  && install -o root -g root -m 0500 yq_linux_${TARGETARCH} /usr/local/bin/yq \
+  && rm yq_linux_${TARGETARCH} \
+  && echo 'source <(yq shell-completion zsh)' >> /root/.trainingrc \
+  && echo "export YQ_VERSION=${YQ_VERSION}" >> /root/.trainingrc
 
 ARG CODE_SERVER_VERSION=4.135.0
 RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version=${CODE_SERVER_VERSION} \
