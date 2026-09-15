@@ -34,8 +34,6 @@ echo $GCP_PROJECT
 echo $TRAINEE_NAME
 echo $DOMAIN
 echo $DNS_ZONE_NAME
-
-# TODO S3 stuff
 ```
 
 ## Ensure SSH requirements
@@ -58,13 +56,12 @@ source /root/.trainingrc
 
 # verify agent is running and holds proper key
 ssh-add -l | grep "$(ssh-keygen -lf /training/.secrets/gcp)"
-
-# TODO ssh-agent stuff should not be necessary anymore and uglifies the prompt
 ```
 
 ## Configure gcp
 
-<!-- TODO note only needed for gcloud cli, not for terraform, not for k1 -->
+>**NOTE:**
+>For terraform and kubone it is enough having the environment variable called `GOOGLE_CREDENTIALS` set properly. In our case we need access to gcloud via terminal for being able to create infrastructure like DNS entries.
 
 ```bash
 # activate gcp account

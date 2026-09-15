@@ -41,9 +41,6 @@ echo $K8S_VERSION
 
 ## Upgrade the control plane nodes
 
->**NOTE:**
->Although kubeone supports also upgrading the worker nodes via the flag `--upgrade-machine-deployments` we will do this in a separate step later.
-
 The control plane nodes will get the components updated to the new version. The control plane nodes will **NOT** get replaced by new VMs.
 
 Change the Kubernetes Version in the kubeone manifest `/training/kubeone.yaml`
@@ -67,6 +64,9 @@ while true; do curl -I https://$DOMAIN ; sleep 10s; done;
 # trigger the upgrade of the control plane nodes
 kubeone apply -t /training/tf_infra --verbose
 ```
+
+>**NOTE:**
+>Although kubeone supports also upgrading the worker nodes via the flag `--upgrade-machine-deployments` we will do this in a separate step later.
 
 ```bash
 # verify your control plane nodes got upgraded via kubectl
@@ -124,9 +124,8 @@ kubectl apply -f /training/md-europe-west3-c.yaml
 ```
 
 ```bash
-# get a minimalistic visual representation of your cluster
-# note the ui is currently only in beta state
-kubeone ui -t /training/tf_infra --port 8081
+# verify
+kubectl get nodes
 ```
 
 >**NOTE:**

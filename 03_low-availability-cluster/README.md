@@ -125,6 +125,12 @@ kubeone apply -t /training/tf_infra --verbose
 kubeone status -t /training/tf_infra
 ```
 
+```bash
+# get a minimalistic visual representation of your cluster
+# note the ui is currently only in beta state
+kubeone ui -t /training/tf_infra --port 8081
+```
+
 ## Verify via kubectl
 
 ```bash
@@ -142,10 +148,4 @@ kubectl get nodes
 ```bash
 # verify the pods in the namespace `kube-system` are in state `Running`
 kubectl -n kube-system get pod
-```
-
-```bash
-# get a minimalistic visual representation of your cluster
-# note the ui is currently only in beta state
-kubeone ui -t /training/tf_infra --port 8081
 ```

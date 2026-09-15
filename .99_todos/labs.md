@@ -17,4 +17,6 @@ there is some typo in here gcloud compute target-pools describe <CLUSTER-NAME>-c
 
 # switch to gateway api
 
-# TODO cross processor build
+# delete devcontainer folder (an all workshops)
+
+# TODO ssh-agent stuff should not be necessary anymore and uglifies the prompt

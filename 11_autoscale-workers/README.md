@@ -7,9 +7,8 @@ In this lab you will learn how to autoscale your worker nodes.
 >**NOTE:**
 >You can find further information about embedded addons in the [kubeone documentation](https://docs.kubermatic.com/kubeone/main/guides/addons/#activate-embedded-addons)
 
-<!-- >**NOTE:**
-TODO
->You can find the list of all available embedded addons in the [directory addons](../kubeone_1.13.3_linux_amd64/addons/) -->
+>**NOTE:**
+> Embedded addons are contained in the kubeone binary. Therefore they are specific to your kubeone version. You can find the manifests of those addons in the [kubeone github repository](https://github.com/kubermatic/kubeone/tree/main/addons)
 
 Add the following to your kubeone manifest file `/training/kubeone.yaml`:
 

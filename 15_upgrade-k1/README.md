@@ -16,11 +16,7 @@ export KUBEONE_VERSION=1.14.3
 ```
 
 ```bash
-# download the k1 release
-# TODO does not work
-# Downloading from: https://github.com/kubermatic/kubeone/releases/download/v1.14.3/kubeone_1.14.3_linux_arm64.zip
-# replace kubeone-tmp/LICENSE? [y]es, [n]o, [A]ll, [N]one, [r]ename:  NULL
-# (EOF or read error, treating as "[N]one" ...)
+# download and install the new k1 release
 curl -sfL https://get.kubeone.io | sh
 ```
 
@@ -61,7 +57,15 @@ rm /training/tf_infra/kubeone.yaml
 mv /training/terraform.tfvars /training/tf_infra/
 ```
 
+>**NOTE:**
+>Depending your intended version jump different components can get upgraded. Please check [releases page](https://github.com/kubermatic/kubeone/releases) for details.
+
 ```bash
 # re-run kubeone apply with the new kubeone version, no changes to be expected
 kubeone apply -t /training/tf_infra -y
+```
+
+```bash
+# verify via status of kubeone
+kubeone status -t /training/tf_infra
 ```

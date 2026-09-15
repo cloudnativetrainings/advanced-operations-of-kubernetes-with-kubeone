@@ -1,6 +1,5 @@
 FROM ubuntu:26.04
 
-# TODO do I need this?
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG DEBIAN_FRONTEND=noninteractive
