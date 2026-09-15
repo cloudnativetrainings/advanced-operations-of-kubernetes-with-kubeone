@@ -34,7 +34,7 @@ Published ports, each with a distinct purpose:
 | 8081 | `kubeone ui --port 8081` |
 | 8082 | `kubectl port-forward` for the demo app (labs 06, 08) |
 
-Container preinstalls: `kubectl`, `terraform`, `helm`, `helmfile`, `velero`, `kubectx`/`kubens`, `krew`, `gcloud`. **`kubeone` is not preinstalled** — trainees install it themselves in lab 01.
+Container preinstalls: `kubectl`, `terraform`, `helm`, `helmfile`, `velero`, `kubectx`/`kubens`, `krew`, `gcloud`, `yq`. **`kubeone` is not preinstalled** — trainees install it themselves in lab 01.
 
 In-container verification:
 
@@ -50,7 +50,7 @@ It asserts `/root/.trainingrc` exists and is sourced from `/root/.zshrc` (the sh
 - **`container-image/vscode_settings.json`** — copied to `/root/.vscode/User/settings.json`. `editor.formatOnSave` is global, so any language trainees edit needs a `[language]` → `editor.defaultFormatter` entry, otherwise code-server prompts on save.
 - Extensions are installed with `code-server --install-extension`, which resolves against **Open VSX**, not the MS marketplace. Marketplace-only extensions cannot be added without a manual `.vsix`.
 - **The image is multi-arch (`linux/amd64` + `linux/arm64`).** Docker Desktop runs Linux containers in a VM whose arch follows the host CPU, so those two platforms cover macOS, Windows and Linux. `docker run` no longer pins `--platform`; each host pulls its native variant.
-- **`ARG TARGETARCH` must stay without a default.** Buildx injects it per `--platform`, but a Dockerfile default *shadows* the injected value (measured on Docker 29.7.2) — `ARG TARGETARCH=amd64` silently yields an arm64 image full of amd64 binaries. It drives the five download URLs (kubectl, krew, helm, helmfile, velero); the arch spelling happens to match all five projects' naming. apt (gcloud, terraform, kubectx, code-server) resolves per-arch on its own.
+- **`ARG TARGETARCH` must stay without a default.** Buildx injects it per `--platform`, but a Dockerfile default *shadows* the injected value (measured on Docker 29.7.2) — `ARG TARGETARCH=amd64` silently yields an arm64 image full of amd64 binaries. It drives six download URLs (kubectl, krew, helm, helmfile, velero, yq); the arch spelling happens to match all six projects' naming. apt (gcloud, terraform, kubectx, code-server) resolves per-arch on its own.
 - **`make push` requires `docker login quay.io` first.** It uses the default builder, which handles multi-platform here only because the containerd image store is on. BuildKit attaches provenance/SBOM attestations by default, so the pushed manifest list carries extra `unknown/unknown` entries alongside amd64 and arm64 — add `--provenance=false --sbom=false` if that ever needs to be a clean two-entry list.
 - Extraction uses `bsdtar` (`libarchive-tools`) throughout, which is what keeps the emulated build working: GNU tar 1.35 hits an unimplemented `openat2` under QEMU/Rosetta and breaks the helm and velero steps.
 
@@ -140,6 +140,5 @@ Facts a future instance would otherwise rediscover; none of these have been deci
 - **`TRAINEE_EMAIL` and `S3_BUCKET` are only ever set by the trainer's `environment.sh`** (labs 09 and 13 consume them). `make verify` now asserts both, so an `environment.sh` that omits them fails lab 00 instead of lab 09. `00_prerequisites/README.md` still carries a `# TODO S3 stuff` marker.
 - **`velero` is still installed and checked by `make verify`** although the velero lab is retired.
 - **`06_apps` and `09_helm-releases` pass the chart version as an OCI tag** (`oci://…/training-application:1.0.1`); Helm documents `--version 1.0.1` against an untagged ref. Unverified — the labs appear to run as written.
-- **`README.md`'s `docker run` mount is wrong in two ways.** `-v $(PWD)/..:/training` was copied from `container-image/makefile`, where `$(PWD)` is Make expansion and `..` correctly means the repo root. In the README it is bash, run from the directory the trainee just cloned *into*, so `..` points one level too high. And `$(PWD)` is command substitution there — it only resolves because macOS's case-insensitive filesystem maps `PWD` to `/bin/pwd`; on Linux it expands to nothing and the mount becomes `/..:/training`. Should be `$(pwd)/advanced-operations-of-kubernetes-with-kubeone`.
 - **The image tag is duplicated** in `container-image/makefile` (`IMAGE_TAG`) and `README.md`, with no mechanism keeping them in sync. `.devcontainer/devcontainer.json` pins a third, older tag (`1.0.0`).
 - **`.devcontainer/devcontainer.json`** uses the deprecated `terminal.integrated.shell.linux`, has a `.gititnore` typo in `files.exclude`, and its settings have diverged from `container-image/vscode_settings.json`. Both files are needed — code-server reads `/root/.vscode/User/settings.json`, the VS Code Server in a devcontainer reads `~/.vscode-server/data/...` — but they must be kept in sync.
