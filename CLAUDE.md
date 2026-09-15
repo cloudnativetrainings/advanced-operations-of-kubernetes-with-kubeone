@@ -67,10 +67,9 @@ It asserts `/root/.trainingrc` exists and is sourced from `/root/.zshrc` (the sh
 9. `08_high-availability-workers` — fan `md-initial.yaml` out into per-zone `md-europe-west3-{a,b,c}.yaml`.
 10. `09_helm-releases` — add `helmReleases:` for `ingress-nginx` + `cert-manager` to `kubeone.yaml`, apply `cluster-issuer.yaml`, create the DNS entry for the domain.
 11. `11_autoscale-workers` — enable the embedded `cluster-autoscaler` addon; min/max managed via `cluster.k8s.io/cluster-api-autoscaler-node-group-{min,max}-size` annotations on MachineDeployments.
-12. `13_backup-cluster` — back up the cluster with **restic**, using the `backups-restic` addon embedded in the kubeone binary. Lab downloads the kubeone source zip, copies the addon into `/training/addons/`, and points kubeone at that directory.
-13. `14_upgrade-cluster` — bump `versions.kubernetes` in `kubeone.yaml`, `kubeone apply` for the control plane, edit `kubelet:` in all three MD manifests for workers.
-14. `15_upgrade-k1` — install a newer kubeone binary, re-run `kubeone apply`.
-15. `99_teardown` — `kubeone reset -t /training/tf_infra` then `terraform destroy`, plus DNS record and bucket cleanup.
+12. `14_upgrade-cluster` — bump `versions.kubernetes` in `kubeone.yaml`, `kubeone apply` for the control plane, edit `kubelet:` in all three MD manifests for workers.
+13. `15_upgrade-k1` — install a newer kubeone binary, re-run `kubeone apply`.
+14. `99_teardown` — `kubeone reset -t /training/tf_infra` then `terraform destroy`, plus DNS record and bucket cleanup.
 
 ## Key Files
 
@@ -78,9 +77,8 @@ It asserts `/root/.trainingrc` exists and is sourced from `/root/.zshrc` (the sh
 - **`tf_infra/`** — Terraform root for gcp infra (control plane VMs, LB, target pool, firewall rules, SSH keys). The **entire directory is gitignored and nothing in it is tracked** — every file, `terraform.tfvars` included, is produced during the training. The `*.tf` files and `tf_infra/README.md` come from `kubeone init --provider gce` in lab 02, which is why `02_terraform/README.md`'s link to `../tf_infra/README.md` resolves only inside a live environment, never on GitHub. Lab 02 carries the `<FILL-IN-...>` tfvars example inline. Pass the directory to KubeOne as `kubeone <cmd> -t /training/tf_infra` (KubeOne calls `terraform output -json` itself).
 - **`training-application-values.yaml`** — Helm values for the demo app. Several labs mutate `deployment.replicas`, `ingress.enabled`, `ingress.domain`, `persistMetaInfo`.
 - **`09_helm-releases/cluster-issuer.yaml`** — Let's Encrypt ClusterIssuer; trainees `sed` in their email.
-- **`13_backup-cluster/backups-restic.yaml`** — restic backup addon manifest.
 - **`.secrets/`** (gitignored) — `gcp` / `gcp.pub` SSH keypair, `gcp-service-account.json`, and the trainer-supplied `environment.sh`.
-- **`.99_todos/`** — internal trainer notes, not labs. `.99_todos/12_backup-user-data/` holds the retired velero lab and its `storageclass.yaml`.
+- **`.99_todos/`** — internal trainer notes, not labs. Also holds two retired labs, neither part of the active numbered sequence: `12_backup-user-data/` (velero, with its `storageclass.yaml`) and `13_backup-cluster/` (the restic backup lab, with its `backups-restic.yaml`).
 
 ## Repo Tooling for Claude
 
@@ -129,7 +127,7 @@ terraform -chdir=/training/tf_infra destroy
 - MachineDeployment manifests are generated as `/training/md-*.yaml` and edited via `sed` — the labs depend on specific stable strings (`pool1`, `europe-west3-a`, `machineType: n1-standard-4` → `n1-standard-1`, `diskSize: 50` → `20`, `kubelet: 1.36.3`). Preserve those exact strings when editing example commands.
 - gcp LB target pool gotcha (lab 07): `control_plane_target_pool_members_count` must initially be `1` and only be raised to `3` *after* the additional control plane nodes exist, otherwise terraform recreates the pool incorrectly.
 - GCE-CCM ingress firewall bug (lab 08): new MD worker nodes do not receive ingress traffic by default; the training environment ships an `allow-ingress-gcp-ccm-bug-md` firewall rule as a workaround.
-- Numbering skips `10` and `12`. Lab `11_autoscale-workers` follows `09_helm-releases`, and `13_backup-cluster` follows `11`. The velero lab that used to be `12` is retired under `.99_todos/`.
+- Numbering skips `10`, `12` and `13`. Lab `11_autoscale-workers` follows `09_helm-releases`, and `14_upgrade-cluster` follows `11` directly. The velero lab that used to be `12`, and the restic backup lab that used to be `13_backup-cluster`, are both retired under `.99_todos/`.
 - **Three tracked files are mutated by the labs themselves and get committed by accident** — `kubeone.yaml` (`versions.kubernetes`, `helmReleases:`, `addons:`), `training-application-values.yaml` (`replicas`, `ingress.enabled`, `ingress.domain`) and `09_helm-releases/cluster-issuer.yaml` (`email`). Commit `6a93cf6` shipped all three carrying a live run's state, including a real trainer email and domain. Check them with `git diff` before pushing after a training.
 - Cross-platform trainee risks live in the bind mount, not the architecture: lab 00 runs `chmod 0700` on `environment.sh` and `chmod 400` on the SSH key. Both work on macOS, but on Windows they only stick if the repo lives inside the WSL2 filesystem rather than under `/mnt/c/...`. A CRLF `environment.sh` fails with `bash: $'\r': command not found`.
 
@@ -137,7 +135,7 @@ terraform -chdir=/training/tf_infra destroy
 
 Facts a future instance would otherwise rediscover; none of these have been decided on yet.
 
-- **`TRAINEE_EMAIL` and `S3_BUCKET` are only ever set by the trainer's `environment.sh`** (labs 09 and 13 consume them). `make verify` now asserts both, so an `environment.sh` that omits them fails lab 00 instead of lab 09. `00_prerequisites/README.md` still carries a `# TODO S3 stuff` marker.
+- **`TRAINEE_EMAIL` and `S3_BUCKET` are only ever set by the trainer's `environment.sh`** (lab 09 consumes `TRAINEE_EMAIL`; `S3_BUCKET` was consumed by the now-retired `.99_todos/13_backup-cluster` lab). `make verify` still asserts both, so an `environment.sh` missing `S3_BUCKET` fails lab 00 for a lab that's no longer in the active sequence.
 - **`velero` is still installed and checked by `make verify`** although the velero lab is retired.
 - **`06_apps` and `09_helm-releases` pass the chart version as an OCI tag** (`oci://…/training-application:1.0.1`); Helm documents `--version 1.0.1` against an untagged ref. Unverified — the labs appear to run as written.
 - **The image tag is duplicated** in `container-image/makefile` (`IMAGE_TAG`) and `README.md`, with no mechanism keeping them in sync. `.devcontainer/devcontainer.json` pins a third, older tag (`1.0.0`).
