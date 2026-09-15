@@ -22,7 +22,7 @@ kubectl version
 ```bash
 # upgrade kubectl
 NEW_K8S_VERSION=1.36.4
-curl -LO https://dl.k8s.io/release/v$NEW_K8S_VERSION/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/release/v$NEW_K8S_VERSION/bin/linux/$(dpkg --print-architecture)/kubectl
 install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 rm kubectl
 ```

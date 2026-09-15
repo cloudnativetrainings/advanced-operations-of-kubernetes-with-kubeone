@@ -55,7 +55,7 @@ The LoadBalancer in front of the api-server only considers the first created con
 gcloud compute forwarding-rules list
 
 # show the instances in the pool linked in the forwarding-rule
-gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
+gcloud compute target-pools describe $TRAINEE_NAME-cluster-control-plane
 ```
 
 > **NOTE:**
@@ -77,7 +77,7 @@ terraform -chdir=/training/tf_infra apply
 
 ```bash
 # verify the instances of the pool
-gcloud compute target-pools describe <CLUSTER-NAME>-control-plane
+gcloud compute target-pools describe $TRAINEE_NAME-cluster-control-plane
 ```
 
 ```bash

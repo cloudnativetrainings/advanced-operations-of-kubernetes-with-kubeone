@@ -61,7 +61,7 @@ ssh-add -l | grep "$(ssh-keygen -lf /training/.secrets/gcp)"
 ## Configure gcp
 
 >**NOTE:**
->For terraform and kubone it is enough having the environment variable called `GOOGLE_CREDENTIALS` set properly. In our case we need access to gcloud via terminal for being able to create infrastructure like DNS entries.
+>For terraform and kubeone it is enough having the environment variable called `GOOGLE_CREDENTIALS` set properly. In our case we need access to gcloud via terminal for being able to create infrastructure like DNS entries.
 
 ```bash
 # activate gcp account

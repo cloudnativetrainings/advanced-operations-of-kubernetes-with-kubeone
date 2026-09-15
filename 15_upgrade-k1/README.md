@@ -58,7 +58,7 @@ mv /training/terraform.tfvars /training/tf_infra/
 ```
 
 >**NOTE:**
->Depending your intended version jump different components can get upgraded. Please check [releases page](https://github.com/kubermatic/kubeone/releases) for details.
+>Depending on your intended version jump different components can get upgraded. Please check [releases page](https://github.com/kubermatic/kubeone/releases) for details.
 
 ```bash
 # re-run kubeone apply with the new kubeone version, no changes to be expected
