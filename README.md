@@ -29,3 +29,9 @@ docker run -it -d \
 ### Access your k1-workshop IDE with your browser
 
 The URL therefore is <http://localhost:8080>
+
+### Verify acceess to GCP from within the container
+
+```bash
+gcloud info --run-diagnostics 
+```

@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   dnsutils \
   libarchive-tools \
   uuid-runtime \
+  less \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /training/
