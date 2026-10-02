@@ -19,7 +19,7 @@ kubectl get nodes -o wide
 
 ### CNI Plugin
 
-By default canal gets installed. Other CNI plugins are also supported. Take a look at the section `cni:` via `kubeone config print --full`.
+By default canal gets installed. Other CNI plugins are also supported. Take a look at the section `cni:` via `kubeone config print --full | yq .clusterNetwork.cni`.
 
 ```bash
 # verify
