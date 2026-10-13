@@ -9,7 +9,15 @@ spec:
     email: "your-email@example.com"
     privateKeySecretRef:
       name: letsencrypt-dns
+    # Use DNS-01 with Google Cloud DNS so cert-manager can complete challenges independent
+    # of the Gateway/Ingress controller. This is compatible with Envoy Gateway.
+    # Replace <GCP_PROJECT> with your GCP project and create a secret named
+    # `clouddns-sa` containing the service account JSON at key `key.json`:
+    # kubectl create secret generic clouddns-sa --from-file=key.json=/training/.secrets/gcp-service-account.json -n cert-manager
     solvers:
-      - http01:
-          ingress:
-            class: nginx
+      - dns01:
+          cloudDNS:
+            project: <GCP_PROJECT>
+            serviceAccountSecretRef:
+              name: clouddns-sa
+              key: key.json

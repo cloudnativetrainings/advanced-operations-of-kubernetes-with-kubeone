@@ -11,6 +11,8 @@ deployment:
 service:
   type: ClusterIP
 
-ingress:
+gateway:
   enabled: false
-  domain: example.com
+  hostnames: []
+  name: eg
+  namespace: training-application

@@ -8,7 +8,7 @@ In this lab you will test if the cluster works as expected.
 # deploy the application
 helm upgrade --install --atomic --debug \
   --namespace training-application --create-namespace training-application \
-  oci://quay.io/kubermatic-labs/helm-charts/training-application:1.0.1 \
+  oci://quay.io/kubermatic-labs/helm-charts/training-application:1.0.2 \
   -f /training/training-application-values.yaml
 ```
 

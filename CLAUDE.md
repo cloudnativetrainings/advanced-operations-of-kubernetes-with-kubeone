@@ -65,7 +65,7 @@ It asserts `/root/.trainingrc` exists and is sourced from `/root/.zshrc` (the sh
 7. `06_apps` — install OCI Helm chart `quay.io/kubermatic-labs/helm-charts/training-application:1.0.1` with `training-application-values.yaml`.
 8. `07_high-availability-controlplane` — scale `control_plane_vm_count` / `control_plane_target_pool_members_count` in `tf_infra/terraform.tfvars`.
 9. `08_high-availability-workers` — fan `md-initial.yaml` out into per-zone `md-europe-west3-{a,b,c}.yaml`.
-10. `09_helm-releases` — add `helmReleases:` for `ingress-nginx` + `cert-manager` to `kubeone.yaml`, apply `cluster-issuer.yaml`, create the DNS entry for the domain.
+10. `09_helm-releases` — add `helmReleases:` for a Gateway API controller (or `ingress-nginx`) + `cert-manager` to `kubeone.yaml`, apply `cluster-issuer.yaml`, create the DNS entry for the domain.
 11. `11_autoscale-workers` — enable the embedded `cluster-autoscaler` addon; min/max managed via `cluster.k8s.io/cluster-api-autoscaler-node-group-{min,max}-size` annotations on MachineDeployments.
 12. `14_upgrade-cluster` — bump `versions.kubernetes` in `kubeone.yaml`, `kubeone apply` for the control plane, edit `kubelet:` in all three MD manifests for workers.
 13. `15_upgrade-k1` — install a newer kubeone binary, re-run `kubeone apply`.
